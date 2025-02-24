@@ -2,6 +2,7 @@
 // Created by smmm on 10.02.25.
 //
 
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -15,7 +16,7 @@ enum class SourceType
 
 constexpr int helpParametersCount = 2;
 
-const char* helpFlag{ "-h" };
+const char helpFlag[]{ "-h" };
 
 struct ReplaceConfig
 {
@@ -44,7 +45,7 @@ auto main(const int argc, char* argv[]) -> int
 {
 	try
 	{
-		if (argc == helpParametersCount && argv[1] == helpFlag)
+		if (argc == helpParametersCount && !strcmp(argv[1], helpFlag))
 		{
 			PrintHelp();
 			return 0;

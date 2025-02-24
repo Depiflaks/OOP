@@ -7,7 +7,7 @@
 #include <sstream>
 
 const std::string executable = "./main";
-const std::vector<std::string> expectedParams{ "input", "output", "search", "replace" };
+const std::vector<std::string> expectedParams{ "$input", "$output", "$search", "$replace" };
 
 struct ReplaceParams
 {
@@ -18,25 +18,26 @@ struct ReplaceParams
 
 	explicit ReplaceParams(const std::map<std::string, std::string>& params)
 	{
-		if (params.find("input") != params.end())
+		if (params.find("$input") != params.end())
 		{
-			input = params.at("input");
+			input = params.at("$input");
 		}
-		if (params.find("output") != params.end())
+		if (params.find("$output") != params.end())
 		{
-			output = params.at("output");
+			output = params.at("$output");
 		}
-		if (params.find("search") != params.end())
+		if (params.find("$search") != params.end())
 		{
-			search = params.at("search");
+			search = params.at("$search");
 		}
-		if (params.find("replace") != params.end())
+		if (params.find("$replace") != params.end())
 		{
-			replace = params.at("replace");
+			replace = params.at("$replace");
 		}
 	}
 };
 
+auto RunPositiveTest(const std::string& filePath) -> void;
 auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>;
 auto ExecuteCommand(const std::string& command) -> std::string;
 auto RunSystemStream(const ReplaceParams& params) -> std::string;
@@ -59,10 +60,59 @@ TEST(ReplaceTest, HelpMessage)
 	EXPECT_TRUE(output.find("Usage") != std::string::npos);
 }
 
-// Test: empty "search" string
 TEST(ReplaceTest, EmptySearch)
 {
-	auto paramsMap = ParseTestFile("./files/test1.txt", expectedParams);
+	RunPositiveTest("./files/empty_search.txt");
+}
+
+TEST(ReplaceTest, EmptyReplace)
+{
+	RunPositiveTest("./files/empty_replace.txt");
+}
+
+TEST(ReplaceTest, EmptyInput)
+{
+	RunPositiveTest("./files/empty_input.txt");
+}
+
+TEST(ReplaceTest, UniqueSymbol)
+{
+	RunPositiveTest("./files/unique_symbol.txt");
+}
+
+TEST(ReplaceTest, ManySymbols)
+{
+	RunPositiveTest("./files/many_symbols.txt");
+}
+
+TEST(ReplaceTest, SymbolInText)
+{
+	RunPositiveTest("./files/symbol_in_text.txt");
+}
+
+TEST(ReplaceTest, EmptyLines)
+{
+	RunPositiveTest("./files/empty_lines.txt");
+}
+
+TEST(ReplaceTest, SymbolBetweenEmptyLines)
+{
+	RunPositiveTest("./files/symbol_between_empty_lines.txt");
+}
+
+TEST(ReplaceTest, ManySymbolReplace)
+{
+	RunPositiveTest("./files/many_symbol_replace.txt");
+}
+
+TEST(ReplaceTest, NoReplace)
+{
+	RunPositiveTest("./files/no_replace.txt");
+}
+
+void RunPositiveTest(const std::string& filePath)
+{
+	auto paramsMap = ParseTestFile(filePath, expectedParams);
 	auto params = ReplaceParams(paramsMap);
 
 	auto systemOutput = RunSystemStream(params);
@@ -135,7 +185,7 @@ auto WriteToFile(const std::string& filename, const std::string& content) -> boo
 	std::ofstream file(filename);
 	if (!file)
 		return false;
-	file << content;
+	file << content << "\n";
 	file.close();
 	return true;
 }
@@ -158,13 +208,13 @@ auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& 
 		if (std::find(names.begin(), names.end(), line) != names.end())
 		{
 			currentParam = line;
-			parameters[currentParam] = "";
+
+			std::getline(file, line);
+			parameters[currentParam] = line;
 		}
 		else if (!currentParam.empty())
 		{
-			if (!parameters[currentParam].empty())
-				parameters[currentParam] += "\n";
-			parameters[currentParam] += line;
+			parameters[currentParam] += "\n" + line;
 		}
 	}
 

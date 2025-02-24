@@ -1,9 +1,13 @@
 $input
-1234
+2111
+1211
+1112
 $output
-1234
+1111
+1111
+1111
 
 $search
-
-$replace
 2
+$replace
+1

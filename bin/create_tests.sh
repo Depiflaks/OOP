@@ -1,19 +1,22 @@
 #!/bin/bash
+num_files=$1
+output_dir="files"
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <number of test files>"
-    exit 1
-fi
+mkdir -p "$output_dir"
 
-NUM_TESTS="$1"
-FILES_DIR="./files"
-
-mkdir -p "$FILES_DIR"
-
-for i in $(seq 1 "$NUM_TESTS"); do
-    mkdir -p "$FILES_DIR/$i"
-    touch "$FILES_DIR/$i/input.txt"
-    touch "$FILES_DIR/$i/output.txt"
+for ((i = 1; i <= num_files; i++)); do
+    filename="$output_dir/test_$i.txt"
+    cat > "$filename" <<EOL
+\$input
+input_file_$i.txt
+\$output
+output_file_$i.txt
+\$search
+search_string_$i
+\$replace
+replace_string_$i
+EOL
+    echo "Created $filename"
 done
 
-echo "Generated $NUM_TESTS test files in '$FILES_DIR'."
+echo "Generated $num_files files in $output_dir/"

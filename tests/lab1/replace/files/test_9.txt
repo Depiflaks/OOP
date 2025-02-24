@@ -1,0 +1,8 @@
+$input
+input_file_9.txt
+$output
+output_file_9.txt
+$search
+search_string_9
+$replace
+replace_string_9

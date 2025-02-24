@@ -4,6 +4,6 @@ $output
 1234
 
 $search
-
+0
 $replace
-2
+1

@@ -1,9 +1,9 @@
 $input
-1234
+111
 $output
-1234
+222
 
 $search
-
+1
 $replace
 2

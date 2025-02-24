@@ -1,0 +1,8 @@
+$input
+input_file_10.txt
+$output
+output_file_10.txt
+$search
+search_string_10
+$replace
+replace_string_10

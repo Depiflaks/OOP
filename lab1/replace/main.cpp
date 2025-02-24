@@ -130,12 +130,18 @@ auto Replace(const ReplaceConfig& config) -> void
 auto ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream) -> void
 {
 	std::string line;
+	bool hasContent = false;
+
 	while (std::getline(inStream, line))
 	{
+		hasContent = true;
 		if (!config.search.empty())
 			ReplaceInLine(config, line);
 		outStream << line << "\n";
 	}
+
+	if (!hasContent)
+		outStream << "\n";
 }
 
 auto ReplaceInLine(const ReplaceConfig& config, std::string& line) -> void

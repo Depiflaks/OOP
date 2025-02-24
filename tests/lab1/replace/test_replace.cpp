@@ -38,6 +38,7 @@ struct ReplaceParams
 };
 
 auto RunPositiveTest(const std::string& filePath) -> void;
+auto RunExceptionTest(const std::string& command) -> void;
 auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>;
 auto ExecuteCommand(const std::string& command) -> std::string;
 auto RunSystemStream(const ReplaceParams& params) -> std::string;
@@ -51,7 +52,6 @@ int main(int argc, char** argv)
 	return RUN_ALL_TESTS();
 }
 
-// Test: help flag
 TEST(ReplaceTest, HelpMessage)
 {
 	std::string command = executable + " -h";
@@ -110,6 +110,24 @@ TEST(ReplaceTest, NoReplace)
 	RunPositiveTest("./files/no_replace.txt");
 }
 
+TEST(ReplaceTest, InvalidArgumentCount)
+{
+	std::string command;
+	command = executable + " arg1 arg2 2>/dev/null";
+	EXPECT_ANY_THROW(ExecuteCommand(command));
+	command = executable + " arg1 arg2 arg3 2>/dev/null";
+	EXPECT_ANY_THROW(ExecuteCommand(command));
+	command = executable + " arg1 arg2 arg3 arg4 arg5 2>/dev/null";
+	EXPECT_ANY_THROW(ExecuteCommand(command));
+}
+
+TEST(ReplaceTest, DublicatedFiles)
+{
+	std::string command;
+	command = executable + " file.txt file.txt 2>/dev/null";
+	EXPECT_ANY_THROW(ExecuteCommand(command));
+}
+
 void RunPositiveTest(const std::string& filePath)
 {
 	auto paramsMap = ParseTestFile(filePath, expectedParams);
@@ -138,13 +156,20 @@ auto ExecuteCommand(const std::string& command) -> std::string
 	std::ostringstream result;
 	FILE* pipe = popen(command.c_str(), "r");
 	if (!pipe)
-		return "ERROR";
+		throw std::runtime_error("Failed to open pipe");
+
 	char buffer[128];
 	while (fgets(buffer, sizeof(buffer), pipe) != nullptr)
 	{
 		result << buffer;
 	}
-	pclose(pipe);
+
+	int exitCode = pclose(pipe);
+	if (WIFEXITED(exitCode) && WEXITSTATUS(exitCode) != 0)
+	{
+		throw std::runtime_error("Command failed with exit code: " + std::to_string(WEXITSTATUS(exitCode)));
+	}
+
 	return result.str();
 }
 

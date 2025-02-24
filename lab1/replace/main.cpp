@@ -132,7 +132,8 @@ auto ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::o
 	std::string line;
 	while (std::getline(inStream, line))
 	{
-		ReplaceInLine(config, line);
+		if (!config.search.empty())
+			ReplaceInLine(config, line);
 		outStream << line << "\n";
 	}
 }

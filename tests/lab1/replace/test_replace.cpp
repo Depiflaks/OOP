@@ -2,14 +2,12 @@
 // Created by smmm on 26.02.2025.
 //
 
-#include "test_replace.h"
-#include <cstdlib>
 #include <fstream>
 #include <gtest/gtest.h>
 #include <sstream>
 
 const std::string executable = "./main";
-const std::vector<std::string> expectedParams{"input", "output", "search", "replace"};
+const std::vector<std::string> expectedParams{ "input", "output", "search", "replace" };
 
 struct ReplaceParams
 {
@@ -41,7 +39,10 @@ struct ReplaceParams
 
 auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>;
 auto ExecuteCommand(const std::string& command) -> std::string;
-auto runSystemStream(const ReplaceParams& params) -> std::string;
+auto RunSystemStream(const ReplaceParams& params) -> std::string;
+auto RunWithFiles(const ReplaceParams& params) -> std::string;
+auto CreateTempFile(const std::string& content) -> std::string;
+auto WriteToFile(const std::string& filename, const std::string& content) -> bool;
 
 int main(int argc, char** argv)
 {
@@ -64,11 +65,15 @@ TEST(ReplaceTest, EmptySearch)
 	auto paramsMap = ParseTestFile("./files/test1.txt", expectedParams);
 	auto params = ReplaceParams(paramsMap);
 
-	auto output = runSystemStream(params);
-	EXPECT_TRUE(output == params.output);
+	auto systemOutput = RunSystemStream(params);
+	auto filesOutput = RunWithFiles(params);
+
+	EXPECT_TRUE(systemOutput == params.output);
+	EXPECT_TRUE(filesOutput == params.output);
 }
 
-auto runSystemStream(const ReplaceParams& params) -> std::string {
+auto RunSystemStream(const ReplaceParams& params) -> std::string
+{
 	std::ostringstream command;
 	command << "echo \""
 			<< params.search << "\\n"
@@ -91,6 +96,48 @@ auto ExecuteCommand(const std::string& command) -> std::string
 	}
 	pclose(pipe);
 	return result.str();
+}
+
+auto RunWithFiles(const ReplaceParams& params) -> std::string
+{
+	std::string inputFile = CreateTempFile(params.input);
+	std::string outputFile = CreateTempFile("");
+
+	std::ostringstream command;
+	command << executable << " " << inputFile << " " << outputFile << " "
+			<< "\"" << params.search << "\" "
+			<< "\"" << params.replace << "\"";
+
+	std::string result = ExecuteCommand(command.str());
+
+	std::ifstream outFile(outputFile);
+	std::string outputContent((std::istreambuf_iterator<char>(outFile)), std::istreambuf_iterator<char>());
+
+	std::remove(inputFile.c_str());
+	std::remove(outputFile.c_str());
+
+	return outputContent;
+}
+
+auto CreateTempFile(const std::string& content) -> std::string
+{
+	char filename[L_tmpnam];
+	std::tmpnam(filename);
+	if (!WriteToFile(filename, content))
+	{
+		return "";
+	}
+	return filename;
+}
+
+auto WriteToFile(const std::string& filename, const std::string& content) -> bool
+{
+	std::ofstream file(filename);
+	if (!file)
+		return false;
+	file << content;
+	file.close();
+	return true;
 }
 
 auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>

@@ -1,0 +1,9 @@
+input
+1234
+output
+2234
+
+search
+
+replace
+2

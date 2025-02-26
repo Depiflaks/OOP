@@ -23,4 +23,5 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/bank/Bank.h
         lab3/bank/src/actor/Actor.cpp
         lab3/bank/src/actor/Actor.h
-        lab3/bank/tests/TestBank.cpp)
+        lab3/bank/tests/TestBank.cpp
+        lab3/bank/tests/TestActor.cpp)

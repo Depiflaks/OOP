@@ -3,6 +3,8 @@
 //
 
 #include "DialogHandler.h"
+#include "../dictionary/Dictionary.h"
+#include "../fileProcessor/FileProcessor.h"
 
 #include <iostream>
 #include <stdexcept>

@@ -36,23 +36,23 @@ void DecodeHtmlLine(std::string& line)
 {
 	const size_t maxHtmlEntitySize = calculateMaxHtmlEntitySize();
 	std::string result;
-	size_t cursor = 0;
+	size_t cursorPosition = 0;
 	size_t entityStart = 0;
 
-	while ((entityStart = line.find(htmlEntityStartChar, cursor)) != std::string::npos)
+	while ((entityStart = line.find(htmlEntityStartChar, cursorPosition)) != std::string::npos)
 	{
-		result.append(line, cursor, entityStart - cursor);
+		result.append(line, cursorPosition, entityStart - cursorPosition);
 		const size_t entityEnd = line.find(htmlEntityEndChar, entityStart + 1);
 
 		if (entityEnd == std::string::npos)
 		{
-			cursor = entityStart;
+			cursorPosition = entityStart;
 			break;
 		}
 		if (entityEnd - entityStart > maxHtmlEntitySize)
 		{
-			result.append(line, cursor, entityStart - cursor + 1);
-			cursor = entityStart + 1;
+			result.append(line, cursorPosition, entityStart - cursorPosition + 1);
+			cursorPosition = entityStart + 1;
 			continue;
 		}
 
@@ -63,10 +63,10 @@ void DecodeHtmlLine(std::string& line)
 		else
 			result.append(line, entityStart, entityEnd - entityStart + 1);
 
-		cursor = entityEnd + 1;
+		cursorPosition = entityEnd + 1;
 	}
 
-	result.append(line, cursor, line.size() - cursor);
+	result.append(line, cursorPosition, line.size() - cursorPosition);
 
 	line = std::move(result);
 }

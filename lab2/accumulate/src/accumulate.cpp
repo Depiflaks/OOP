@@ -40,9 +40,8 @@ void ProcessNumbers(std::vector<double>& numbers)
 
 	double average = sum / count;
 
-	// todo: std::transform
-	for (double& num : numbers)
-		num += average;
+	std::transform(numbers.begin(), numbers.end(), numbers.begin(),
+		[average](double num) { return num + average; });
 }
 
 int GetPositiveCount(std::vector<double>& numbers)

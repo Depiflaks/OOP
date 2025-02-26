@@ -29,6 +29,11 @@ void CitizenMrBurns::PlanExpenses(const Money homerAmount, const Money smithersA
 	m_amountToSmithers = smithersAmount;
 }
 
+void CitizenMrBurns::ChangeSmithersAccount(const AccountId newSmithersId)
+{
+	m_smithersId = newSmithersId;
+}
+
 void CitizenMrBurns::Execute()
 {
 	GiveSalaryToHomer();

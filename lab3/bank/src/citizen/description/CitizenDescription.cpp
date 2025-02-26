@@ -10,7 +10,7 @@ CitizenDescription::CitizenDescription(const CitizenName name, CitizenMap& citiz
 {
 }
 
-Actor CitizenDescription::FindCitizen(const CitizenName citizen) const
+Actor& CitizenDescription::FindCitizen(const CitizenName citizen) const
 {
 	CheckCitizenExist(citizen);
 	return m_citizens[citizen];

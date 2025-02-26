@@ -19,10 +19,12 @@ public:
 	void ExecuteWithErrorHandling() override;
 	void PlanExpenses() override;
 	void PlanExpenses(Money homerAmount, Money smithersAmount);
+	void ChangeSmithersAccount(AccountId newSmithersId);
 
 private:
 	Money m_amountToHomer{ 0 };
 	Money m_amountToSmithers{ 0 };
+	AccountId m_smithersId{ 0 };
 
 	void Execute() override;
 	void GiveSalaryToHomer() const;

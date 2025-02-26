@@ -17,7 +17,7 @@ protected:
 	const CitizenName m_name{ CitizenName::homerSimpson };
 	CitizenMap& m_citizens;
 
-	[[nodiscard]] Actor FindCitizen(CitizenName citizen) const;
+	[[nodiscard]] Actor& FindCitizen(CitizenName citizen) const;
 
 private:
 	void CheckCitizenExist(CitizenName citizen) const;

@@ -1,9 +1,0 @@
-$input
-1
-$output
-2
-
-$search
-1
-$replace
-2

@@ -1,9 +1,12 @@
 //
 // Created by smmm on 27.02.2025.
 //
-#include "generator.h"
+#include "utils.h"
 #include <cstdlib>
 #include <iostream>
+
+auto ToDigit(char* digit) -> int;
+auto Exit(const char* message) -> void;
 
 auto ParseArguments(int argc, char* argv[]) -> int
 {
@@ -53,9 +56,4 @@ auto PrintPrimes(const std::set<int>& primes) -> void
 		std::cout << prime << " ";
 	}
 	std::cout << "\n";
-}
-
-auto PrintPrimesCount(const std::set<int>& primes) -> void
-{
-	std::cout << "Total primes: " << primes.size() << "\n";
 }

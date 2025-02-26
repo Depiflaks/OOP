@@ -2,6 +2,7 @@
 // Created by smmm on 26.02.2025.
 //
 #include "../src/generator.h"
+#include "../src/utils.h"
 #include <gtest/gtest.h>
 #include <sstream>
 #include <vector>
@@ -40,6 +41,12 @@ TEST(GeneratePrimeNumbersSetTest, HandlesLargeUpperBound)
 	EXPECT_EQ(primes.size(), 25);
 }
 
+TEST(GeneratePrimeNumbersSetTest, HandlesMaxUpperBound)
+{
+	auto primes = GeneratePrimeNumbersSet(100000000);
+	EXPECT_EQ(primes.size(), 5761455);
+}
+
 TEST(ParseArgumentsTest, HandlesValidInput)
 {
 	const char* argv[] = { "program", "100" };
@@ -73,25 +80,4 @@ TEST(PrintPrimesTest, HandlesNonEmptySet)
 	std::set<int> primes = { 2, 3, 5 };
 	auto output = CaptureOutput([&]() { PrintPrimes(primes); });
 	EXPECT_EQ(output, "2 3 5 \n");
-}
-
-TEST(PrintPrimesCountTest, HandlesEmptySet)
-{
-	std::set<int> primes;
-	auto output = CaptureOutput([&]() { PrintPrimesCount(primes); });
-	EXPECT_EQ(output, "Total primes: 0\n");
-}
-
-TEST(PrintPrimesCountTest, HandlesNonEmptySet)
-{
-	std::set<int> primes = { 2, 3, 5 };
-	auto output = CaptureOutput([&]() { PrintPrimesCount(primes); });
-	EXPECT_EQ(output, "Total primes: 3\n");
-}
-
-TEST(PrintPrimesCountTest, HandlesMaxCount)
-{
-	std::set<int> primes = GeneratePrimeNumbersSet(100000000);
-	auto output = CaptureOutput([&]() { PrintPrimesCount(primes); });
-	EXPECT_EQ(output, "Total primes: 5761455\n");
 }

@@ -7,57 +7,45 @@
 #include <map>
 #include <string>
 
-struct ReplaceInLineTest : ::testing::Test
-{
-protected:
-	std::map<std::string, std::string> rule{
-		{ "quot", "\"" },
-		{ "apos", "'" },
-		{ "lt", "<" },
-		{ "gt", ">" },
-		{ "amp", "&" }
-	};
-};
-
-TEST_F(ReplaceInLineTest, SimpleReplacement)
+TEST(HtmlDecodeTest, SimpleReplacement)
 {
 	std::string line = "Hello &quot;world&quot; &amp; everyone";
-	ReplaceInLine(rule, line);
+	DecodeHtmlLine(line);
 	EXPECT_EQ(line, "Hello \"world\" & everyone");
 }
 
-TEST_F(ReplaceInLineTest, HTMLTags)
+TEST(HtmlDecodeTest, HTMLTags)
 {
 	std::string line = "This is a test with &lt;tag&gt; inside";
-	ReplaceInLine(rule, line);
+	DecodeHtmlLine(line);
 	EXPECT_EQ(line, "This is a test with <tag> inside");
 }
 
-TEST_F(ReplaceInLineTest, NoEntities)
+TEST(HtmlDecodeTest, NoEntities)
 {
 	std::string line = "No entities here";
-	ReplaceInLine(rule, line);
+	DecodeHtmlLine(line);
 	EXPECT_EQ(line, "No entities here");
 }
 
-TEST_F(ReplaceInLineTest, IncompleteEntity)
+TEST(HtmlDecodeTest, IncompleteEntity)
 {
 	std::string line = "Incomplete entity &quot without end";
-	ReplaceInLine(rule, line);
+	DecodeHtmlLine(line);
 	EXPECT_EQ(line, "Incomplete entity &quot without end");
 }
 
-TEST_F(ReplaceInLineTest, MultipleEntities)
+TEST(HtmlDecodeTest, MultipleEntities)
 {
 	std::string line = "Multiple &lt;&gt;&amp;&quot;&apos; entities";
-	ReplaceInLine(rule, line);
+	DecodeHtmlLine(line);
 	EXPECT_EQ(line, "Multiple <>&\"' entities");
 }
 
-TEST_F(ReplaceInLineTest, ReplacementAtBoundaries)
+TEST(HtmlDecodeTest, ReplacementAtBoundaries)
 {
     std::string line = "&quot;Start and end&quot;";
-    ReplaceInLine(rule, line);
+    DecodeHtmlLine(line);
     EXPECT_EQ(line, "\"Start and end\"");
 }
 

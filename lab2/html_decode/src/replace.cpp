@@ -4,22 +4,31 @@
 
 #include "replace.h"
 #include <fstream>
+#include <map>
 #include <memory>
 
 constexpr char htmlEntityStart = '&';
 constexpr char htmlEntityEnd = ';';
 
-void ReplaceInStream(std::map<std::string, std::string>& rule, std::istream& inStream, std::ostream& outStream)
+std::map<std::string, std::string> rule{
+	{ "quot", "\"" },
+	{ "apos", "\'" },
+	{ "lt", "<" },
+	{ "qt", ">" },
+	{ "amp", "&" },
+};
+
+void DecodeHtml(std::istream& inStream, std::ostream& outStream)
 {
 	std::string line;
 	while (std::getline(inStream, line))
 	{
-		ReplaceInLine(rule, line);
+		DecodeHtmlLine(line);
 		outStream << line << "\n";
 	}
 }
 
-void ReplaceInLine(std::map<std::string, std::string>& rule, std::string& line)
+void DecodeHtmlLine(std::string& line)
 {
 	std::string result;
 	size_t lastPos = 0, entityStart;

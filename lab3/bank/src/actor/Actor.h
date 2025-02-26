@@ -38,52 +38,61 @@ class Actor
 public:
 	explicit Actor(Bank& bank, Money cash);
 
-	// публичные методы:
-	// 1) узнать баланс на счёте
+	// Публичные методы:
+	// Узнать баланс на счёте
 	[[nodiscard]] Money GetAccountBalance() const;
 
-	// 2) узнать баланс в нале
+	// Узнать баланс в нале
 	[[nodiscard]] Money GetCashBalance() const;
 
-	// 3) узнать текущий id счёта в банке
+	// Получить приготовленные деньги
+	[[nodiscard]] Money PopPreparedMoney();
+
+	// Узнать текущий id счёта в банке
 	[[nodiscard]] std::optional<AccountId> GetAccountId() const;
 
-	// 4) перевести другому актору на счёт
+	// Перевести другому актору на счёт
 	void TransferMoney(const Actor& dstActor, Money amount) const;
 
-	// 5) передать деньги другому актору наличкой
-	void HandOverMoney(const Actor& dstActor, Money amount);
+	// Передать деньги другому актору наличкой
+	void HandOverMoney(Actor& dstActor, Money amount);
 
-	// 6) вытрясти деньги у другого актора (наличка)
+	// Вытрясти деньги у другого актора (наличка)
 	void ExtortMoney(Actor& dstActor, Money amount);
 
-	// 7) Пополнить собственный баланс
+	// Забрать приготовленные деньги другого актора
+	void ReceivePreparedCash(Actor& dstActor);
+
+	// Пополнить собственный баланс
 	void DepositMoney(Money amount);
 
-	// 8) Вывести из собственного счёта
+	// Вывести из собственного счёта
 	void WithdrawMoney(Money amount);
 
-	// 9) открыть Счёт
+	// Приготовить деньги к передаче другому актору
+	void StashMoneyToTransfer(Money amount);
+
+	// Открыть Счёт
 	void OpenAccount();
 
-	// 10) закрыть счёт
+	// Закрыть счёт
 	void CloseAccount();
 
 private:
-	// параметры:
-	// - количество денег в нале
+	// Параметры:
+	// Количество денег в нале
 	Money m_cashBalance;
-	// - номер текущего счёта
+	// Номер текущего счёта
 	std::optional<AccountId> m_accountId;
-	// - ссылка на банк
+	// Ссылка на банк
 	Bank& m_bank;
+	// Сумма, которую актор приготовил к передаче
+	Money m_preparedCashToTransfer{ 0 };
 
-	// приватные методы
-	// 1) проверить, есть ли у пользователя счёт в банке
+	// Приватные методы
+	// Проверить, есть ли у пользователя счёт в банке
 	static void CheckActorHaveAccount(const Actor& actor);
-	// 2) проверить, есть ли у пользователя счёт в банке
-	static void CheckActorNotHaveAccount(const Actor& actor);
-	// 3) проверить, достаточно ли у пользователя налички для того, чтобы поделиться
+	// Проверить, достаточно ли у пользователя налички для того, чтобы поделиться
 	static void CheckActorHaveEnoughCash(const Actor& actor, Money amount);
 };
 

@@ -22,6 +22,13 @@ Money Actor::GetCashBalance() const
 	return m_cashBalance;
 }
 
+Money Actor::PopPreparedMoney()
+{
+	const Money money = m_preparedCashToTransfer;
+	m_preparedCashToTransfer = 0;
+	return money;
+}
+
 std::optional<AccountId> Actor::GetAccountId() const
 {
 	return m_accountId;
@@ -34,14 +41,22 @@ void Actor::TransferMoney(const Actor& dstActor, const Money amount) const
 	m_bank.SendMoney(*GetAccountId(), *dstActor.GetAccountId(), amount);
 }
 
-void Actor::HandOverMoney(const Actor& dstActor, const Money amount)
+void Actor::HandOverMoney(Actor& dstActor, const Money amount)
 {
-	CheckActorHaveEnoughCash(*this, amount);
-	m_cashBalance -= amount;
+	StashMoneyToTransfer(amount);
+	dstActor.ReceivePreparedCash(*this);
 }
 
-void Actor::ExtortMoney(Actor& dstActor, Money amount)
+void Actor::ExtortMoney(Actor& dstActor, const Money amount)
 {
+	dstActor.StashMoneyToTransfer(amount);
+	ReceivePreparedCash(dstActor);
+}
+
+void Actor::ReceivePreparedCash(Actor& dstActor)
+{
+	const Money money = dstActor.PopPreparedMoney();
+	m_cashBalance += money;
 }
 
 void Actor::DepositMoney(const Money amount)
@@ -59,8 +74,17 @@ void Actor::WithdrawMoney(const Money amount)
 	m_cashBalance += amount;
 }
 
+void Actor::StashMoneyToTransfer(const Money amount)
+{
+	CheckActorHaveEnoughCash(*this, amount);
+	m_preparedCashToTransfer += amount;
+	m_cashBalance -= amount;
+}
+
 void Actor::OpenAccount()
 {
+	AccountId account = m_bank.OpenAccount();
+	m_accountId = account;
 }
 
 void Actor::CloseAccount()
@@ -74,12 +98,6 @@ void Actor::CloseAccount()
 void Actor::CheckActorHaveAccount(const Actor& actor)
 {
 	if (actor.GetAccountId() == std::nullopt)
-		throw ActorNotHaveAccountException();
-}
-
-void Actor::CheckActorNotHaveAccount(const Actor& actor)
-{
-	if (actor.GetAccountId() != std::nullopt)
 		throw ActorNotHaveAccountException();
 }
 

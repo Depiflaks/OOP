@@ -9,6 +9,30 @@
 
 #include <optional>
 
+class ActorInteractionException : std::runtime_error
+{
+public:
+	using runtime_error::runtime_error;
+};
+
+class ActorNotHaveAccountException final : ActorInteractionException
+{
+public:
+	explicit ActorNotHaveAccountException()
+		: ActorInteractionException("Actor doesn't have bank account")
+	{
+	}
+};
+
+class ActorNotHaveEnoughCashException final : ActorInteractionException
+{
+public:
+	explicit ActorNotHaveEnoughCashException()
+		: ActorInteractionException("Actor doesn't have enough cash to perform operation")
+	{
+	}
+};
+
 class Actor
 {
 public:
@@ -25,10 +49,10 @@ public:
 	[[nodiscard]] std::optional<AccountId> GetAccountId() const;
 
 	// 4) перевести другому актору на счёт
-	void TransferMoney(Actor& dstActor, Money amount);
+	void TransferMoney(const Actor& dstActor, Money amount) const;
 
 	// 5) передать деньги другому актору наличкой
-	void HandOverMoney(Actor& dstActor, Money amount);
+	void HandOverMoney(const Actor& dstActor, Money amount);
 
 	// 6) вытрясти деньги у другого актора (наличка)
 	void ExtortMoney(Actor& dstActor, Money amount);
@@ -49,8 +73,6 @@ private:
 	// параметры:
 	// - количество денег в нале
 	Money m_cashBalance;
-	// - количество денег на счету
-	Money m_accountBalance;
 	// - номер текущего счёта
 	std::optional<AccountId> m_accountId;
 	// - ссылка на банк
@@ -58,9 +80,11 @@ private:
 
 	// приватные методы
 	// 1) проверить, есть ли у пользователя счёт в банке
-	void CheckActorHaveAccount(AccountId account) const;
-	// 2) проверить, достаточно ли у пользователя налички для того, чтобы поделиться
-	void CheckActorHaveEnoughCash(AccountId account, Money amount) const;
+	static void CheckActorHaveAccount(const Actor& actor);
+	// 2) проверить, есть ли у пользователя счёт в банке
+	static void CheckActorNotHaveAccount(const Actor& actor);
+	// 3) проверить, достаточно ли у пользователя налички для того, чтобы поделиться
+	static void CheckActorHaveEnoughCash(const Actor& actor, Money amount);
 };
 
 #endif // ACTOR_H

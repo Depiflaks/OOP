@@ -6,7 +6,6 @@
 
 Actor::Actor(Bank& bank, const Money cash)
 	: m_cashBalance(cash)
-	, m_accountBalance(0)
 	, m_accountId(std::nullopt)
 	, m_bank(bank)
 {
@@ -14,34 +13,50 @@ Actor::Actor(Bank& bank, const Money cash)
 
 Money Actor::GetAccountBalance() const
 {
+	CheckActorHaveAccount(*this);
+	return m_bank.GetAccountBalance(*m_accountId);
 }
 
 Money Actor::GetCashBalance() const
 {
+	return m_cashBalance;
 }
 
 std::optional<AccountId> Actor::GetAccountId() const
 {
+	return m_accountId;
 }
 
-void Actor::TransferMoney(Actor& dstActor, Money amount)
+void Actor::TransferMoney(const Actor& dstActor, const Money amount) const
 {
+	CheckActorHaveAccount(*this);
+	CheckActorHaveAccount(dstActor);
+	m_bank.SendMoney(*GetAccountId(), *dstActor.GetAccountId(), amount);
 }
 
-void Actor::HandOverMoney(Actor& dstActor, Money amount)
+void Actor::HandOverMoney(const Actor& dstActor, const Money amount)
 {
+	CheckActorHaveEnoughCash(*this, amount);
+	m_cashBalance -= amount;
 }
 
 void Actor::ExtortMoney(Actor& dstActor, Money amount)
 {
 }
 
-void Actor::DepositMoney(Money amount)
+void Actor::DepositMoney(const Money amount)
 {
+	CheckActorHaveAccount(*this);
+	CheckActorHaveEnoughCash(*this, amount);
+	m_bank.DepositMoney(*GetAccountId(), amount);
+	m_cashBalance -= amount;
 }
 
-void Actor::WithdrawMoney(Money amount)
+void Actor::WithdrawMoney(const Money amount)
 {
+	CheckActorHaveAccount(*this);
+	m_bank.WithdrawMoney(*GetAccountId(), amount);
+	m_cashBalance += amount;
 }
 
 void Actor::OpenAccount()
@@ -50,12 +65,26 @@ void Actor::OpenAccount()
 
 void Actor::CloseAccount()
 {
+	CheckActorHaveAccount(*this);
+	const Money amount = m_bank.CloseAccount(*m_accountId);
+	m_cashBalance += amount;
+	m_accountId = std::nullopt;
 }
 
-void Actor::CheckActorHaveAccount(AccountId account) const
+void Actor::CheckActorHaveAccount(const Actor& actor)
 {
+	if (actor.GetAccountId() == std::nullopt)
+		throw ActorNotHaveAccountException();
 }
 
-void Actor::CheckActorHaveEnoughCash(AccountId account, Money amount) const
+void Actor::CheckActorNotHaveAccount(const Actor& actor)
 {
+	if (actor.GetAccountId() != std::nullopt)
+		throw ActorNotHaveAccountException();
+}
+
+void Actor::CheckActorHaveEnoughCash(const Actor& actor, Money amount)
+{
+	if (actor.GetCashBalance() < amount)
+		throw ActorNotHaveEnoughCashException();
 }

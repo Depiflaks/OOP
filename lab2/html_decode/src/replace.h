@@ -9,9 +9,7 @@
 #include <vector>
 #include <map>
 
-
-
-void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream);
-void ReplaceInLine(const ReplaceConfig& config, std::string& line);
+void ReplaceInStream(std::map<std::string, std::string>& rule, std::istream& inStream, std::ostream& outStream);
+void ReplaceInLine(std::map<std::string, std::string>& rule, std::string& line);
 
 #endif // OOP_REPLACE_H

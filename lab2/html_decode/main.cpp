@@ -6,11 +6,23 @@
 #include <string>
 #include <string_view>
 
+const std::map<std::string, std::string> rule{
+    {"quot", "\""},
+    {"apos", "\'"},
+    {"lt", "<"},
+    {"qt", ">"},
+    {"amp", "&"},
+};
+
 std::string HtmlDecode(const std::string& html)
 {
-	const std::map<std::string, std::string> entities{ { "quot", "\"" }, { "apos", "'" }, { "lt", "<" }, { "gt", ">" },
-		{ "amp", "&" } };
-	constexpr size_t maxEntityLength = 4;
+	const std::map<std::string, std::string> entities{
+		{ "quot", "\"" },
+		{ "apos", "'" },
+		{ "lt", "<" },
+		{ "gt", ">" },
+		{ "amp", "&" }
+	};
 
 	std::string decoded;
 	size_t pos = 0;
@@ -20,13 +32,13 @@ std::string HtmlDecode(const std::string& html)
 	{
 		if (html[pos] == '&')
 		{
+			constexpr size_t maxEntityLength = 4;
 			const size_t entityStart = pos + 1;
 			size_t remainingLength = length - entityStart;
-			size_t searchLength = std::min(maxEntityLength + 1, remainingLength);
+			const size_t searchLength = std::min(maxEntityLength + 1, remainingLength);
 			std::string_view searchArea(html.data() + entityStart, searchLength);
-			size_t semicolonPos = searchArea.find(';');
 
-			if (semicolonPos != std::string_view::npos)
+			if (const size_t semicolonPos = searchArea.find(';'); semicolonPos != std::string_view::npos)
 			{
 				std::string entity = html.substr(entityStart, semicolonPos);
 				auto it = entities.find(entity);

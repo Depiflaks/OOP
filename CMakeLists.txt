@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(OOP lab1/replace/main.cpp
         lab1/replace/main.cpp
-        lab2/html_decode/main.cpp)
+        lab2/html_decode/main.cpp
+        lab2/html_decode/src/replace.cpp)

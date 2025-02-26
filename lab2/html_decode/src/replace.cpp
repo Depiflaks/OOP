@@ -9,46 +9,42 @@
 #include <memory>
 #include <stdexcept>
 
-const char htmlEntityStart = '&';
-const char htmlEntityEnd = ';';
+constexpr char htmlEntityStart = '&';
+constexpr char htmlEntityEnd = ';';
 
-const std::map<std::string, std::string> rule{
-    {"quot", "\""},
-    {"apos", "\'"},
-    {"lt", "<"},
-    {"qt", ">"},
-    {"amp", "&"},
-};
-
-void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream)
+void ReplaceInStream(std::map<std::string, std::string>& rule, std::istream& inStream, std::ostream& outStream)
 {
 	std::string line;
-	bool hasContent = false;
-
 	while (std::getline(inStream, line))
 	{
-		hasContent = true;
-		if (!config.search.empty())
-			ReplaceInLine(config, line);
+		ReplaceInLine(rule, line);
 		outStream << line << "\n";
 	}
-
-	if (!hasContent)
-		outStream << "\n";
 }
 
-void ReplaceInLine(const ReplaceConfig& config, std::string& line)
+void ReplaceInLine(const std::map<std::string, std::string>& rule, std::string& line)
 {
 	std::string result;
-	size_t pos = 0, last_pos = 0;
+	size_t lastPos = 0, entityStart;
 
-	while ((pos = line.find(htmlEntityStart, last_pos)) != std::string::npos)
+	while ((entityStart = line.find(htmlEntityStart, lastPos)) != std::string::npos)
 	{
-		result.append(line, last_pos, pos - last_pos);
-		result.append(config.replace);
-		last_pos = pos + config.search.length();
+		result.append(line, lastPos, entityStart - lastPos);
+		const size_t entityEnd = line.find(htmlEntityEnd, entityStart + 1);
+
+		if (entityEnd == std::string::npos)
+			break;
+
+		std::string_view entityName(line.data() + entityStart + 1, entityEnd - entityStart - 1);
+
+		if (auto it = rule.find(std::string(entityName)); it != rule.end())
+			result.append(it->second);
+		else
+			result.append(line, entityStart, entityEnd - entityStart + 1);
+
+		lastPos = entityEnd + 1;
 	}
 
-	result.append(line, last_pos, line.size() - last_pos);
+	result.append(line, lastPos, line.size() - lastPos);
 	line = std::move(result);
 }

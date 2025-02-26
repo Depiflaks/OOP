@@ -10,10 +10,25 @@
 using AccountId = unsigned long long;
 using Money = long long;
 
-class BankOperationError final : std::runtime_error
+class BankOperationError : std::runtime_error
 {
 public:
 	using runtime_error::runtime_error;
+};
+
+class AccountExistenceException final : BankOperationError
+{
+public:
+	using BankOperationError::BankOperationError;
+};
+
+class NotEnoughMoneyException final : BankOperationError
+{
+public:
+	explicit NotEnoughMoneyException()
+		: BankOperationError("Not enough money on account")
+	{
+	}
 };
 
 class NegativeTransferAmountException final : std::out_of_range
@@ -97,6 +112,9 @@ private:
 	AccountId m_lastAccountId;
 
 	static void AssertTransferAmountPositive(Money amount);
+	void AssertAccountExist(AccountId account_id) const;
+	void AssertAccountDontExist(AccountId account_id) const;
+	void AssertEnoughMoneyInCash(Money amount) const;
 };
 
 #endif // BANK_H

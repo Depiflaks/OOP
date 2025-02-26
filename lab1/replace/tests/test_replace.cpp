@@ -36,13 +36,13 @@ struct ReplaceParams
 	}
 };
 
-auto RunPositiveTest(const std::string& filePath) -> void;
-auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>;
-auto ExecuteCommand(const std::string& command) -> std::string;
-auto RunSystemStream(const ReplaceParams& params) -> std::string;
-auto RunWithFiles(const ReplaceParams& params) -> std::string;
-auto CreateTempFile(const std::string& content) -> std::string;
-auto WriteToFile(const std::string& filename, const std::string& content) -> bool;
+void RunPositiveTest(const std::string& filePath);
+std::map<std::string, std::string> ParseTestFile(const std::string& fileName, const std::vector<std::string>& names);
+std::string ExecuteCommand(const std::string& command);
+std::string RunSystemStream(const ReplaceParams& params);
+std::string RunWithFiles(const ReplaceParams& params);
+std::string CreateTempFile(const std::string& content);
+bool WriteToFile(const std::string& filename, const std::string& content);
 
 int main(int argc, char** argv)
 {
@@ -108,6 +108,11 @@ TEST(ReplaceTest, NoReplace)
 	RunPositiveTest("./files/no_replace.txt");
 }
 
+TEST(ReplaceTest, ReplaceMoreThanSearch)
+{
+	RunPositiveTest("./files/replace_more_than_search.txt");
+}
+
 TEST(ReplaceTest, InvalidArgumentCount)
 {
 	std::string command;
@@ -139,7 +144,7 @@ void RunPositiveTest(const std::string& filePath)
 	EXPECT_TRUE(filesOutput == params.output);
 }
 
-auto RunSystemStream(const ReplaceParams& params) -> std::string
+std::string RunSystemStream(const ReplaceParams& params)
 {
 	std::ostringstream command;
 	command << "echo \""
@@ -150,7 +155,7 @@ auto RunSystemStream(const ReplaceParams& params) -> std::string
 	return ExecuteCommand(command.str());
 }
 
-auto ExecuteCommand(const std::string& command) -> std::string
+std::string ExecuteCommand(const std::string& command)
 {
 	std::ostringstream result;
 	FILE* pipe = popen(command.c_str(), "r");
@@ -172,7 +177,7 @@ auto ExecuteCommand(const std::string& command) -> std::string
 	return result.str();
 }
 
-auto RunWithFiles(const ReplaceParams& params) -> std::string
+std::string RunWithFiles(const ReplaceParams& params)
 {
 	std::string inputFile = CreateTempFile(params.input);
 	std::string outputFile = CreateTempFile("");
@@ -193,7 +198,7 @@ auto RunWithFiles(const ReplaceParams& params) -> std::string
 	return outputContent;
 }
 
-auto CreateTempFile(const std::string& content) -> std::string
+std::string CreateTempFile(const std::string& content)
 {
 	char filename[L_tmpnam];
 	std::tmpnam(filename);
@@ -204,7 +209,7 @@ auto CreateTempFile(const std::string& content) -> std::string
 	return filename;
 }
 
-auto WriteToFile(const std::string& filename, const std::string& content) -> bool
+bool WriteToFile(const std::string& filename, const std::string& content)
 {
 	std::ofstream file(filename);
 	if (!file)
@@ -214,7 +219,7 @@ auto WriteToFile(const std::string& filename, const std::string& content) -> boo
 	return true;
 }
 
-auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>
+std::map<std::string, std::string> ParseTestFile(const std::string& fileName, const std::vector<std::string>& names)
 {
 	std::ifstream file(fileName);
 	std::map<std::string, std::string> parameters;

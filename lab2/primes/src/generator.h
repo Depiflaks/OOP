@@ -7,6 +7,6 @@
 
 #include <set>
 
-auto GeneratePrimeNumbersSet(int upperBound) -> std::set<int>;
+std::set<int> GeneratePrimeNumbersSet(int upperBound);
 
 #endif

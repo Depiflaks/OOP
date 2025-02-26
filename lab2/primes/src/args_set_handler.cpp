@@ -6,12 +6,12 @@
 #include <iostream>
 
 const int minUpperBound = 0;
-const int maxUpperBound = 0;
+const int maxUpperBound = 100'000'000;
 
-auto ToDigit(char* digit) -> int;
-auto Exit(const char* message) -> void;
+int ToDigit(char* digit);
+void Exit(const char* message);
 
-auto ParseArguments(int argc, char* argv[]) -> int
+int ParseArguments(int argc, char* argv[])
 {
 	if (argc != 2)
 	{
@@ -27,7 +27,7 @@ auto ParseArguments(int argc, char* argv[]) -> int
 	return upperBound;
 }
 
-auto ToDigit(char* digit) -> int
+int ToDigit(char* digit)
 {
 	try
 	{
@@ -45,12 +45,11 @@ auto ToDigit(char* digit) -> int
 	}
 }
 
-// todo: добавить в параметр ссылку на поток
-auto PrintPrimes(const std::set<int>& primes) -> void
+void PrintPrimes(const std::set<int>& primes, std::ostream& outStream)
 {
 	for (int prime : primes)
 	{
-		std::cout << prime << " ";
+		outStream << prime << " ";
 	}
-	std::cout << "\n";
+	outStream << "\n";
 }

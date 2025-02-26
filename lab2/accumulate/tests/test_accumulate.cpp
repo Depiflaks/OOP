@@ -131,7 +131,7 @@ TEST(ShiftByPositiveMeanTest, HandlesValidInput)
 	TestShiftByPositiveMean("files/4/i.txt", "files/4/o.txt");
 }
 
-auto CompareArrays(const std::vector<double>& result, const std::vector<double>& expected) -> void
+void CompareArrays(const std::vector<double>& result, const std::vector<double>& expected)
 {
 	ASSERT_EQ(result.size(), expected.size());
 	for (size_t i = 0; i < result.size(); ++i)
@@ -140,7 +140,7 @@ auto CompareArrays(const std::vector<double>& result, const std::vector<double>&
 	}
 }
 
-auto TestShiftByPositiveMean(const std::string& inputFile, const std::string& expectedOutputFile) -> void
+void TestShiftByPositiveMean(const std::string& inputFile, const std::string& expectedOutputFile)
 {
 	std::ifstream input(inputFile);
 	std::ifstream expectedOutput(expectedOutputFile);

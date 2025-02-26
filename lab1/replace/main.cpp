@@ -27,15 +27,15 @@ struct ReplaceConfig
 	std::string replace;
 };
 
-auto GetSourceType(int argc) -> SourceType;
-auto ParseArguments(int argc, char* argv[]) -> ReplaceConfig;
-auto Replace(const ReplaceConfig& config) -> void;
-auto PrintHelp() -> void;
-auto AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2) -> void;
-auto ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream) -> void;
-auto ReplaceInLine(const ReplaceConfig& config, std::string& line) -> void;
+SourceType GetSourceType(int argc);
+ReplaceConfig ParseArguments(int argc, char* argv[]);
+void Replace(const ReplaceConfig& config);
+void PrintHelp();
+void AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2);
+void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream);
+void ReplaceInLine(const ReplaceConfig& config, std::string& line);
 
-auto main(const int argc, char* argv[]) -> int
+int main(const int argc, char* argv[])
 {
 	try
 	{
@@ -55,7 +55,7 @@ auto main(const int argc, char* argv[]) -> int
 	return 0;
 }
 
-auto ParseArguments(const int argc, char* argv[]) -> ReplaceConfig
+ReplaceConfig ParseArguments(const int argc, char* argv[])
 {
 	ReplaceConfig config;
 	config.type = GetSourceType(argc);
@@ -76,7 +76,7 @@ auto ParseArguments(const int argc, char* argv[]) -> ReplaceConfig
 	return config;
 }
 
-auto GetSourceType(const int argc) -> SourceType
+SourceType GetSourceType(const int argc)
 {
 	switch (argc)
 	{
@@ -89,7 +89,7 @@ auto GetSourceType(const int argc) -> SourceType
 	}
 }
 
-auto PrintHelp() -> void
+void PrintHelp()
 {
 	std::cout << "Usage:\n"
 			  << "  replace.exe <input file> <output file> <search string> <replace string>\n"
@@ -97,14 +97,14 @@ auto PrintHelp() -> void
 			  << "  replace.exe -h (show this help message)\n";
 }
 
-auto AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2) -> void
+void AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2)
 {
 	if (filePath1 == filePath2)
 		throw std::runtime_error("Input and output files must be different.");
 }
 
-// switch case без записи в переменные
-auto Replace(const ReplaceConfig& config) -> void
+// todo: switch case без записи в переменные
+void Replace(const ReplaceConfig& config)
 {
 	std::istream* inStream = &std::cin;
 	std::ostream* outStream = &std::cout;
@@ -122,7 +122,7 @@ auto Replace(const ReplaceConfig& config) -> void
 	ReplaceInStream(config, *inStream, *outStream);
 }
 
-auto ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream) -> void
+void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream)
 {
 	std::string line;
 	bool hasContent = false;
@@ -139,13 +139,13 @@ auto ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::o
 		outStream << "\n";
 }
 
-auto ReplaceInLine(const ReplaceConfig& config, std::string& line) -> void
+void ReplaceInLine(const ReplaceConfig& config, std::string& line)
 {
 	size_t pos = 0;
 	while ((pos = line.find(config.search, pos)) != std::string::npos)
 	{
 		line.replace(pos, config.search.length(), config.replace);
-		// replace написать самому
+		// todo: replace написать самому
 		pos += config.replace.length();
 	}
 }

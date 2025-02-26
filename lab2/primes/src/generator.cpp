@@ -6,10 +6,10 @@
 #include <cmath>
 #include <vector>
 
-auto FillPrimeNumberSet(std::set<int>& primes, const int upperBound, std::vector<bool>& isPrime) -> void;
-auto EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime) -> void;
+void FillPrimeNumberSet(std::set<int>& primes, const int upperBound, std::vector<bool>& isPrime);
+void EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime);
 
-auto GeneratePrimeNumbersSet(int upperBound) -> std::set<int>
+std::set<int> GeneratePrimeNumbersSet(int upperBound)
 {
 	std::set<int> primes;
 	if (upperBound < 2)
@@ -24,7 +24,7 @@ auto GeneratePrimeNumbersSet(int upperBound) -> std::set<int>
 	return primes;
 }
 
-auto EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime) -> void
+void EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime)
 {
 	// todo: можно ускорить в 2 раза
 	for (int candidate = 2; candidate <= std::sqrt(upperBound); ++candidate)
@@ -39,7 +39,7 @@ auto EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime) -> void
 	}
 }
 
-auto FillPrimeNumberSet(std::set<int>& primes, const int upperBound, std::vector<bool>& isPrime) -> void
+void FillPrimeNumberSet(std::set<int>& primes, const int upperBound, std::vector<bool>& isPrime)
 {
 	for (int i = 2; i <= upperBound; ++i)
 	{

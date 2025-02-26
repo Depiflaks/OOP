@@ -5,14 +5,11 @@
 #include "../src/generator.h"
 #include <gtest/gtest.h>
 #include <sstream>
-#include <vector>
 
-auto CaptureOutput(std::function<void()> func) -> std::string
+std::string CaptureOutput(std::function<void(std::ostream& outStream)> func)
 {
 	std::stringstream buffer;
-	std::streambuf* old = std::cout.rdbuf(buffer.rdbuf());
-	func();
-	std::cout.rdbuf(old);
+	func(buffer);
 	return buffer.str();
 }
 
@@ -71,13 +68,15 @@ TEST(ParseArgumentsTest, HandlesOutOfRangeInput)
 TEST(PrintPrimesTest, HandlesEmptySet)
 {
 	std::set<int> primes;
-	auto output = CaptureOutput([&]() { PrintPrimes(primes); });
+	auto output = CaptureOutput(
+		[&](std::ostream& outStream) { PrintPrimes(primes, outStream); });
 	EXPECT_EQ(output, "\n");
 }
 
 TEST(PrintPrimesTest, HandlesNonEmptySet)
 {
 	std::set<int> primes = { 2, 3, 5 };
-	auto output = CaptureOutput([&]() { PrintPrimes(primes); });
+	auto output = CaptureOutput(
+		[&](std::ostream& outStream) { PrintPrimes(primes, outStream); });
 	EXPECT_EQ(output, "2 3 5 \n");
 }

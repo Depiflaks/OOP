@@ -9,8 +9,7 @@
 #include <string>
 #include <vector>
 
-// todo: переименовать файл
-auto ParseArguments(int argc, char* argv[]) -> int;
-auto PrintPrimes(const std::set<int>& primes) -> void;
+int ParseArguments(int argc, char* argv[]);
+void PrintPrimes(const std::set<int>& primes, std::ostream& outStream);
 
 #endif // OOP_ARGS_SET_HANDLER_H

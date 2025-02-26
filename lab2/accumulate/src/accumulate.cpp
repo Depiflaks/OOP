@@ -10,7 +10,7 @@
 #include <vector>
 #include "accumulate.h"
 
-auto ShiftByPositiveMean() -> void
+void ShiftByPositiveMean()
 {
 	std::vector<double> numbers;
 
@@ -24,7 +24,7 @@ auto ShiftByPositiveMean() -> void
 	PrintSortedNumbers(numbers);
 }
 
-auto ReadNumbers(std::vector<double>& numbers) -> bool
+bool ReadNumbers(std::vector<double>& numbers)
 {
 	std::string line;
 	std::getline(std::cin, line);
@@ -41,7 +41,7 @@ auto ReadNumbers(std::vector<double>& numbers) -> bool
 	return true;
 }
 
-auto ProcessNumbers(std::vector<double>& numbers) -> void
+void ProcessNumbers(std::vector<double>& numbers)
 {
 	if (numbers.empty())
 		return;
@@ -60,7 +60,7 @@ auto ProcessNumbers(std::vector<double>& numbers) -> void
 	}
 }
 
-auto GetPositiveCount(std::vector<double>& numbers) -> int
+int GetPositiveCount(std::vector<double>& numbers)
 {
 	return std::count_if(
 		numbers.begin(),
@@ -68,7 +68,7 @@ auto GetPositiveCount(std::vector<double>& numbers) -> int
 		[](double val) { return val > 0; });
 }
 
-auto GetPositiveSum(std::vector<double>& numbers) -> double
+double GetPositiveSum(std::vector<double>& numbers)
 {
 	double sum = 0.0;
 	for (double val : numbers) {
@@ -83,7 +83,7 @@ auto GetPositiveSum(std::vector<double>& numbers) -> double
 	return sum;
 }
 
-auto PrintSortedNumbers(const std::vector<double>& numbers) -> void
+void PrintSortedNumbers(const std::vector<double>& numbers)
 {
 	std::vector<double> sortedNumbers = numbers;
 	std::sort(sortedNumbers.begin(), sortedNumbers.end());

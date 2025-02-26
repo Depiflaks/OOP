@@ -3,7 +3,7 @@
 //
 #include "src/accumulate.h"
 
-auto main() -> int
+int main()
 {
 	ShiftByPositiveMean();
 	return 0;

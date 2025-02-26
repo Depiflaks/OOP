@@ -12,13 +12,13 @@
 #include <ostream>
 
 void RunDialog(const auto& dictFile);
-std::string ParseArguments(int argc, char** argv);
+std::string GetInputFilePath(int argc, char** argv);
 
 int main(const int argc, char* argv[])
 {
 	try
 	{
-		const auto dictFile = ParseArguments(argc, argv);
+		const auto dictFile = GetInputFilePath(argc, argv);
 		RunDialog(dictFile);
 	}
 	catch (std::exception& e)
@@ -29,7 +29,19 @@ int main(const int argc, char* argv[])
 	return 0;
 }
 
-void RunDialog(const auto& dictFile)
+// todo: обратно на optional
+std::string GetInputFilePath(const int argc, char** argv)
+{
+	if (argc > 2)
+		throw std::invalid_argument("Too many arguments");
+	if (argc == 2)
+	{
+		return argv[1];
+	}
+	return "";
+}
+
+void RunDialog(const auto&)
 {
 	const DialogHandler<dictionaryType> dh;
 	std::string message;
@@ -39,15 +51,4 @@ void RunDialog(const auto& dictFile)
 		getline(std::cin, message);
 		currentState = dh.HandleMessage(message);
 	}
-}
-
-std::string ParseArguments(const int argc, char** argv)
-{
-	if (argc > 2)
-		throw std::invalid_argument("Too many arguments");
-	if (argc == 2)
-	{
-		return argv[1];
-	}
-	return "";
 }

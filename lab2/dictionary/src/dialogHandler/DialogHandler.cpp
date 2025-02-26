@@ -9,6 +9,8 @@
 #include <numeric>
 #include <regex>
 #include <stdexcept>
+#include <iomanip>
+#include <ranges>
 
 DialogHandler::DialogHandler(const std::string& fileName)
 	: m_fileProcessor(FileProcessor<dictionaryType>{ fileName })
@@ -119,30 +121,6 @@ std::string DialogHandler::ConvertDictValueToString(const valueType& value)
 
 valueType DialogHandler::ConvertStringToDictValue(const std::string& value)
 {
-	
-}
-
-void DialogHandler::PrintSaveConfirmationPrompt()
-{
-	std::cout << "The dictionary has been modified. Enter Y or y to save before exiting.\n";
-}
-
-void DialogHandler::PrintWordIgnored(const std::string& word)
-{
-	std::cout << "The word \"" << word << "\" has been ignored.\n";
-}
-
-void DialogHandler::PrintSaveCancelled()
-{
-	std::cout << "Save operation cancelled. Continuing work with the dictionary.\n";
-}
-
-void DialogHandler::PrintUnknownWord() const
-{
-	std::cout << "Unknown word \"" << m_lastWord << "\". Enter translation or empty string to refuse.";
-}
-
-void DialogHandler::PrintDictValue(auto& value)
-{
-	std::cout << value << "\n";
+	auto values = std::ranges::views::split(value, ',');
+	return valueType{values.begin(), values.end()};
 }

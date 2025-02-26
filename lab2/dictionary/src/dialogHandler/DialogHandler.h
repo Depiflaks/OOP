@@ -7,16 +7,19 @@
 #include "../dictionary/Dictionary.h"
 #include "../fileProcessor/FileProcessor.h"
 
+#include <iostream>
 #include <string>
 
 enum class DialogState
 {
-	waitForWordOrCommand = 1,
-	waitForTranslation = 2,
-	waitForSaveConfirmation = 3,
-	waitForFileName = 4,
-	exit = 0
+	waitForWordOrCommand,
+	waitForTranslation,
+	waitForSaveConfirmation,
+	waitForFileName,
+	exit
 };
+
+constexpr std::string wordSeparator = ", ";
 
 class DialogHandler
 {
@@ -30,7 +33,7 @@ private:
 
 	DialogState m_state{ DialogState::waitForWordOrCommand };
 	std::string m_lastWord;
-	const std::string k_exitCommand{ "..." };
+	constexpr std::string_view k_exitCommand{ "..." };
 
 	void ProcessWordOrCommand(const std::string& message);
 	void ProcessTranslation(const std::string& message);
@@ -40,11 +43,30 @@ private:
 	static std::string ConvertDictValueToString(const valueType& value);
 	static valueType ConvertStringToDictValue(const std::string& value);
 
-	static void PrintSaveConfirmationPrompt();
-	static void PrintWordIgnored(const std::string& word);
-	static void PrintSaveCancelled();
-	void PrintUnknownWord() const;
-	static void PrintDictValue(auto& value);
+	static void DialogHandler::PrintSaveConfirmationPrompt()
+	{
+		std::cout << "The dictionary has been modified. Enter Y or y to save before exiting.\n";
+	}
+
+	static void DialogHandler::PrintWordIgnored(const std::string& word)
+	{
+		std::cout << "The word \"" << word << "\" has been ignored.\n";
+	}
+
+	static void DialogHandler::PrintSaveCancelled()
+	{
+		std::cout << "Save operation cancelled. Continuing work with the dictionary.\n";
+	}
+
+	void DialogHandler::PrintUnknownWord() const
+	{
+		std::cout << "Unknown word \"" << m_lastWord << "\". Enter translation or empty string to refuse.";
+	}
+
+	static void DialogHandler::PrintDictValue(const auto value)
+	{
+		std::cout << value << "\n";
+	}
 };
 
 #endif // DIALOGHANDLER_H

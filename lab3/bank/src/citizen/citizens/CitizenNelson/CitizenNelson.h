@@ -1,0 +1,32 @@
+//
+// Created by smmm on 27.03.2025.
+//
+
+#ifndef CITIZEN_NELSON_H
+#define CITIZEN_NELSON_H
+
+#include "../../../actor/Actor.h"
+#include "../../ICitizen.h"
+#include "../../description/CitizenDescription.h"
+
+class CitizenNelson final : public ICitizen
+    , protected Actor
+    , protected CitizenDescription
+{
+public:
+    CitizenNelson(Bank& bank, CitizenMap& citizens, Money cash);
+    void ExecuteWithErrorHandling() override;
+    void PlanExpenses() override;
+    void PlanExpenses(Money stolenAmount);
+
+private:
+    Money m_stolenAmount = 0;
+
+    void Execute() override;
+    void StealFromBart();
+    void BuyCigarettesFromApu();
+};
+
+
+
+#endif //CITIZEN_NELSON_H

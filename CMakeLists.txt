@@ -42,4 +42,6 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/citizen/citizens/apu/CitizenApu.cpp
         lab3/bank/src/citizen/citizens/apu/CitizenApu.h
         lab3/bank/src/citizen/citizens/mrBurns/CitizenMrBurns.cpp
-        lab3/bank/src/citizen/citizens/mrBurns/CitizenMrBurns.h)
+        lab3/bank/src/citizen/citizens/mrBurns/CitizenMrBurns.h
+        lab3/bank/src/citizen/citizens/CitizenNelson/CitizenNelson.cpp
+        lab3/bank/src/citizen/citizens/CitizenNelson/CitizenNelson.h)

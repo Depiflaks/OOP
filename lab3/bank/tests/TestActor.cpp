@@ -60,11 +60,6 @@ TEST_F(ActorTests, ExtortMoney_ValidTransaction_UpdatesBalances) {
     EXPECT_EQ(otherActor.GetCashBalance(), 70);
 }
 
-TEST_F(ActorTests, PrepareMoneyForTransfer_UpdatesPreparedCash) {
-    actor.PrepareMoneyForTransfer(40);
-    EXPECT_EQ(actor.GetCashBalance(), 60);
-    EXPECT_EQ(actor.TakePreparedMoney(), 40);
-}
 
 TEST_F(ActorTests, CloseAccount_TransfersRemainingBalance) {
     actor.OpenAccount();

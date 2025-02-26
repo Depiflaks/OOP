@@ -5,15 +5,15 @@
 #include "DialogHandler.h"
 #include "../dictionary/Dictionary.h"
 #include "../fileProcessor/FileProcessor.h"
-
 #include <iostream>
+#include <regex>
 #include <stdexcept>
 
-DialogState DialogHandler::HandleMessage(std::string& message)
+DialogState DialogHandler::HandleMessage(const std::string& message)
 {
 	switch (m_state)
 	{
-	case DialogState::waitForWordOrExitCommand:
+	case DialogState::waitForWordOrCommand:
 		ProcessWordOrExitCommand(message);
 		break;
 	case DialogState::waitForTranslation:
@@ -37,7 +37,7 @@ void DialogHandler::ProcessWordOrExitCommand(const std::string& message)
 		return;
 	if (message == "...")
 	{
-		std::cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом.";
+		PrintSaveConfirmationPrompt();
 		m_state = DialogState::waitForSaveConfirmation;
 		return;
 	}
@@ -49,11 +49,11 @@ void DialogHandler::ProcessTranslation(const std::string& message)
 {
 	if (message.empty())
 	{
-		std::cout << "Слово \"" << m_lastWord << "\" проигнорировано.";
+		PrintWordIgnored(message);
 		return;
 	}
 	// todo: сделать запись в словарь
-	m_state = DialogState::waitForWordOrExitCommand;
+	m_state = DialogState::waitForWordOrCommand;
 }
 
 void DialogHandler::ProcessSaveConfirmation(const std::string& message)
@@ -61,9 +61,10 @@ void DialogHandler::ProcessSaveConfirmation(const std::string& message)
 	if (!message.empty() && std::tolower(message[0]) == 'y')
 	{
 		// todo: проверка на то, указан ли файл.
-	} else
+	}
+	else
 	{
-		m_state = DialogState::waitForWordOrExitCommand;
+		m_state = DialogState::waitForWordOrCommand;
 	}
 }
 
@@ -71,10 +72,25 @@ void DialogHandler::ProcessFileName(const std::string& message)
 {
 	if (message.empty())
 	{
-		std::cout << "Операция сохранения отменена. Продолжаение работы со словарём";
-		m_state = DialogState::waitForWordOrExitCommand;
+		PrintSaveCancelled();
+		m_state = DialogState::waitForWordOrCommand;
 		return;
 	}
 	// todo: сохранить файл с соответствующим названием
 	m_state = DialogState::exit;
+}
+
+void DialogHandler::PrintSaveConfirmationPrompt()
+{
+	std::cout << "The dictionary has been modified. Enter Y or y to save before exiting.\n";
+}
+
+void DialogHandler::PrintWordIgnored(const std::string& word)
+{
+	std::cout << "The word \"" << word << "\" has been ignored.\n";
+}
+
+void DialogHandler::PrintSaveCancelled()
+{
+	std::cout << "Save operation cancelled. Continuing work with the dictionary.\n";
 }

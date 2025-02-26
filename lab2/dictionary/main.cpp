@@ -33,7 +33,7 @@ void RunDialog(const auto& dictFile)
 {
 	const DialogHandler<dictionaryType> dh;
 	std::string message;
-	auto currentState{ DialogState::waitForWordOrExitCommand };
+	auto currentState{ DialogState::waitForWordOrCommand };
 	while (currentState != DialogState::exit)
 	{
 		getline(std::cin, message);

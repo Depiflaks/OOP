@@ -24,6 +24,7 @@ void Dictionary::Store(
 	const std::string& key,
 	const std::set<std::string>& translations)
 {
+	// todo запретить вводить разделитель
 	AssertEmptyKey(key);
 	AssertEmptyTranslationSet(translations);
 	AssertTranslationContainsEmptyLines(translations);

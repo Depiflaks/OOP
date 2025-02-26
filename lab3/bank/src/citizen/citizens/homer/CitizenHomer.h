@@ -7,7 +7,7 @@
 #include "../../../actor/Actor.h"
 #include "../../Citizen.h"
 
-class CitizenHomer final : public ICitizen
+class CitizenHomer final : public Citizen
 	, protected Actor
 {
 public:
@@ -15,8 +15,8 @@ public:
 	void ExecuteWithErrorHandling() override;
 
 private:
-	using ICitizen::m_citizens;
-	using ICitizen::m_name;
+	using Citizen::m_citizens;
+	using Citizen::m_name;
 
 	void Execute() override;
 	void TransferMoneyToMarge(Money amount);

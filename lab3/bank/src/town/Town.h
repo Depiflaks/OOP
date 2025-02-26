@@ -10,7 +10,6 @@
 
 #include <map>
 
-using CitizenMap = std::map<CitizenName, ICitizen>;
 
 class Town
 {

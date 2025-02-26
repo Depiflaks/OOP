@@ -6,16 +6,16 @@
 
 #include <iostream>
 
-CitizenHomer::CitizenHomer(Bank& bank, CitizenMap& citizens, Money cash)
+CitizenHomer::CitizenHomer(Bank& bank, CitizenMap& citizens, const Money cash)
 	: Actor(bank, cash)
-	, m_citizens(citizens)
 {
+	m_citizens = citizens;
 }
 
 void CitizenHomer::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	ICitizen::ExecuteWithErrorHandling();
+	Citizen::ExecuteWithErrorHandling();
 }
 
 void CitizenHomer::Execute()
@@ -27,6 +27,8 @@ void CitizenHomer::Execute()
 
 void CitizenHomer::TransferMoneyToMarge(Money amount)
 {
+	CheckCitizenExist(CitizenName::margeSimpson);
+	auto marge = m_citizens.find(CitizenName::margeSimpson);
 
 }
 

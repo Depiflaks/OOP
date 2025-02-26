@@ -8,7 +8,13 @@
 
 #include <iostream>
 
-void ICitizen::ExecuteWithErrorHandling()
+Citizen::Citizen(const CitizenName name, CitizenMap& citizens)
+	: m_name(name)
+	, m_citizens(citizens)
+{
+}
+
+void Citizen::ExecuteWithErrorHandling()
 {
 	try
 	{
@@ -28,7 +34,13 @@ void ICitizen::ExecuteWithErrorHandling()
 	}
 }
 
-void ICitizen::CheckCitizenExist(CitizenName citizen)
+Citizen Citizen::FindCitizen(CitizenName citizen)
+{
+	CheckCitizenExist(citizen);
+	return m_citizens[citizen];
+}
+
+void Citizen::CheckCitizenExist(CitizenName citizen)
 {
 	if (!m_citizens.contains(citizen))
 		throw CitizenNotFoundException{ "citizen " + getName(citizen) + "not found" };

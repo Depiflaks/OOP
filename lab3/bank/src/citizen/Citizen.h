@@ -5,6 +5,7 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
+#include "../actor/Actor.h"
 #include "../town/Town.h"
 
 class CitizenNotFoundException final : public std::out_of_range
@@ -14,21 +15,21 @@ public:
 	~CitizenNotFoundException()() override = default;
 };
 
-class ICitizen
+class Citizen
 {
 public:
+	explicit Citizen(CitizenName name, CitizenMap& citizens);
 	virtual void ExecuteWithErrorHandling();
-	virtual ~ICitizen() = default;
+	virtual ~Citizen() = default;
 
 protected:
-	const CitizenName m_name{ CitizenName::homerSimpson };
-	CitizenMap& m_citizens{};
 
-	explicit ICitizen() = default;
+	explicit Citizen() = default;
+	Citizen FindCitizen(CitizenName citizen);
 
 private:
-	virtual void Execute() = 0;
-	void CheckCitizenExist(CitizenName citizen);
+	void Execute();
+	static void CheckCitizenExist(CitizenName citizen);
 };
 
 #endif // SCENARIO_H

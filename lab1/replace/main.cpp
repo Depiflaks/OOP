@@ -32,8 +32,8 @@ ReplaceConfig ParseArguments(int argc, char* argv[]);
 void Replace(const ReplaceConfig& config);
 void PrintHelp();
 void AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2);
-void DecodeHtml(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream);
-void DecodeHtmlLine(const ReplaceConfig& config, std::string& line);
+void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream);
+void ReplaceInLine(const ReplaceConfig& config, std::string& line);
 
 int main(const int argc, char* argv[])
 {
@@ -108,7 +108,7 @@ void Replace(const ReplaceConfig& config)
 	switch (config.type)
 	{
 	case SourceType::standard:
-		DecodeHtml(config, std::cin, std::cout);
+		ReplaceInStream(config, std::cin, std::cout);
 		break;
 	case SourceType::files:
 		std::ifstream inFile;
@@ -117,12 +117,12 @@ void Replace(const ReplaceConfig& config)
 		outFile.open(config.outFilePath);
 		if (!inFile || !outFile)
 			throw std::runtime_error("Error opening files");
-		DecodeHtml(config, inFile, outFile);
+		ReplaceInStream(config, inFile, outFile);
 		break;
 	}
 }
 
-void DecodeHtml(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream)
+void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream)
 {
 	std::string line;
 	bool hasContent = false;
@@ -131,7 +131,7 @@ void DecodeHtml(const ReplaceConfig& config, std::istream& inStream, std::ostrea
 	{
 		hasContent = true;
 		if (!config.search.empty())
-			DecodeHtmlLine(config, line);
+			ReplaceInLine(config, line);
 		outStream << line << "\n";
 	}
 
@@ -139,7 +139,7 @@ void DecodeHtml(const ReplaceConfig& config, std::istream& inStream, std::ostrea
 		outStream << "\n";
 }
 
-void DecodeHtmlLine(const ReplaceConfig& config, std::string& line) {
+void ReplaceInLine(const ReplaceConfig& config, std::string& line) {
 	std::string result;
 	size_t pos = 0, last_pos = 0;
 

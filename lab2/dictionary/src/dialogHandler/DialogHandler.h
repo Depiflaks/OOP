@@ -27,9 +27,6 @@ class DialogHandler
 public:
 	explicit DialogHandler(const std::optional<std::string>& fileName);
 	DialogState HandleMessage(const std::string& message);
-	void ProcessExitCommand();
-	void ProcessWord(const std::string& word);
-	void PrintWordSaved(const std::string& message) const;
 
 private:
 	Dictionary m_dictionary;
@@ -39,8 +36,12 @@ private:
 	std::string m_keyWord;
 	bool m_hasDictionaryChanged{ false };
 	static constexpr std::string_view k_exitCommand{ "..." };
+	static constexpr char k_saveConfirmationChar = 'y';
 
 	void ProcessWordOrCommand(const std::string& message);
+	void ProcessExitCommand();
+	void ProcessWord(const std::string& word);
+	void PrintWordSaved(const std::string& message) const;
 	void ProcessTranslation(const std::string& message);
 	void ProcessSaveConfirmation(const std::string& message);
 	void ProcessFileName(const std::string& message);

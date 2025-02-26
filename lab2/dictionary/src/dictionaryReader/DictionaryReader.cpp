@@ -4,6 +4,8 @@
 
 #include "DictionaryReader.h"
 
+#include "../translationSet/TranslationSet.h"
+
 #include <cassert>
 #include <fstream>
 #include <optional>
@@ -15,24 +17,52 @@ DictionaryReader::DictionaryReader(std::optional<std::string> fileName)
 {
 }
 
-DictionaryType DictionaryReader::ReadData() const
+void DictionaryReader::ReadData(Dictionary& dict) const
 {
 	assert(m_fileName != std::nullopt);
 	std::ifstream file(*m_fileName);
-	AssertFileCouldBeOpened(file);
-	DictionaryType data;
-	// file >> data;
-	AssertFileNotEmpty(file);
-	AssertExpectedFileData(file);
-	return data;
+	// AssertFileCouldBeOpened(file);
+	LoadFromStream(file, dict);
+	// AssertFileNotEmpty(file);
 }
 
-void DictionaryReader::WriteData(const DictionaryType& data) const
+void DictionaryReader::WriteData(Dictionary& dict) const
 {
 	assert(m_fileName != std::nullopt);
-	std::ifstream file(*m_fileName, std::ios::trunc);
-	AssertFileCouldBeOpened(file);
-	// file << data;
+	std::ofstream file(*m_fileName, std::ios::trunc);
+	SaveToStream(file, dict);
+}
+
+void DictionaryReader::LoadFromStream(std::istream& input, Dictionary& dict)
+{
+	std::string line;
+	while (std::getline(input, line))
+	{
+		if (line.empty() || line[0] == '#')
+			continue;
+
+		const size_t delimiterPos = line.find('=');
+		if (delimiterPos == std::string::npos)
+			continue;
+
+		const std::string key = line.substr(0, delimiterPos);
+		const std::string valuesStr = line.substr(delimiterPos + 1);
+
+		auto translations = TranslationSet::ParseStringToTranslationSet(valuesStr);
+		dict.Store(key, translations);
+	}
+}
+
+void DictionaryReader::SaveToStream(std::ofstream& output, const Dictionary& dict) const
+{
+	const DictionaryType& data = dict.GetDictionary();
+
+	for (const auto& [key, translations] : data)
+	{
+		output << key << '='
+			   << TranslationSet::FormatTranslationSet(translations)
+			   << '\n';
+	}
 }
 
 bool DictionaryReader::IsFileNameEmpty() const

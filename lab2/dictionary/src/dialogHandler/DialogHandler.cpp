@@ -15,14 +15,10 @@
 DialogHandler::DialogHandler(const std::optional<std::string>& fileName)
 	: m_dictionaryReader(DictionaryReader{ fileName })
 {
-	if (m_dictionaryReader.IsFileNameEmpty())
+	m_dictionary = Dictionary();
+	if (!m_dictionaryReader.IsFileNameEmpty())
 	{
-		m_dictionary = Dictionary();
-	}
-	else
-	{
-		const auto data = m_dictionaryReader.ReadData();
-		m_dictionary = Dictionary(data);
+		m_dictionaryReader.ReadData(m_dictionary);
 	}
 }
 
@@ -107,7 +103,7 @@ void DialogHandler::ProcessTranslation(const std::string& message)
 
 void DialogHandler::ProcessSaveConfirmation(const std::string& message)
 {
-	if (!message.empty() && std::tolower(message[0]) == 'y')
+	if (!message.empty() && std::tolower(message[0]) == k_saveConfirmationChar)
 	{
 		if (m_dictionaryReader.IsFileNameEmpty())
 		{
@@ -123,7 +119,7 @@ void DialogHandler::ProcessSaveConfirmation(const std::string& message)
 
 void DialogHandler::SaveDictionary()
 {
-	m_dictionaryReader.WriteData(m_dictionary.GetDictionary());
+	m_dictionaryReader.WriteData(m_dictionary);
 	m_state = DialogState::exit;
 }
 

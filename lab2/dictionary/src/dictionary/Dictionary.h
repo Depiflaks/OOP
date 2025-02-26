@@ -20,7 +20,7 @@ public:
 	void Store(const std::string& key, const std::set<std::string>& translations);
 	std::optional<std::set<std::string>> Find(const std::string& key);
 
-	DictionaryType GetDictionary() const;
+	[[nodiscard]] DictionaryType GetDictionary() const;
 
 private:
 	DictionaryType m_dictionary{};

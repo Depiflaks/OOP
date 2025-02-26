@@ -6,9 +6,9 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cctype>
 #include <stdexcept>
 #include <utility>
-#include <cctype>
 
 Dictionary::Dictionary(DictionaryType dictionary)
 	: m_dictionary(std::move(dictionary))
@@ -24,6 +24,9 @@ void Dictionary::Store(
 	const std::string& key,
 	const std::set<std::string>& translations)
 {
+	AssertEmptyKey(key);
+	AssertEmptyTranslationSet(translations);
+	AssertTranslationContainsEmptyLines(translations);
 	const auto lowerKey = ToLower(key);
 	const auto lowerTranslations = ToLowerSet(translations);
 	InsertWords(lowerKey, lowerTranslations);
@@ -33,33 +36,34 @@ void Dictionary::Store(
 
 void Dictionary::InsertWords(const std::string& key, const std::set<std::string>& translations)
 {
-	AssertEmptyKey(key);
-	AssertEmptyTranslationSet(translations);
-	AssertTranslationContainsEmptyLines(translations);
 	const auto it = m_dictionary.find(key);
 	if (it == m_dictionary.end())
 		m_dictionary[key] = {};
 	m_dictionary[key].insert(translations.begin(), translations.end());
 }
 
-std::string Dictionary::ToLower(const std::string& str) {
-    std::string result;
-    result.reserve(str.size());
+std::string Dictionary::ToLower(const std::string& str)
+{
+	std::string result;
+	result.reserve(str.size());
 
-    for (const unsigned char c : str) {
-        result.push_back(std::tolower(c));
-    }
-    return result;
+	for (const unsigned char c : str)
+	{
+		result.push_back(std::tolower(c));
+	}
+	return result;
 }
 
-std::set<std::string> Dictionary::ToLowerSet(const std::set<std::string>& input) {
-    std::set<std::string> result;
+std::set<std::string> Dictionary::ToLowerSet(const std::set<std::string>& input)
+{
+	std::set<std::string> result;
 
-    for (const auto& str : input) {
-        result.insert(ToLower(str));
-    }
+	for (const auto& str : input)
+	{
+		result.insert(ToLower(str));
+	}
 
-    return result;
+	return result;
 }
 
 std::optional<std::set<std::string>> Dictionary::Find(const std::string& key)

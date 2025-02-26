@@ -28,13 +28,6 @@ TEST(GetPositiveSumTest, NegativeArray)
 	EXPECT_EQ(GetPositiveSum(numbers), 2);
 }
 
-// todo: не нужна
-TEST(GetPositiveSumTest, HandlesOverflow) {
-	std::vector<double> largeNumbers = {std::numeric_limits<double>::max(), std::numeric_limits<double>::max()};
-
-	EXPECT_EXIT(GetPositiveSum(largeNumbers), ::testing::ExitedWithCode(1), "Overflow detected!");
-}
-
 TEST(GetPositiveCountTest, EmptyArray)
 {
 	std::vector<double> numbers = {};
@@ -53,6 +46,30 @@ TEST(GetPositiveCountTest, NegativeArray)
 	EXPECT_EQ(GetPositiveCount(numbers), 0);
 	numbers = {-1, 2, -3};
 	EXPECT_EQ(GetPositiveCount(numbers), 1);
+}
+
+TEST(SortNumbersTest, EmptyArray)
+{
+	std::vector<double> numbers = {};
+	SortNumbers(numbers);
+	CompareArrays(numbers, {});
+}
+
+TEST(SortNumbersTest, IntArray)
+{
+	std::vector<double> numbers = {3, 2, 1};
+	SortNumbers(numbers);
+	CompareArrays(numbers, {1, 2, 3});
+}
+
+TEST(SortNumbersTest, NegativeArray)
+{
+	std::vector<double> numbers = {-1, -2, -3};
+	SortNumbers(numbers);
+	CompareArrays(numbers, {-3, -2, -1});
+	numbers = {-1, 2, -3};
+	SortNumbers(numbers);
+	CompareArrays(numbers, {-3, -1, 2});
 }
 
 TEST(ReadNumbersTest, HandlesValidInput)
@@ -119,43 +136,12 @@ TEST(ProcessNumbersTest, HandlesEmptyVector)
 	CompareArrays(numbers, {});
 }
 
-TEST(ShiftByPositiveMeanTest, HandlesInvalidInput)
-{
-	TestShiftByPositiveMean("files/1/i.txt", "files/1/o.txt");
-	TestShiftByPositiveMean("files/5/i.txt", "files/5/o.txt");
-}
-
-TEST(ShiftByPositiveMeanTest, HandlesValidInput)
-{
-	TestShiftByPositiveMean("files/2/i.txt", "files/2/o.txt");
-	TestShiftByPositiveMean("files/3/i.txt", "files/3/o.txt");
-	TestShiftByPositiveMean("files/4/i.txt", "files/4/o.txt");
-}
-
 void CompareArrays(const std::vector<double>& result, const std::vector<double>& expected)
 {
 	ASSERT_EQ(result.size(), expected.size());
 	for (size_t i = 0; i < result.size(); ++i)
 	{
 		EXPECT_NEAR(result[i], expected[i], 1e-3);
-	}
-}
-
-void TestShiftByPositiveMean(const std::string& inputFile, const std::string& expectedOutputFile)
-{
-	std::ifstream input(inputFile);
-	std::ifstream expectedOutput(expectedOutputFile);
-	std::stringstream output;
-
-	std::cin.rdbuf(input.rdbuf());
-	std::cout.rdbuf(output.rdbuf());
-
-	ShiftByPositiveMean();
-
-	std::string expectedLine, outputLine;
-	while (std::getline(expectedOutput, expectedLine) && std::getline(output, outputLine))
-	{
-		EXPECT_EQ(outputLine, expectedLine);
 	}
 }
 

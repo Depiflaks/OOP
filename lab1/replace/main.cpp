@@ -34,7 +34,6 @@ void PrintHelp();
 void AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2);
 void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream);
 void ReplaceInLine(const ReplaceConfig& config, std::string& line);
-std::string CustomReplace(const std::string& str, size_t pos, size_t length, const std::string& replacement);
 
 int main(const int argc, char* argv[])
 {

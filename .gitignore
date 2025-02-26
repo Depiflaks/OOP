@@ -4,5 +4,5 @@ cmake-build-debug/
 main
 test_*
 Test*
-Test*.*
+!Test*.*
 !test_*.*

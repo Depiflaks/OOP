@@ -16,13 +16,19 @@ class Dictionary
 public:
 	explicit Dictionary(DictionaryType dictionary);
 	explicit Dictionary();
-	void StoreReverseTranslation(const std::string& key, const std::set<std::string>& translations);
+
 	void Store(const std::string& key, const std::set<std::string>& translations, bool withReverseRecording = true);
-	std::optional<std::set<std::string>> Get(const std::string& key);
+	std::optional<std::set<std::string>> Find(const std::string& key);
+
 	DictionaryType GetDictionary() const;
+
+	static void AssertEmptyKey(const std::string& key);
+	static void AssertEmptyTranslationSet(const std::set<std::string>& translations);
+	static void AssertTranslationContainsEmptyLines(const std::set<std::string>& translations);
 
 private:
 	DictionaryType m_dictionary{};
+	void StoreReverseTranslation(const std::string& key, const std::set<std::string>& translations);
 };
 
 #endif // DICTIONARY_H

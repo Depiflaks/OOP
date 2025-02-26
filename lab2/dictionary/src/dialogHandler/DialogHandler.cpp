@@ -75,7 +75,7 @@ void DialogHandler::ProcessExitCommand()
 
 void DialogHandler::ProcessWord(const std::string& word)
 {
-	const auto maybeTranslations = m_dictionary.Get(word);
+	const auto maybeTranslations = m_dictionary.Find(word);
 	if (maybeTranslations != std::nullopt)
 	{
 		const auto stringValue = TranslationSet::FormatTranslationSet(*maybeTranslations);

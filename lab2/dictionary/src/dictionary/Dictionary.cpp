@@ -4,6 +4,9 @@
 
 #include "Dictionary.h"
 
+#include <algorithm>
+#include <cassert>
+#include <stdexcept>
 #include <utility>
 
 Dictionary::Dictionary(DictionaryType dictionary)
@@ -21,6 +24,9 @@ void Dictionary::Store(
 	const std::set<std::string>& translations,
 	const bool withReverseRecording)
 {
+	AssertEmptyKey(key);
+	AssertEmptyTranslationSet(translations);
+	AssertTranslationContainsEmptyLines(translations);
 	const auto it = m_dictionary.find(key);
 	if (it == m_dictionary.end())
 		m_dictionary[key] = {};
@@ -37,13 +43,31 @@ void Dictionary::StoreReverseTranslation(const std::string& key, const std::set<
 	}
 }
 
-std::optional<std::set<std::string>> Dictionary::Get(const std::string& key)
+std::optional<std::set<std::string>> Dictionary::Find(const std::string& key)
 {
+	AssertEmptyKey(key);
 	const auto it = m_dictionary.find(key);
 	if (it == m_dictionary.end())
 		return std::nullopt;
-	else
-		return it->second;
+	return it->second;
+}
+
+void Dictionary::AssertEmptyKey(const std::string& key)
+{
+	if (key.empty())
+		throw std::invalid_argument("Key must not be empty");
+}
+
+void Dictionary::AssertEmptyTranslationSet(const std::set<std::string>& translations)
+{
+	if (translations.empty())
+		throw std::invalid_argument("Translation set is empty");
+}
+
+void Dictionary::AssertTranslationContainsEmptyLines(const std::set<std::string>& translations)
+{
+	if (std::find(translations.begin(), translations.end(), "") != translations.end())
+		throw std::invalid_argument("Translation set contains empty line");
 }
 
 DictionaryType Dictionary::GetDictionary() const

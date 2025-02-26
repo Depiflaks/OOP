@@ -140,17 +140,16 @@ void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::o
 		outStream << "\n";
 }
 
-void ReplaceInLine(const ReplaceConfig& config, std::string& line)
-{
-	size_t pos = 0;
-	while ((pos = line.find(config.search, pos)) != std::string::npos)
-	{
-		line = CustomReplace(line, pos, config.search.length(), config.replace);
-		pos += config.replace.length();
-	}
-}
+void ReplaceInLine(const ReplaceConfig& config, std::string& line) {
+	std::string result;
+	size_t pos = 0, last_pos = 0;
 
-std::string CustomReplace(const std::string& str, size_t pos, size_t length, const std::string& replacement)
-{
-	return str.substr(0, pos) + replacement + str.substr(pos + length);
+	while ((pos = line.find(config.search, last_pos)) != std::string::npos) {
+		result.append(line, last_pos, pos - last_pos);
+		result.append(config.replace);
+		last_pos = pos + config.search.length();
+	}
+
+	result.append(line, last_pos, line.size() - last_pos);
+	line = std::move(result);
 }

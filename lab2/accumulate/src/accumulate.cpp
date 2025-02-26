@@ -10,6 +10,10 @@
 #include <sstream>
 #include <vector>
 
+bool ReadNumbers(std::vector<double>& numbers);
+double GetPositiveSum(std::vector<double>& numbers);
+int GetPositiveCount(std::vector<double>& numbers);
+
 bool ReadNumbers(std::vector<double>& numbers)
 {
 	std::string line;

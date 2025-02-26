@@ -5,7 +5,8 @@
 #include <iostream>
 
 int main()
-{	std::vector<double> numbers;
+{
+	std::vector<double> numbers;
 
 	if (!ReadNumbers(numbers))
 	{

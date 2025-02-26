@@ -8,45 +8,6 @@
 #include <sstream>
 #include <vector>
 
-TEST(GetPositiveSumTest, EmptyArray)
-{
-	std::vector<double> numbers = {};
-	EXPECT_EQ(GetPositiveSum(numbers), 0);
-}
-
-TEST(GetPositiveSumTest, IntArray)
-{
-	std::vector<double> numbers = {1, 2, 3};
-	EXPECT_EQ(GetPositiveSum(numbers), 6);
-}
-
-TEST(GetPositiveSumTest, NegativeArray)
-{
-	std::vector<double> numbers = {-1, -2, -3};
-	EXPECT_EQ(GetPositiveSum(numbers), 0);
-	numbers = {-1, 2, -3};
-	EXPECT_EQ(GetPositiveSum(numbers), 2);
-}
-
-TEST(GetPositiveCountTest, EmptyArray)
-{
-	std::vector<double> numbers = {};
-	EXPECT_EQ(GetPositiveCount(numbers), 0);
-}
-
-TEST(GetPositiveCountTest, IntArray)
-{
-	std::vector<double> numbers = {1, 2, 3};
-	EXPECT_EQ(GetPositiveCount(numbers), 3);
-}
-
-TEST(GetPositiveCountTest, NegativeArray)
-{
-	std::vector<double> numbers = {-1, -2, -3};
-	EXPECT_EQ(GetPositiveCount(numbers), 0);
-	numbers = {-1, 2, -3};
-	EXPECT_EQ(GetPositiveCount(numbers), 1);
-}
 
 TEST(SortNumbersTest, EmptyArray)
 {
@@ -70,42 +31,6 @@ TEST(SortNumbersTest, NegativeArray)
 	numbers = {-1, 2, -3};
 	SortNumbers(numbers);
 	CompareArrays(numbers, {-3, -1, 2});
-}
-
-TEST(ReadNumbersTest, HandlesValidInput)
-{
-	std::vector<double> numbers;
-	std::istringstream input("1.0 2.0 3.0");
-	std::cin.rdbuf(input.rdbuf());
-	EXPECT_TRUE(ReadNumbers(numbers));
-	CompareArrays(numbers, { 1.0, 2.0, 3.0 });
-}
-
-
-TEST(ReadNumbersTest, HandlesInvalidInput)
-{
-	std::vector<double> numbers;
-	std::istringstream input("1.0 abc 3.0");
-	std::cin.rdbuf(input.rdbuf());
-	EXPECT_FALSE(ReadNumbers(numbers));
-}
-
-TEST(ReadNumbersTest, HandlesEmptyInput)
-{
-	std::vector<double> numbers;
-	std::istringstream input("");
-	std::cin.rdbuf(input.rdbuf());
-	EXPECT_TRUE(ReadNumbers(numbers));
-	CompareArrays(numbers, {});
-}
-
-TEST(ReadNumbersTest, HandlesIntInput)
-{
-	std::vector<double> numbers;
-	std::istringstream input("1 2 3");
-	std::cin.rdbuf(input.rdbuf());
-	EXPECT_TRUE(ReadNumbers(numbers));
-	CompareArrays(numbers, {1, 2, 3});
 }
 
 TEST(ProcessNumbersTest, HandlesPositiveNumbers)

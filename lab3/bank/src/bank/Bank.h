@@ -16,6 +16,15 @@ public:
 	using runtime_error::runtime_error;
 };
 
+class NegativeTransferAmountException final : std::out_of_range
+{
+public:
+	explicit NegativeTransferAmountException()
+		: std::out_of_range("The transfer amount cannot be negative")
+	{
+	}
+};
+
 class Bank
 {
 public:
@@ -85,6 +94,9 @@ public:
 private:
 	Money m_cash;
 	std::map<AccountId, Money> m_accountBalances;
+	AccountId m_lastAccountId;
+
+	static void AssertTransferAmountPositive(Money amount);
 };
 
 #endif // BANK_H

@@ -5,17 +5,21 @@
 #ifndef CITIZEN_DESCRIPTION_H
 #define CITIZEN_DESCRIPTION_H
 
-#include "data/CitizensData.h"
+#include "data/CitizensRegistry.h"
 #include "name/CitizenName.h"
 
 class CitizenDescription
 {
 public:
-	explicit CitizenDescription::CitizenDescription(CitizenName name, CitizensData& citizens);
+	explicit CitizenDescription::CitizenDescription(CitizenName name, CitizensRegistry& citizens);
+
+	const CitizenName getName();
+	const CitizensRegistry& getData();
 
 protected:
 	const CitizenName m_name{ CitizenName::homerSimpson };
-	CitizensData& m_citizens;
+	//todo: contact list
+	CitizensRegistry& m_citizens;
 };
 
 #endif // CITIZEN_DESCRIPTION_H

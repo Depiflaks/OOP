@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-CitizenHomer::CitizenHomer(Bank& bank, CitizensData& citizens, const Money cash)
+CitizenHomer::CitizenHomer(Bank& bank, CitizensRegistry& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::homerSimpson, citizens)
 {

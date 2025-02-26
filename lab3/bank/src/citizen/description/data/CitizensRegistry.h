@@ -2,8 +2,8 @@
 // Created by smmm on 27.03.2025.
 //
 
-#ifndef CITIZENSDATA_H
-#define CITIZENSDATA_H
+#ifndef CITIZENS_REGISTRY_H
+#define CITIZENS_REGISTRY_H
 
 #include "../../citizens/apu/CitizenApu.h"
 #include "../../citizens/bartAndLisa/CitizenBartAndLisa.h"
@@ -14,10 +14,10 @@
 #include "../../citizens/smithers/CitizenSmithers.h"
 #include "../../citizens/snake/CitizenSnake.h"
 
-class CitizensData
+class CitizensRegistry
 {
 public:
-	explicit CitizensData(Bank& bank, Money amount);
+	explicit CitizensRegistry(Bank& bank, Money amount);
 
 	const CitizenHomer& getHomer();
 	const CitizenMarge& getMarge();
@@ -41,4 +41,4 @@ private:
 	const size_t k_citizensCount{ 8 };
 };
 
-#endif // CITIZENSDATA_H
+#endif // CITIZENS_REGISTRY_H

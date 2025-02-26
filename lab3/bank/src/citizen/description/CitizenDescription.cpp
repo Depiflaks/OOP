@@ -4,7 +4,7 @@
 
 #include "CitizenDescription.h"
 
-CitizenDescription::CitizenDescription(const CitizenName name, CitizensData& citizens)
+CitizenDescription::CitizenDescription(const CitizenName name, CitizensRegistry& citizens)
 	: m_name(name)
 	, m_citizens(citizens)
 {

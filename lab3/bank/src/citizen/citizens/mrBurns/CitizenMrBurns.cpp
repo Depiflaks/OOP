@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-CitizenMrBurns::CitizenMrBurns(Bank& bank, CitizensData& citizens, const Money cash)
+CitizenMrBurns::CitizenMrBurns(Bank& bank, CitizensRegistry& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::mrBurns, citizens)
 {

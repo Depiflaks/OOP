@@ -8,14 +8,14 @@
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/data/CitizensData.h"
+#include "../../description/data/CitizensRegistry.h"
 
 class CitizenMarge final : public ICitizen
 	, protected Actor
 	, protected CitizenDescription
 {
 public:
-	CitizenMarge(Bank& bank, CitizensData& citizens, Money cash);
+	CitizenMarge(Bank& bank, CitizensRegistry& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
 	void PlanExpenses() override;
 	void PlanExpenses(Money apuAmount);

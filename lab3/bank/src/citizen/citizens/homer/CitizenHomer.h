@@ -8,7 +8,7 @@
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/data/CitizensData.h"
+#include "../../description/data/CitizensRegistry.h"
 
 class CitizenHomer final : public ICitizen
 	, protected Actor

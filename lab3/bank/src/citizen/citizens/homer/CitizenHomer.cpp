@@ -18,30 +18,46 @@ void CitizenHomer::ExecuteWithErrorHandling()
 	ICitizen::ExecuteWithErrorHandling();
 }
 
+void CitizenHomer::PlanExpenses()
+{
+}
+
+void CitizenHomer::PlanExpenses(
+	const Money margeAmount,
+	const Money bartAmount,
+	const Money lisaAmount,
+	const Money electricityAmount)
+{
+	m_amountToMarge = margeAmount;
+	m_amountForElectricity = electricityAmount;
+	m_amountToBart = bartAmount;
+	m_amountToLisa = lisaAmount;
+}
+
 void CitizenHomer::Execute()
 {
-	TransferMoneyToMarge(50);
-	PayForElectricity(10);
-	GiveMoneyToChildren(5, 5);
+	TransferMoneyToMarge();
+	PayForElectricity();
+	GiveMoneyToChildren();
 }
 
-void CitizenHomer::TransferMoneyToMarge(const Money amount) const
+void CitizenHomer::TransferMoneyToMarge() const
 {
 	const Actor marge = FindCitizen(CitizenName::margeSimpson);
-	TransferMoney(marge, amount);
+	TransferMoney(marge, m_amountToMarge);
 }
 
-void CitizenHomer::PayForElectricity(Money amount) const
+void CitizenHomer::PayForElectricity() const
 {
 	const Actor mrBurns = FindCitizen(CitizenName::mrBurns);
-	TransferMoney(mrBurns, amount);
+	TransferMoney(mrBurns, m_amountForElectricity);
 }
 
-void CitizenHomer::GiveMoneyToChildren(Money bartAmount, Money lisaAmount)
+void CitizenHomer::GiveMoneyToChildren()
 {
 	Actor bart = FindCitizen(CitizenName::bartSimpson);
 	Actor lisa = FindCitizen(CitizenName::lisaSimpson);
-	WithdrawMoney(bartAmount + lisaAmount);
-	HandOverMoney(bart, bartAmount);
-	HandOverMoney(lisa, lisaAmount);
+	WithdrawMoney(m_amountToBart + m_amountToLisa);
+	HandOverMoney(bart, m_amountToBart);
+	HandOverMoney(lisa, m_amountToLisa);
 }

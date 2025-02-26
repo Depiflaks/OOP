@@ -19,6 +19,7 @@ class ICitizen
 {
 public:
 	virtual void ExecuteWithErrorHandling();
+	virtual void PlanExpenses() = 0;
 	virtual ~ICitizen() = default;
 
 protected:

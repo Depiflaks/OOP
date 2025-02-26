@@ -15,12 +15,19 @@ class CitizenHomer final : public ICitizen
 public:
 	CitizenHomer(Bank& bank, CitizenMap& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
+	void PlanExpenses() override;
+	void PlanExpenses(Money margeAmount, Money bartAmount, Money lisaAmount, Money electricityAmount);
 
 private:
+	Money m_amountToMarge{ 0 };
+	Money m_amountToLisa{ 0 };
+	Money m_amountToBart{ 0 };
+	Money m_amountForElectricity{ 0 };
+
 	void Execute() override;
-	void TransferMoneyToMarge(Money amount) const;
-	void PayForElectricity(Money amount) const;
-	void GiveMoneyToChildren(Money bartAmount, Money lisaAmount);
+	void TransferMoneyToMarge() const;
+	void PayForElectricity() const;
+	void GiveMoneyToChildren();
 };
 
 #endif // CITIZEN_HOMER_H

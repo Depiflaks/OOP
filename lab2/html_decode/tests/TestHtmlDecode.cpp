@@ -2,7 +2,7 @@
 // Created by smmm on 03.03.2025.
 //
 
-#include "../src/Replace.h"
+#include "../src/HtmlDecode.h"
 #include <gtest/gtest.h>
 #include <map>
 #include <string>

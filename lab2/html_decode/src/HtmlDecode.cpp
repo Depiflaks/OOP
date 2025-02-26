@@ -2,15 +2,15 @@
 // Created by smmm on 03.03.2025.
 //
 
-#include "Replace.h"
+#include "HtmlDecode.h"
 
 #include <algorithm>
 #include <fstream>
 #include <map>
 #include <memory>
 
-constexpr char htmlEntityStart = '&';
-constexpr char htmlEntityEnd = ';';
+constexpr char htmlEntityStartChar = '&';
+constexpr char htmlEntityEndChar = ';';
 
 std::map<std::string, std::string> rule{
 	{ "quot", "\"" },
@@ -36,21 +36,23 @@ void DecodeHtmlLine(std::string& line)
 {
 	const size_t maxHtmlEntitySize = calculateMaxHtmlEntitySize();
 	std::string result;
-	size_t lastPos = 0, entityStart;
+	size_t cursor = 0;
+	size_t entityStart = 0;
 
-	while ((entityStart = line.find(htmlEntityStart, lastPos)) != std::string::npos)
+	while ((entityStart = line.find(htmlEntityStartChar, cursor)) != std::string::npos)
 	{
-		result.append(line, lastPos, entityStart - lastPos);
-		const size_t entityEnd = line.find(htmlEntityEnd, entityStart + 1);
+		result.append(line, cursor, entityStart - cursor);
+		const size_t entityEnd = line.find(htmlEntityEndChar, entityStart + 1);
+
 		if (entityEnd == std::string::npos)
 		{
-			lastPos = entityStart;
+			cursor = entityStart;
 			break;
 		}
 		if (entityEnd - entityStart > maxHtmlEntitySize)
 		{
-			result.append(line, lastPos, entityStart - lastPos + 1);
-			lastPos = entityStart + 1;
+			result.append(line, cursor, entityStart - cursor + 1);
+			cursor = entityStart + 1;
 			continue;
 		}
 
@@ -61,10 +63,10 @@ void DecodeHtmlLine(std::string& line)
 		else
 			result.append(line, entityStart, entityEnd - entityStart + 1);
 
-		lastPos = entityEnd + 1;
+		cursor = entityEnd + 1;
 	}
 
-	result.append(line, lastPos, line.size() - lastPos);
+	result.append(line, cursor, line.size() - cursor);
 
 	line = std::move(result);
 }

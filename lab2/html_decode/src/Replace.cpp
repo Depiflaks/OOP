@@ -2,7 +2,9 @@
 // Created by smmm on 03.03.2025.
 //
 
-#include "replace.h"
+#include "Replace.h"
+
+#include <algorithm>
 #include <fstream>
 #include <map>
 #include <memory>
@@ -18,6 +20,8 @@ std::map<std::string, std::string> rule{
 	{ "amp", "&" },
 };
 
+size_t calculateMaxHtmlEntitySize();
+
 void DecodeHtml(std::istream& inStream, std::ostream& outStream)
 {
 	std::string line;
@@ -30,6 +34,7 @@ void DecodeHtml(std::istream& inStream, std::ostream& outStream)
 
 void DecodeHtmlLine(std::string& line)
 {
+	const size_t maxHtmlEntitySize = calculateMaxHtmlEntitySize();
 	std::string result;
 	size_t lastPos = 0, entityStart;
 
@@ -37,11 +42,16 @@ void DecodeHtmlLine(std::string& line)
 	{
 		result.append(line, lastPos, entityStart - lastPos);
 		const size_t entityEnd = line.find(htmlEntityEnd, entityStart + 1);
-
 		if (entityEnd == std::string::npos)
 		{
 			lastPos = entityStart;
 			break;
+		}
+		if (entityEnd - entityStart > maxHtmlEntitySize)
+		{
+			result.append(line, lastPos, entityStart - lastPos + 1);
+			lastPos = entityStart + 1;
+			continue;
 		}
 
 		std::string_view entityName(line.data() + entityStart + 1, entityEnd - entityStart - 1);
@@ -57,4 +67,13 @@ void DecodeHtmlLine(std::string& line)
 	result.append(line, lastPos, line.size() - lastPos);
 
 	line = std::move(result);
+}
+
+size_t calculateMaxHtmlEntitySize()
+{
+	const auto [maxHtmlEntityName, _] = *std::max_element(
+		rule.begin(), rule.end(), [](const auto& lhs, const auto& rhs) -> bool {
+			return lhs.first.size() - rhs.first.size() > 0;
+		});
+	return maxHtmlEntityName.length() + 2;
 }

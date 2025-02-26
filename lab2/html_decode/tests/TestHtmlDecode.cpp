@@ -2,7 +2,7 @@
 // Created by smmm on 03.03.2025.
 //
 
-#include "../src/replace.h"
+#include "../src/Replace.h"
 #include <gtest/gtest.h>
 #include <map>
 #include <string>
@@ -47,6 +47,27 @@ TEST(HtmlDecodeTest, ReplacementAtBoundaries)
     std::string line = "&quot;Start and end&quot;";
     DecodeHtmlLine(line);
     EXPECT_EQ(line, "\"Start and end\"");
+}
+
+TEST(HtmlDecodeTest, GreedyReplacement)
+{
+    std::string line = "&&&    &gt;          ;;;;";
+    DecodeHtmlLine(line);
+    EXPECT_EQ(line, "&&&    >          ;;;;");
+}
+
+TEST(HtmlDecodeTest, TagInAnotherTag)
+{
+    std::string line = "&amp;quot;";
+    DecodeHtmlLine(line);
+    EXPECT_EQ(line, "&quot;");
+}
+
+TEST(HtmlDecodeTest, WrongPattern)
+{
+    std::string line = "&cat;";
+    DecodeHtmlLine(line);
+    EXPECT_EQ(line, "&cat;");
 }
 
 int main(int argc, char** argv)

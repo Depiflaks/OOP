@@ -10,23 +10,24 @@
 using AccountId = unsigned long long;
 using Money = long long;
 
-class BankOperationError : std::runtime_error
+class BankOperationException : std::runtime_error
 {
 public:
 	using runtime_error::runtime_error;
+	~BankOperationException() override = default;
 };
 
-class AccountExistenceException final : BankOperationError
+class AccountExistenceException final : BankOperationException
 {
 public:
-	using BankOperationError::BankOperationError;
+	using BankOperationException::BankOperationException;
 };
 
-class NotEnoughMoneyException final : BankOperationError
+class NotEnoughMoneyException final : BankOperationException
 {
 public:
 	explicit NotEnoughMoneyException()
-		: BankOperationError("Not enough money")
+		: BankOperationException("Not enough money")
 	{
 	}
 };
@@ -46,7 +47,6 @@ public:
 	// Инициализирует монетарную систему. cash — количество денег в наличном обороте
 	// При отрицательном количестве денег, выбрасывается BankOperationError
 	explicit Bank(Money cash);
-	void CheckEnoughMoneyOnExistingAccount(AccountId srcAccountId, Money amount) const;
 
 	Bank(const Bank&) = delete;
 	Bank& operator=(const Bank&) = delete;
@@ -72,7 +72,7 @@ public:
 
 	// Сообщает о количестве денег на указанном счёте
 	// Если указанный счёт отсутствует, выбрасывается исключение BankOperationError
-	Money GetAccountBalance(AccountId accountId) const;
+	[[nodiscard]] Money GetAccountBalance(AccountId account) const;
 
 	// Снимает деньги со счёта. Нельзя снять больше, чем есть на счете
 	// Нельзя снять отрицательное количество денег
@@ -105,17 +105,18 @@ public:
 	// Закрывает указанный счёт.
 	// Возвращает количество денег, которые были на счёте в момент закрытия
 	// Эти деньги переходят в наличный оборот
-	[[nodiscard]] Money CloseAccount(AccountId accountId);
+	[[nodiscard]] Money CloseAccount(AccountId account);
 
 private:
 	Money m_cash;
 	std::map<AccountId, Money> m_accountBalances;
-	AccountId m_lastAccountId;
+	AccountId m_latestAccountId;
 
 	static void CheckTransferAmountPositive(Money amount);
-	void CheckAccountExist(AccountId account_id) const;
-	void CheckAccountDontExist(AccountId account_id) const;
+	void CheckAccountExists(AccountId account) const;
+	void CheckAccountDontExist(AccountId account) const;
 	void CheckEnoughMoneyInCash(Money amount) const;
+	void CheckEnoughMoneyOnExistingAccount(AccountId srcAccountId, Money amount) const;
 };
 
 #endif // BANK_H

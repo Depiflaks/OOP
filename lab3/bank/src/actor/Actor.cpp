@@ -14,6 +14,7 @@ Actor::Actor(Bank& bank, const Money cash)
 Money Actor::GetAccountBalance() const
 {
 	CheckActorHaveAccount(*this);
+
 	return m_bank.GetAccountBalance(*m_accountId);
 }
 
@@ -38,6 +39,7 @@ void Actor::TransferMoney(const Actor& dstActor, const Money amount) const
 {
 	CheckActorHaveAccount(*this);
 	CheckActorHaveAccount(dstActor);
+
 	m_bank.SendMoney(*GetAccountId(), *dstActor.GetAccountId(), amount);
 }
 
@@ -63,6 +65,7 @@ void Actor::DepositMoney(const Money amount)
 {
 	CheckActorHaveAccount(*this);
 	CheckActorHaveEnoughCash(*this, amount);
+
 	m_bank.DepositMoney(*GetAccountId(), amount);
 	m_cashBalance -= amount;
 }
@@ -90,6 +93,7 @@ void Actor::OpenAccount()
 void Actor::CloseAccount()
 {
 	CheckActorHaveAccount(*this);
+
 	const Money amount = m_bank.CloseAccount(*m_accountId);
 	m_cashBalance += amount;
 	m_accountId = std::nullopt;

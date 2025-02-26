@@ -11,6 +11,7 @@ CitizenApu::CitizenApu(Bank& bank, CitizenMap& citizens, const Money cash)
 	, CitizenDescription(CitizenName::apu, citizens)
 {
 	OpenAccount();
+	DepositMoney(cash);
 }
 
 void CitizenApu::ExecuteWithErrorHandling()

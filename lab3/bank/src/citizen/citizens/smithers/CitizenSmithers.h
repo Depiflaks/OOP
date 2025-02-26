@@ -15,7 +15,7 @@ class CitizenSmithers final : public ICitizen
     , protected CitizenDescription
 {
 public:
-    CitizenSmithers(Bank& bank, CitizenMap& citizens, CitizenMrBurns& mrBurns, Money cash);
+    CitizenSmithers(Bank& bank, CitizenMap& citizens, Money cash);
     void ExecuteWithErrorHandling() override;
     void PlanExpenses() override;
     void PlanExpenses(Money abuAmount, bool shouldNotifyingBoss);
@@ -23,12 +23,10 @@ public:
 private:
     Money m_amountToAbu = 0;
     bool m_shouldNotifyingBoss = true;
-	CitizenMrBurns& m_mrBurns;
 
     void Execute() override;
     void BuyGroceries() const;
     void ChangeAccount();
-	void NotifyAboutNewAccount() const;
 };
 
 

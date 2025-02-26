@@ -11,6 +11,7 @@ CitizenMrBurns::CitizenMrBurns(Bank& bank, CitizenMap& citizens, const Money cas
 	, CitizenDescription(CitizenName::mrBurns, citizens)
 {
 	OpenAccount();
+	DepositMoney(cash);
 }
 
 void CitizenMrBurns::ExecuteWithErrorHandling()
@@ -23,26 +24,34 @@ void CitizenMrBurns::PlanExpenses()
 {
 }
 
-void CitizenMrBurns::PlanExpenses(const Money homerAmount, const Money smithersAmount)
+void CitizenMrBurns::PlanExpenses(
+	const Money homerAmount,
+	const Money smithersAmount,
+	const bool shouldUpdateSmithersId)
 {
 	m_amountToHomer = homerAmount;
 	m_amountToSmithers = smithersAmount;
-}
-
-void CitizenMrBurns::ChangeSmithersAccount(const AccountId newSmithersId)
-{
-	m_smithersId = newSmithersId;
+	m_shouldUpdateSmithersId = shouldUpdateSmithersId;
 }
 
 void CitizenMrBurns::Execute()
 {
 	GiveSalaryToHomer();
+	if (m_shouldUpdateSmithersId)
+		UpdateSmithersAccount();
+	GiveSalaryToSmithers();
 }
 
 void CitizenMrBurns::GiveSalaryToHomer() const
 {
 	const auto homer = FindCitizen(CitizenName::homerSimpson);
 	TransferMoney(homer, m_amountToHomer);
+}
+
+void CitizenMrBurns::UpdateSmithersAccount()
+{
+	const auto smithers = FindCitizen(CitizenName::waylonSmithers);
+	m_smithersId = *smithers.GetAccountId();
 }
 
 void CitizenMrBurns::GiveSalaryToSmithers() const

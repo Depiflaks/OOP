@@ -11,7 +11,6 @@ CitizenNelson::CitizenNelson(Bank& bank, CitizenMap& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::nelson, citizens)
 {
-	OpenAccount();
 }
 
 void CitizenNelson::ExecuteWithErrorHandling()

@@ -11,6 +11,7 @@ CitizenSnake::CitizenSnake(Bank& bank, CitizenMap& citizens, const Money cash)
 	, CitizenDescription(CitizenName::snake, citizens)
 {
 	OpenAccount();
+	DepositMoney(cash);
 }
 
 void CitizenSnake::ExecuteWithErrorHandling()

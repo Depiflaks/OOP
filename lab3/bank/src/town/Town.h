@@ -9,12 +9,21 @@
 
 #include <vector>
 
+class EconomicIntegrityException final : public std::runtime_error
+{
+public:
+	explicit EconomicIntegrityException()
+		: std::runtime_error("error: economic integrity is compromised")
+	{
+	}
+};
+
 class Town
 {
 public:
 	explicit Town(Money startAmount);
-	void ExecuteSimulation(int stepCount);
-	void InitializingTheSpendingPlan();
+	void ExecuteSimulation(size_t stepCount);
+	void InitializeTheSpendingPlan();
 
 private:
 	Money m_startAmount{ 0 };
@@ -31,7 +40,7 @@ private:
 		CitizenName::waylonSmithers,
 	};
 
-	void ExecuteSimulationStep();
+	static static void ExecuteSimulationStep(const std::unique_ptr<ICitizen>& citizen);
 	void CheckTotalAmount();
 };
 

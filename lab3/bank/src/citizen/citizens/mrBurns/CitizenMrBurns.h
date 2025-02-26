@@ -18,16 +18,17 @@ public:
 	CitizenMrBurns(Bank& bank, CitizenMap& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
 	void PlanExpenses() override;
-	void PlanExpenses(Money homerAmount, Money smithersAmount);
-	void ChangeSmithersAccount(AccountId newSmithersId);
+	void PlanExpenses(Money homerAmount, Money smithersAmount, bool shouldUpdateSmithersId);
 
 private:
 	Money m_amountToHomer{ 0 };
 	Money m_amountToSmithers{ 0 };
 	AccountId m_smithersId{ 0 };
+	bool m_shouldUpdateSmithersId{ false };
 
 	void Execute() override;
 	void GiveSalaryToHomer() const;
+	void UpdateSmithersAccount();
 	void GiveSalaryToSmithers() const;
 };
 

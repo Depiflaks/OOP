@@ -8,7 +8,7 @@
 #include "../name/CitizenName.h"
 
 #include <map>
+#include <memory>
+using CitizenMap = std::map<CitizenName, std::unique_ptr<ICitizen>>;
 
-using CitizenMap = std::map<CitizenName, Actor>;
-
-#endif //CITIZEN_MAP_H
+#endif // CITIZEN_MAP_H

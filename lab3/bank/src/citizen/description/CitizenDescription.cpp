@@ -12,8 +12,12 @@ CitizenDescription::CitizenDescription(const CitizenName name, CitizenMap& citiz
 
 Actor& CitizenDescription::FindCitizen(const CitizenName citizen) const
 {
-	CheckCitizenExist(citizen);
-	return m_citizens[citizen];
+    CheckCitizenExist(citizen);
+
+    ICitizen* baseCitizen = m_citizens.at(citizen).get();
+	const auto actor = dynamic_cast<Actor*>(baseCitizen);
+    return *actor;
+}
 }
 
 void CitizenDescription::CheckCitizenExist(const CitizenName citizen) const

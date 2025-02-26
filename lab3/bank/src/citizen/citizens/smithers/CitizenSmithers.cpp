@@ -8,12 +8,12 @@
 
 #include <iostream>
 
-CitizenSmithers::CitizenSmithers(Bank& bank, CitizenMap& citizens, CitizenMrBurns& mrBurns, const Money cash)
+CitizenSmithers::CitizenSmithers(Bank& bank, CitizenMap& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::waylonSmithers, citizens)
-	, m_mrBurns(mrBurns)
 {
 	OpenAccount();
+	DepositMoney(cash);
 }
 
 void CitizenSmithers::ExecuteWithErrorHandling()
@@ -36,20 +36,12 @@ void CitizenSmithers::Execute()
 {
 	ChangeAccount();
 	BuyGroceries();
-	if (m_shouldNotifyingBoss)
-		NotifyAboutNewAccount();
 }
 
 void CitizenSmithers::ChangeAccount()
 {
 	CloseAccount();
 	OpenAccount();
-}
-
-void CitizenSmithers::NotifyAboutNewAccount() const
-{
-	const auto currentAccount = GetAccountId();
-	m_mrBurns.ChangeSmithersAccount(*currentAccount);
 }
 
 void CitizenSmithers::BuyGroceries() const

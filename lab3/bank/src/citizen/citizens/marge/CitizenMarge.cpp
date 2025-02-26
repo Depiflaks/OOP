@@ -11,6 +11,7 @@ CitizenMarge::CitizenMarge(Bank& bank, CitizenMap& citizens, const Money cash)
 	, CitizenDescription(CitizenName::margeSimpson, citizens)
 {
 	OpenAccount();
+	DepositMoney(cash);
 }
 
 void CitizenMarge::ExecuteWithErrorHandling()

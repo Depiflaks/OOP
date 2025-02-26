@@ -11,6 +11,7 @@ CitizenHomer::CitizenHomer(Bank& bank, CitizenMap& citizens, const Money cash)
 	, CitizenDescription(CitizenName::homerSimpson, citizens)
 {
 	OpenAccount();
+	DepositMoney(cash);
 }
 
 void CitizenHomer::ExecuteWithErrorHandling()

@@ -131,7 +131,6 @@ TEST(ReplaceTest, DublicatedFiles)
 	EXPECT_ANY_THROW(ExecuteCommand(command));
 }
 
-// todo: тест 111 -> 111111
 void RunPositiveTest(const std::string& filePath)
 {
 	auto paramsMap = ParseTestFile(filePath, expectedParams);

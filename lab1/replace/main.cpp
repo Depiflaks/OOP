@@ -34,6 +34,7 @@ void PrintHelp();
 void AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2);
 void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream);
 void ReplaceInLine(const ReplaceConfig& config, std::string& line);
+std::string CustomReplace(const std::string& str, size_t pos, size_t length, const std::string& replacement);
 
 int main(const int argc, char* argv[])
 {
@@ -144,8 +145,12 @@ void ReplaceInLine(const ReplaceConfig& config, std::string& line)
 	size_t pos = 0;
 	while ((pos = line.find(config.search, pos)) != std::string::npos)
 	{
-		line.replace(pos, config.search.length(), config.replace);
-		// todo: replace написать самому
+		line = CustomReplace(line, pos, config.search.length(), config.replace);
 		pos += config.replace.length();
 	}
+}
+
+std::string CustomReplace(const std::string& str, size_t pos, size_t length, const std::string& replacement)
+{
+	return str.substr(0, pos) + replacement + str.substr(pos + length);
 }

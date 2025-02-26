@@ -14,7 +14,7 @@ std::map<std::string, std::string> rule{
 	{ "quot", "\"" },
 	{ "apos", "\'" },
 	{ "lt", "<" },
-	{ "qt", ">" },
+	{ "gt", ">" },
 	{ "amp", "&" },
 };
 

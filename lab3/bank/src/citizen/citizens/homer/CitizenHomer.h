@@ -15,8 +15,8 @@ public:
 	void ExecuteWithErrorHandling() override;
 
 private:
-	const CitizenName m_name{ CitizenName::homerSimpson };
-	CitizenMap& m_citizens;
+	using ICitizen::m_citizens;
+	using ICitizen::m_name;
 
 	void Execute() override;
 	void TransferMoneyToMarge(Money amount);

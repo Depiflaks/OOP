@@ -16,14 +16,20 @@ void ICitizen::ExecuteWithErrorHandling()
 	}
 	catch (BankOperationException& exception)
 	{
-		std::cout << "error while executing bank operation: " <<  exception.what();
+		std::cout << "error while executing bank operation: " << exception.what();
 	}
 	catch (ActorInteractionException& exception)
 	{
-		std::cout << "error while executing actor operation: " <<  exception.what();
+		std::cout << "error while executing actor operation: " << exception.what();
 	}
 	catch (std::exception& exception)
 	{
 		std::cout << "unexpected error: " << exception.what();
 	}
+}
+
+void ICitizen::CheckCitizenExist(CitizenName citizen)
+{
+	if (!m_citizens.contains(citizen))
+		throw CitizenNotFoundException{ "citizen " + getName(citizen) + "not found" };
 }

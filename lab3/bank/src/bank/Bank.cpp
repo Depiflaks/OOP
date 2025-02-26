@@ -15,8 +15,7 @@ void Bank::SendMoney(const AccountId srcAccountId, const AccountId dstAccountId,
 	AssertAccountExist(srcAccountId);
 	AssertAccountExist(dstAccountId);
 	AssertTransferAmountPositive(amount);
-	if (m_accountBalances.at(srcAccountId) < amount)
-		throw NotEnoughMoneyException();
+	AssertEnoughMoneyOnExistingAccount(srcAccountId, amount);
 	m_accountBalances[srcAccountId] -= amount;
 	m_accountBalances[dstAccountId] += amount;
 }
@@ -49,16 +48,39 @@ Money Bank::GetAccountBalance(const AccountId accountId) const
 	return m_accountBalances.at(accountId);
 }
 
-void Bank::WithdrawMoney(AccountId account, Money amount)
+void Bank::WithdrawMoney(const AccountId account, const Money amount)
 {
+	AssertAccountExist(account);
+	AssertTransferAmountPositive(amount);
+	AssertEnoughMoneyOnExistingAccount(account, amount);
+	m_accountBalances[account] -= amount;
+	m_cash += amount;
 }
 
-bool Bank::TryWithdrawMoney(AccountId account, Money amount)
+bool Bank::TryWithdrawMoney(const AccountId account, const Money amount)
 {
+	try
+	{
+		WithdrawMoney(account, amount);
+		return true;
+	}
+	catch (NotEnoughMoneyException& e)
+	{
+		return false;
+	}
+	catch (BankOperationError& e)
+	{
+		throw;
+	}
 }
 
-void Bank::DepositMoney(AccountId account, Money amount)
+void Bank::DepositMoney(const AccountId account, const Money amount)
 {
+	AssertAccountExist(account);
+	AssertTransferAmountPositive(amount);
+	AssertEnoughMoneyInCash(amount);
+	m_cash -= amount;
+	m_accountBalances[account] += amount;
 }
 
 AccountId Bank::OpenAccount()
@@ -100,5 +122,11 @@ void Bank::AssertAccountDontExist(const AccountId account_id) const
 void Bank::AssertEnoughMoneyInCash(const Money amount) const
 {
 	if (m_cash < amount)
-		throw BankOperationError("Not enough money in Cash");
+		throw NotEnoughMoneyException();
+}
+
+void Bank::AssertEnoughMoneyOnExistingAccount(const AccountId srcAccountId, const Money amount) const
+{
+	if (m_accountBalances.at(srcAccountId) < amount)
+		throw NotEnoughMoneyException();
 }

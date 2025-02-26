@@ -26,7 +26,7 @@ class NotEnoughMoneyException final : BankOperationError
 {
 public:
 	explicit NotEnoughMoneyException()
-		: BankOperationError("Not enough money on account")
+		: BankOperationError("Not enough money")
 	{
 	}
 };
@@ -46,6 +46,7 @@ public:
 	// Инициализирует монетарную систему. cash — количество денег в наличном обороте
 	// При отрицательном количестве денег, выбрасывается BankOperationError
 	explicit Bank(Money cash);
+	void AssertEnoughMoneyOnExistingAccount(AccountId srcAccountId, Money amount) const;
 
 	Bank(const Bank&) = delete;
 	Bank& operator=(const Bank&) = delete;

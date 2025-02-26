@@ -8,6 +8,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <utility>
+#include <cctype>
 
 Dictionary::Dictionary(DictionaryType dictionary)
 	: m_dictionary(std::move(dictionary))
@@ -21,8 +22,16 @@ Dictionary::Dictionary()
 
 void Dictionary::Store(
 	const std::string& key,
-	const std::set<std::string>& translations,
-	const bool withReverseRecording)
+	const std::set<std::string>& translations)
+{
+	const auto lowerKey = ToLower(key);
+	const auto lowerTranslations = ToLowerSet(translations);
+	InsertWords(lowerKey, lowerTranslations);
+	for (const auto& translation : lowerTranslations)
+		InsertWords(translation, std::set{ lowerKey });
+}
+
+void Dictionary::InsertWords(const std::string& key, const std::set<std::string>& translations)
 {
 	AssertEmptyKey(key);
 	AssertEmptyTranslationSet(translations);
@@ -31,25 +40,41 @@ void Dictionary::Store(
 	if (it == m_dictionary.end())
 		m_dictionary[key] = {};
 	m_dictionary[key].insert(translations.begin(), translations.end());
-	if (withReverseRecording)
-		StoreReverseTranslation(key, translations);
 }
 
-void Dictionary::StoreReverseTranslation(const std::string& key, const std::set<std::string>& translations)
-{
-	for (const auto& translation : translations)
-	{
-		Store(translation, std::set{ key }, false);
-	}
+std::string Dictionary::ToLower(const std::string& str) {
+    std::string result;
+    result.reserve(str.size());
+
+    for (const unsigned char c : str) {
+        result.push_back(std::tolower(c));
+    }
+    return result;
+}
+
+std::set<std::string> Dictionary::ToLowerSet(const std::set<std::string>& input) {
+    std::set<std::string> result;
+
+    for (const auto& str : input) {
+        result.insert(ToLower(str));
+    }
+
+    return result;
 }
 
 std::optional<std::set<std::string>> Dictionary::Find(const std::string& key)
 {
-	AssertEmptyKey(key);
-	const auto it = m_dictionary.find(key);
+	const auto lowerKey = ToLower(key);
+	AssertEmptyKey(lowerKey);
+	const auto it = m_dictionary.find(lowerKey);
 	if (it == m_dictionary.end())
 		return std::nullopt;
 	return it->second;
+}
+
+DictionaryType Dictionary::GetDictionary() const
+{
+	return m_dictionary;
 }
 
 void Dictionary::AssertEmptyKey(const std::string& key)
@@ -68,9 +93,4 @@ void Dictionary::AssertTranslationContainsEmptyLines(const std::set<std::string>
 {
 	if (std::find(translations.begin(), translations.end(), "") != translations.end())
 		throw std::invalid_argument("Translation set contains empty line");
-}
-
-DictionaryType Dictionary::GetDictionary() const
-{
-	return m_dictionary;
 }

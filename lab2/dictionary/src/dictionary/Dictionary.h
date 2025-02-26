@@ -17,18 +17,20 @@ public:
 	explicit Dictionary(DictionaryType dictionary);
 	explicit Dictionary();
 
-	void Store(const std::string& key, const std::set<std::string>& translations, bool withReverseRecording = true);
+	void Store(const std::string& key, const std::set<std::string>& translations);
 	std::optional<std::set<std::string>> Find(const std::string& key);
 
 	DictionaryType GetDictionary() const;
 
+private:
+	DictionaryType m_dictionary{};
+	void InsertWords(const std::string& key, const std::set<std::string>& translations);
+	static std::set<std::string> ToLowerSet(const std::set<std::string>& input);
+	static std::string ToLower(const std::string& str);
+
 	static void AssertEmptyKey(const std::string& key);
 	static void AssertEmptyTranslationSet(const std::set<std::string>& translations);
 	static void AssertTranslationContainsEmptyLines(const std::set<std::string>& translations);
-
-private:
-	DictionaryType m_dictionary{};
-	void StoreReverseTranslation(const std::string& key, const std::set<std::string>& translations);
 };
 
 #endif // DICTIONARY_H

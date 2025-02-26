@@ -22,10 +22,9 @@ public:
 	virtual void PlanExpenses() = 0;
 	virtual ~ICitizen() = default;
 
+	// todo: избавиться от protected методов геттерами
 protected:
 	explicit ICitizen() = default;
-
-private:
 	virtual void Execute() = 0;
 };
 

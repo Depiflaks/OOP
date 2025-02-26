@@ -12,7 +12,6 @@
 
 class CitizenApu final : public ICitizen
 	, protected Actor
-	, protected CitizenDescription
 {
 public:
 	CitizenApu(Bank& bank, CitizensData& citizens, Money cash);
@@ -22,6 +21,7 @@ public:
 
 private:
 	Money m_amountToElectricity{ 0 };
+
 
 	void Execute() override;
 	void PayForElectricity() const;

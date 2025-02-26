@@ -24,6 +24,7 @@ protected:
 	Bank* bank{};
 };
 
+// todo: комментарии
 TEST_F(BankTest, DepositAndInvariantCheck)
 {
 	AccountId acc1 = bank->OpenAccount();

@@ -19,6 +19,16 @@ class CitizensData
 public:
 	explicit CitizensData(Bank& bank, Money amount);
 
+	const CitizenHomer& getHomer();
+	const CitizenMarge& getMarge();
+	const CitizenBartAndLisa& getBartAndLisa();
+	const CitizenApu& getApu();
+	const CitizenMrBurns& getMrBurns();
+	const CitizenNelson& getNelson();
+	const CitizenSnake& getSnake();
+	const CitizenSmithers& getSmithers();
+
+private:
 	CitizenHomer m_homer;
 	CitizenMarge m_marge;
 	CitizenBartAndLisa m_bartAndLisa;
@@ -28,7 +38,6 @@ public:
 	CitizenSnake m_snake;
 	CitizenSmithers m_smithers;
 
-private:
 	const size_t k_citizensCount{ 8 };
 };
 

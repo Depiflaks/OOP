@@ -28,7 +28,7 @@ class NotEnoughMoneyException final : BankOperationException
 {
 public:
 	explicit NotEnoughMoneyException()
-		: BankOperationException("Not enough money")
+		: BankOperationException{ "Not enough money" }
 	{
 	}
 };
@@ -37,7 +37,7 @@ class NegativeTransferAmountException final : std::out_of_range
 {
 public:
 	explicit NegativeTransferAmountException()
-		: std::out_of_range("The transfer amount cannot be negative")
+		: std::out_of_range{ "The transfer amount cannot be negative" }
 	{
 	}
 };

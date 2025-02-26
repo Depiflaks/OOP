@@ -19,7 +19,7 @@ class ActorNotHaveAccountException final : ActorInteractionException
 {
 public:
 	explicit ActorNotHaveAccountException()
-		: ActorInteractionException("Actor doesn't have bank account")
+		: ActorInteractionException{ "Actor doesn't have bank account" }
 	{
 	}
 };
@@ -28,7 +28,7 @@ class ActorNotHaveEnoughCashException final : ActorInteractionException
 {
 public:
 	explicit ActorNotHaveEnoughCashException()
-		: ActorInteractionException("Actor doesn't have enough cash to perform operation")
+		: ActorInteractionException{ "Actor doesn't have enough cash to perform operation" }
 	{
 	}
 };

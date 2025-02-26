@@ -13,7 +13,7 @@ class EconomicIntegrityException final : public std::runtime_error
 {
 public:
 	explicit EconomicIntegrityException()
-		: std::runtime_error("error: economic integrity is compromised")
+		: std::runtime_error{ "error: economic integrity is compromised" }
 	{
 	}
 };

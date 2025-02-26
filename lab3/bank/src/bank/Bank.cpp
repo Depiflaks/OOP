@@ -106,13 +106,13 @@ void Bank::CheckTransferAmountPositive(const Money amount)
 void Bank::CheckAccountExists(const AccountId account) const
 {
 	if (!m_accountBalances.contains(account))
-		throw AccountExistenceException("Account not exist");
+		throw AccountExistenceException{ "Account not exist" };
 }
 
 void Bank::CheckAccountDontExists(const AccountId account) const
 {
 	if (m_accountBalances.contains(account))
-		throw AccountExistenceException("Account already exist");
+		throw AccountExistenceException{ "Account already exist" };
 }
 
 void Bank::CheckEnoughMoneyInCash(const Money amount) const

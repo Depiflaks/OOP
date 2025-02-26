@@ -16,4 +16,8 @@ auto PrintPrimes(const std::set<int>& primes) -> void;
 
 auto PrintPrimesCount(const std::set<int>& primes) -> void;
 
+auto ToDigit(char* digit) -> int;
+
+auto Exit(const char* message) -> void;
+
 #endif

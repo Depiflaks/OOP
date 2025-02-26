@@ -9,5 +9,7 @@ add_executable(OOP lab1/replace/main.cpp
         lab2/html_decode/src/HtmlDecode.cpp
         lab2/html_decode/tests/TestHtmlDecode.cpp
         lab2/dictionary/main.cpp
-        lab2/dictionary/src/service/FileProcessor.cpp
-        lab2/dictionary/src/service/FileProcessor.h)
+        lab2/dictionary/src/fileProcessor/FileProcessor.cpp
+        lab2/dictionary/src/fileProcessor/FileProcessor.h
+        lab2/dictionary/src/dialogHandler/DialogHandler.cpp
+        lab2/dictionary/src/dialogHandler/DialogHandler.h)

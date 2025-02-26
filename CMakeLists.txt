@@ -25,5 +25,5 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/actor/Actor.h
         lab3/bank/tests/TestBank.cpp
         lab3/bank/tests/TestActor.cpp
-        lab3/bank/src/scenario/Scenario.cpp
-        lab3/bank/src/scenario/Scenario.h)
+        lab3/bank/src/scenario/Scenario.h
+        lab3/bank/src/characterName/CharacterName.h)

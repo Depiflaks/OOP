@@ -4,27 +4,26 @@
 
 #ifndef SCENARIO_H
 #define SCENARIO_H
-#include <functional>
 #include <map>
-#include <string>
 
 #include "../actor/Actor.h"
+#include "../bank/Bank.h"
+#include "../characterName/CharacterName.h"
 
-class Scenario
+using ActorsMap = std::map<CharacterName, Actor>;
+
+class IScenario
 {
 public:
-	using ActorsMap = std::map<std::string, Actor>;
-	using CallbackType = std::function<void(ActorsMap&)>;
+	virtual void ExecuteWithErrorHandling() = 0;
+	virtual ~IScenario() = default;
 
-	explicit Scenario(CallbackType callback);
-
-	void execute(ActorsMap& actors);
-
-	void rollback(ActorsMap& actors);
+protected:
+	explicit IScenario() = default;
 
 private:
-	CallbackType m_callback;
-	ActorsMap m_backup;
+	void Execute(Bank& bank);
+	void Rollback();
 };
 
 #endif // SCENARIO_H

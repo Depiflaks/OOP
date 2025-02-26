@@ -6,6 +6,7 @@
 #include "../dictionary/Dictionary.h"
 #include "../fileProcessor/FileProcessor.h"
 #include <iostream>
+#include <numeric>
 #include <regex>
 #include <stdexcept>
 
@@ -55,12 +56,17 @@ void DialogHandler::ProcessWordOrCommand(const std::string& message)
 		m_state = DialogState::waitForSaveConfirmation;
 		return;
 	}
-	m_lastWord = message;
-	if (auto value = m_dictionary.Get(message) != std::nullopt)
+	if (const auto value = m_dictionary.Get(message); value != std::nullopt)
 	{
-
+		auto stringValue = ConvertDictValueToString(value.value());
+		PrintDictValue(stringValue);
 	}
-
+	else
+	{
+		m_lastWord = message;
+		PrintUnknownWord();
+		m_state = DialogState::waitForTranslation;
+	}
 }
 
 void DialogHandler::ProcessTranslation(const std::string& message)
@@ -78,11 +84,13 @@ void DialogHandler::ProcessSaveConfirmation(const std::string& message)
 {
 	if (!message.empty() && std::tolower(message[0]) == 'y')
 	{
-		// todo: проверка на то, указан ли файл.
+		if (m_fileProcessor.IsFileNameEmpty())
+		{
+		}
 	}
 	else
 	{
-		m_state = DialogState::waitForWordOrCommand;
+		m_state = DialogState::exit;
 	}
 }
 
@@ -98,6 +106,22 @@ void DialogHandler::ProcessFileName(const std::string& message)
 	m_state = DialogState::exit;
 }
 
+std::string DialogHandler::ConvertDictValueToString(const valueType& value)
+{
+	return std::accumulate(
+		std::begin(value),
+		std::end(value),
+		std::string{},
+		[](const auto& a, const auto& b) {
+			return a + ", " + b;
+		});
+}
+
+valueType DialogHandler::ConvertStringToDictValue(const std::string& value)
+{
+	
+}
+
 void DialogHandler::PrintSaveConfirmationPrompt()
 {
 	std::cout << "The dictionary has been modified. Enter Y or y to save before exiting.\n";
@@ -111,4 +135,14 @@ void DialogHandler::PrintWordIgnored(const std::string& word)
 void DialogHandler::PrintSaveCancelled()
 {
 	std::cout << "Save operation cancelled. Continuing work with the dictionary.\n";
+}
+
+void DialogHandler::PrintUnknownWord() const
+{
+	std::cout << "Unknown word \"" << m_lastWord << "\". Enter translation or empty string to refuse.";
+}
+
+void DialogHandler::PrintDictValue(auto& value)
+{
+	std::cout << value << "\n";
 }

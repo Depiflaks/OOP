@@ -9,9 +9,9 @@
 #include <set>
 #include <string>
 
-typedef std::string keyType;
-typedef std::set<keyType> valueType;
-typedef std::map<keyType, valueType> dictionaryType;
+using keyType = std::string;
+using valueType = std::set<keyType>;
+using dictionaryType = std::map<keyType, valueType>;
 
 class Dictionary
 {

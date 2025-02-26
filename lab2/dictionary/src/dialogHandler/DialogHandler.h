@@ -37,9 +37,14 @@ private:
 	void ProcessSaveConfirmation(const std::string& message);
 	void ProcessFileName(const std::string& message);
 
+	static std::string ConvertDictValueToString(const valueType& value);
+	static valueType ConvertStringToDictValue(const std::string& value);
+
 	static void PrintSaveConfirmationPrompt();
 	static void PrintWordIgnored(const std::string& word);
 	static void PrintSaveCancelled();
+	void PrintUnknownWord() const;
+	static void PrintDictValue(auto& value);
 };
 
 #endif // DIALOGHANDLER_H

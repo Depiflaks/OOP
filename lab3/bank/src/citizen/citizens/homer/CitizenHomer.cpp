@@ -3,3 +3,9 @@
 //
 
 #include "CitizenHomer.h"
+
+void CitizenHomer::ExecuteWithErrorHandling()
+{
+
+	ICitizen::ExecuteWithErrorHandling();
+}

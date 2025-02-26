@@ -30,4 +30,5 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/town/Town.cpp
         lab3/bank/src/town/Town.h
         lab3/bank/src/citizen/citizens/homer/CitizenHomer.cpp
-        lab3/bank/src/citizen/citizens/homer/CitizenHomer.h)
+        lab3/bank/src/citizen/citizens/homer/CitizenHomer.h
+        lab3/bank/src/citizen/Citizen.cpp)

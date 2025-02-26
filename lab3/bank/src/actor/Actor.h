@@ -9,7 +9,7 @@
 
 #include <optional>
 
-class ActorInteractionException : std::runtime_error
+class ActorInteractionException : public std::runtime_error
 {
 public:
 	using runtime_error::runtime_error;

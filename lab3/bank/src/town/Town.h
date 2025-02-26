@@ -4,14 +4,16 @@
 
 #ifndef TOWN_H
 #define TOWN_H
+
+#include "../citizen/Citizen.h"
+#include "../citizen/citizenName/CitizenName.h"
+
 #include <map>
 
-using ActorsMap = std::map<CharacterName, Actor>;
+using CitizenMap = std::map<CitizenName, ICitizen>;
 
-class Town {
-
+class Town
+{
 };
 
-
-
-#endif //TOWN_H
+#endif // TOWN_H

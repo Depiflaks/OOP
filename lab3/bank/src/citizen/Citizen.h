@@ -4,24 +4,20 @@
 
 #ifndef SCENARIO_H
 #define SCENARIO_H
-#include <map>
 
-#include "../actor/Actor.h"
-#include "../bank/Bank.h"
-#include "../citizenName/CitizenName.h"
+#include "../town/Town.h"
 
 class ICitizen
 {
 public:
-	virtual void ExecuteWithErrorHandling() = 0;
+	virtual void ExecuteWithErrorHandling();
 	virtual ~ICitizen() = default;
 
 protected:
 	explicit ICitizen() = default;
 
 private:
-	void Execute(Bank& bank);
-	void Rollback();
+	virtual void Execute() = 0;
 };
 
 #endif // SCENARIO_H

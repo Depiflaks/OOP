@@ -11,7 +11,7 @@
 using AccountId = unsigned long long;
 using Money = long long;
 
-class BankOperationException : std::runtime_error
+class BankOperationException : public std::runtime_error
 {
 public:
 	using runtime_error::runtime_error;

@@ -10,6 +10,7 @@ CitizenMarge::CitizenMarge(Bank& bank, CitizenMap& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::margeSimpson, citizens)
 {
+	OpenAccount();
 }
 
 void CitizenMarge::ExecuteWithErrorHandling()

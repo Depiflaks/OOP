@@ -10,6 +10,7 @@ CitizenHomer::CitizenHomer(Bank& bank, CitizenMap& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::homerSimpson, citizens)
 {
+	OpenAccount();
 }
 
 void CitizenHomer::ExecuteWithErrorHandling()

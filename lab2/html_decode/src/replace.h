@@ -7,7 +7,7 @@
 
 #include <string>
 
-inline void DecodeHtml(std::istream& inStream, std::ostream& outStream);
-inline void DecodeHtmlLine(std::string& line);
+void DecodeHtml(std::istream& inStream, std::ostream& outStream);
+void DecodeHtmlLine(std::string& line);
 
 #endif // OOP_REPLACE_H

@@ -18,8 +18,7 @@ enum class CitizenName
 {
 	homerSimpson,
 	margeSimpson,
-	bartSimpson,
-	lisaSimpson,
+	bartAndLisaSimpson,
 	apu,
 	mrBurns,
 	nelson,
@@ -35,10 +34,8 @@ inline std::string getName(const CitizenName name)
 		return "Homer Simpson";
 	case CitizenName::margeSimpson:
 		return "Marge Simpson";
-	case CitizenName::bartSimpson:
-		return "Bart Simpson";
-	case CitizenName::lisaSimpson:
-		return "Lisa Simpson";
+	case CitizenName::bartAndLisaSimpson:
+		return "Bart and Lisa Simpson";
 	case CitizenName::apu:
 		return "Apu";
 	case CitizenName::mrBurns:

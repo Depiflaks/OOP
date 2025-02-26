@@ -7,7 +7,7 @@
 
 #include <vector>
 
-auto main() -> int;
+auto ShiftByPositiveMean() -> void;
 auto ReadNumbers(std::vector<double>& numbers) -> bool;
 auto ProcessNumbers(std::vector<double>& numbers) -> void;
 auto PrintSortedNumbers(const std::vector<double>& numbers) -> void;

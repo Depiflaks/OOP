@@ -6,7 +6,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 
-const std::string executable = "../main";
+const std::string executable = "./main";
 const std::vector<std::string> expectedParams{ "$input", "$output", "$search", "$replace" };
 
 struct ReplaceParams

@@ -4,6 +4,7 @@
 
 #ifndef BANK_H
 #define BANK_H
+#include <map>
 #include <stdexcept>
 
 using AccountId = unsigned long long;
@@ -80,6 +81,10 @@ public:
 	// Возвращает количество денег, которые были на счёте в момент закрытия
 	// Эти деньги переходят в наличный оборот
 	[[nodiscard]] Money CloseAccount(AccountId accountId);
+
+private:
+	Money m_cash;
+	std::map<AccountId, Money> m_accountBalances;
 };
 
-#endif //BANK_H
+#endif // BANK_H

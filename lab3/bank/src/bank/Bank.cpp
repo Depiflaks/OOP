@@ -6,31 +6,43 @@
 
 Bank::Bank(Money cash)
 {
+	m_cash = cash;
 }
+
 void Bank::SendMoney(AccountId srcAccountId, AccountId dstAccountId, Money amount)
 {
 }
+
 bool Bank::TrySendMoney(AccountId srcAccountId, AccountId dstAccountId, Money amount)
 {
 }
+
 Money Bank::GetCash() const
 {
+	return m_cash;
 }
+
 Money Bank::GetAccountBalance(AccountId accountId) const
 {
+
 }
+
 void Bank::WithdrawMoney(AccountId account, Money amount)
 {
 }
+
 bool Bank::TryWithdrawMoney(AccountId account, Money amount)
 {
 }
+
 void Bank::DepositMoney(AccountId account, Money amount)
 {
 }
+
 AccountId Bank::OpenAccount()
 {
 }
+
 Money Bank::CloseAccount(AccountId accountId)
 {
 }

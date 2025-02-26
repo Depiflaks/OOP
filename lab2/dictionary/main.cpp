@@ -11,7 +11,7 @@
 #include <iostream>
 #include <ostream>
 
-void RunDialog(const auto& dictFile);
+void RunDialog(const std::optional<std::string>& dictFile);
 std::optional<std::string> GetInputFilePath(int argc, char** argv);
 
 int main(const int argc, char* argv[])
@@ -40,9 +40,9 @@ std::optional<std::string> GetInputFilePath(const int argc, char** argv)
 	return std::nullopt;
 }
 
-void RunDialog(const auto& dictFile)
+void RunDialog(const std::optional<std::string>& dictFile)
 {
-	const DialogHandler dh;
+	DialogHandler dh(dictFile);
 	std::string message;
 	auto currentState{ DialogState::waitForWordOrCommand };
 	while (currentState != DialogState::exit)

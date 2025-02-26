@@ -16,14 +16,21 @@ Dictionary::Dictionary()
 {
 }
 
-void Dictionary::Store(const std::string& key, const std::set<std::string>& translations, bool withMirrorRecording)
+void Dictionary::Store(
+	const std::string& key,
+	const std::set<std::string>& translations,
+	const bool withReverseRecording)
 {
 	const auto it = m_dictionary.find(key);
 	if (it == m_dictionary.end())
 		m_dictionary[key] = {};
 	m_dictionary[key].insert(translations.begin(), translations.end());
-	if (!withMirrorRecording)
-		return;
+	if (withReverseRecording)
+		StoreReverseTranslation(key, translations);
+}
+
+void Dictionary::StoreReverseTranslation(const std::string& key, const std::set<std::string>& translations)
+{
 	for (const auto& translation : translations)
 	{
 		Store(translation, std::set{ key }, false);

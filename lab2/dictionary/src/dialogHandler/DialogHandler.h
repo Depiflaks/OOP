@@ -29,6 +29,7 @@ public:
 	DialogState HandleMessage(const std::string& message);
 	void ProcessExitCommand();
 	void ProcessWord(const std::string& word);
+	void PrintWordSaved(const std::string& message) const;
 
 private:
 	Dictionary m_dictionary;
@@ -42,8 +43,8 @@ private:
 	void ProcessWordOrCommand(const std::string& message);
 	void ProcessTranslation(const std::string& message);
 	void ProcessSaveConfirmation(const std::string& message);
-	void SaveDictionary();
 	void ProcessFileName(const std::string& message);
+	void SaveDictionary();
 
 	static void PrintSaveConfirmationPrompt();
 	static void PrintWordIgnored(const std::string& word);

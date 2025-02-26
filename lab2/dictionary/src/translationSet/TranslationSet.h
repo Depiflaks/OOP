@@ -6,14 +6,17 @@
 #define TRANSLATIONSET_H
 #include <set>
 #include <string>
+#include <vector>
 
-constexpr std::string wordSeparator = ", ";
+constexpr std::string_view wordSeparator = ", ";
 
-class TranslationSet {
+class TranslationSet
+{
 public:
 	static std::string FormatTranslationSet(const std::set<std::string>& translations);
+	static std::string JoinSetToString(const std::set<std::string>& strings, const std::string& delimiter);
+	static std::vector<std::string> Split(const std::string& str, std::string_view delimiter);
 	static std::set<std::string> ParseStringToTranslationSet(const std::string& value);
 };
 
-
-#endif //TRANSLATIONSET_H
+#endif // TRANSLATIONSET_H

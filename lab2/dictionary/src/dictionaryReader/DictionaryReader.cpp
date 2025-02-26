@@ -21,7 +21,7 @@ DictionaryType DictionaryReader::ReadData() const
 	std::ifstream file(*m_fileName);
 	AssertFileCouldBeOpened(file);
 	DictionaryType data;
-	file >> data;
+	// file >> data;
 	AssertFileNotEmpty(file);
 	AssertExpectedFileData(file);
 	return data;
@@ -32,7 +32,7 @@ void DictionaryReader::WriteData(const DictionaryType& data) const
 	assert(m_fileName != std::nullopt);
 	std::ifstream file(*m_fileName, std::ios::trunc);
 	AssertFileCouldBeOpened(file);
-	file << data;
+	// file << data;
 }
 
 bool DictionaryReader::IsFileNameEmpty() const

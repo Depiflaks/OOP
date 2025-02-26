@@ -16,7 +16,8 @@ class Dictionary
 public:
 	explicit Dictionary(DictionaryType dictionary);
 	explicit Dictionary();
-	void Store(const std::string& key, const std::set<std::string>& translations, bool withMirrorRecording = true);
+	void StoreReverseTranslation(const std::string& key, const std::set<std::string>& translations);
+	void Store(const std::string& key, const std::set<std::string>& translations, bool withReverseRecording = true);
 	std::optional<std::set<std::string>> Get(const std::string& key);
 	DictionaryType GetDictionary() const;
 

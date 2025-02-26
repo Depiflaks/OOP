@@ -72,7 +72,7 @@ public:
 
 	// Сообщает о количестве денег на указанном счёте
 	// Если указанный счёт отсутствует, выбрасывается исключение BankOperationError
-	[[nodiscard]] Money GetAccountBalance(AccountId accountId) const;
+	Money GetAccountBalance(AccountId accountId) const;
 
 	// Снимает деньги со счёта. Нельзя снять больше, чем есть на счете
 	// Нельзя снять отрицательное количество денег

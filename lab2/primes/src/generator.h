@@ -14,4 +14,6 @@ auto ParseArguments(int argc, char* argv[]) -> int;
 
 auto PrintPrimes(const std::set<int>& primes) -> void;
 
+auto PrintPrimesCount(const std::set<int>& primes) -> void;
+
 #endif

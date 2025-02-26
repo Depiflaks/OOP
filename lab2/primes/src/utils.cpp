@@ -29,5 +29,10 @@ auto PrintPrimes(const std::set<int>& primes) -> void
 	{
 		std::cout << prime << " ";
 	}
-	std::cout << std::endl;
+	std::cout << "\n";
+}
+
+auto PrintPrimesCount(const std::set<int>& primes) -> void
+{
+	std::cout << primes.size() << "\n";
 }

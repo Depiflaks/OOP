@@ -25,13 +25,13 @@ auto GeneratePrimeNumbersSet(int upperBound) -> std::set<int>
 
 auto EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime) -> void
 {
-	for (int i = 2; i <= std::sqrt(upperBound); ++i)
+	for (int candidate = 2; candidate <= std::sqrt(upperBound); ++candidate)
 	{
-		if (isPrime[i])
+		if (isPrime[candidate])
 		{
-			for (int j = i * i; j <= upperBound; j += i)
+			for (int multiple = candidate * candidate; multiple <= upperBound; multiple += candidate)
 			{
-				isPrime[j] = false;
+				isPrime[multiple] = false;
 			}
 		}
 	}

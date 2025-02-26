@@ -4,9 +4,8 @@
 
 #ifndef OOP_GENERATOR_H
 #define OOP_GENERATOR_H
+
 #include <set>
-#include <string>
-#include <vector>
 
 auto GeneratePrimeNumbersSet(int upperBound) -> std::set<int>;
 

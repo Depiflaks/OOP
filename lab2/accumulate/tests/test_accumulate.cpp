@@ -28,6 +28,12 @@ TEST(GetPositiveSumTest, NegativeArray)
 	EXPECT_EQ(GetPositiveSum(numbers), 2);
 }
 
+TEST(GetPositiveSumTest, HandlesOverflow) {
+	std::vector<double> largeNumbers = {std::numeric_limits<double>::max(), std::numeric_limits<double>::max()};
+
+	EXPECT_EXIT(GetPositiveSum(largeNumbers), ::testing::ExitedWithCode(1), "Overflow detected!");
+}
+
 TEST(GetPositiveCountTest, EmptyArray)
 {
 	std::vector<double> numbers = {};

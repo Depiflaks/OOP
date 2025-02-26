@@ -4,6 +4,7 @@
 #include "generator.h"
 #include <algorithm>
 #include <cmath>
+#include <vector>
 
 auto FillPrimeNumberSet(std::set<int>& primes, const int upperBound, std::vector<bool>& isPrime) -> void;
 auto EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime) -> void;
@@ -25,6 +26,7 @@ auto GeneratePrimeNumbersSet(int upperBound) -> std::set<int>
 
 auto EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime) -> void
 {
+	// todo: можно ускорить в 2 раза
 	for (int candidate = 2; candidate <= std::sqrt(upperBound); ++candidate)
 	{
 		if (isPrime[candidate])
@@ -39,12 +41,9 @@ auto EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime) -> void
 
 auto FillPrimeNumberSet(std::set<int>& primes, const int upperBound, std::vector<bool>& isPrime) -> void
 {
-
 	for (int i = 2; i <= upperBound; ++i)
 	{
 		if (isPrime[i])
-		{
 			primes.insert(i);
-		}
 	}
 }

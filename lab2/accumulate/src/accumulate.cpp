@@ -6,6 +6,7 @@
 #include <iostream>
 #include <numeric>
 #include <sstream>
+#include <limits>
 #include <vector>
 #include "accumulate.h"
 
@@ -69,11 +70,17 @@ auto GetPositiveCount(std::vector<double>& numbers) -> int
 
 auto GetPositiveSum(std::vector<double>& numbers) -> double
 {
-	return std::accumulate(
-		numbers.begin(),
-		numbers.end(),
-		0.0,
-		[](double acc, double val) { return val > 0 ? acc + val : acc; });
+	double sum = 0.0;
+	for (double val : numbers) {
+		if (val > 0) {
+			if (sum > std::numeric_limits<double>::max() - val) {
+				std::cerr << "Overflow detected!" << std::endl;
+				std::exit(1);
+			}
+			sum += val;
+		}
+	}
+	return sum;
 }
 
 auto PrintSortedNumbers(const std::vector<double>& numbers) -> void

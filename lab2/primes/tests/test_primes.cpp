@@ -1,8 +1,8 @@
 //
 // Created by smmm on 26.02.2025.
 //
+#include "../src/args_set_handler.h"
 #include "../src/generator.h"
-#include "../src/utils.h"
 #include <gtest/gtest.h>
 #include <sstream>
 #include <vector>
@@ -58,14 +58,14 @@ TEST(ParseArgumentsTest, HandlesInvalidInput)
 {
 	const char* argv[] = { "program", "invalid" };
 	int argc = 2;
-	EXPECT_EXIT(ParseArguments(argc, const_cast<char**>(argv)), ::testing::ExitedWithCode(1), "");
+	EXPECT_THROW(ParseArguments(argc, const_cast<char**>(argv)), std::invalid_argument);
 }
 
 TEST(ParseArgumentsTest, HandlesOutOfRangeInput)
 {
 	const char* argv[] = { "program", "100000001" };
 	int argc = 2;
-	EXPECT_EXIT(ParseArguments(argc, const_cast<char**>(argv)), ::testing::ExitedWithCode(1), "");
+	EXPECT_THROW(ParseArguments(argc, const_cast<char**>(argv)), std::invalid_argument);
 }
 
 TEST(PrintPrimesTest, HandlesEmptySet)

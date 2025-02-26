@@ -28,17 +28,11 @@ struct ReplaceConfig
 };
 
 auto GetSourceType(int argc) -> SourceType;
-
 auto ParseArguments(int argc, char* argv[]) -> ReplaceConfig;
-
 auto Replace(const ReplaceConfig& config) -> void;
-
 auto PrintHelp() -> void;
-
 auto AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& filePath2) -> void;
-
 auto ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream) -> void;
-
 auto ReplaceInLine(const ReplaceConfig& config, std::string& line) -> void;
 
 auto main(const int argc, char* argv[]) -> int
@@ -109,6 +103,7 @@ auto AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& f
 		throw std::runtime_error("Input and output files must be different.");
 }
 
+// switch case без записи в переменные
 auto Replace(const ReplaceConfig& config) -> void
 {
 	std::istream* inStream = &std::cin;
@@ -150,6 +145,7 @@ auto ReplaceInLine(const ReplaceConfig& config, std::string& line) -> void
 	while ((pos = line.find(config.search, pos)) != std::string::npos)
 	{
 		line.replace(pos, config.search.length(), config.replace);
+		// replace написать самому
 		pos += config.replace.length();
 	}
 }

@@ -1,218 +1,79 @@
 //
 // Created by smmm on 26.02.2025.
 //
-
-#include <fstream>
 #include <gtest/gtest.h>
+#include <fstream>
 #include <sstream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include "../accumulate.h"
 
-const std::string executable = "./main";
-const std::vector<std::string> expectedParams{ "$input", "$output", "$search", "$replace" };
+void CompareArrays(const std::vector<double>& result, const std::vector<double>& expected) {
+	ASSERT_EQ(result.size(), expected.size());
+	for (size_t i = 0; i < result.size(); ++i) {
+		EXPECT_NEAR(result[i], expected[i], 1e-3);
+	}
+}
 
-auto RunPositiveTest(const std::string& filePath) -> void;
-auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>;
-auto ExecuteCommand(const std::string& command) -> std::string;
-auto RunSystemStream(const ReplaceParams& params) -> std::string;
-auto RunWithFiles(const ReplaceParams& params) -> std::string;
-auto CreateTempFile(const std::string& content) -> std::string;
-auto WriteToFile(const std::string& filename, const std::string& content) -> bool;
+TEST(ProcessNumbersTest, HandlesPositiveNumbers) {
+	std::vector<double> numbers = {1.0, 2.0, 3.0};
+	ProcessNumbers(numbers);
+	CompareArrays(numbers, {3.0, 4.0, 5.0});
+}
 
-int main(int argc, char** argv)
-{
+TEST(ProcessNumbersTest, HandlesMixedNumbers) {
+	std::vector<double> numbers = {-1.0, 2.0, -3.0, 4.0};
+	ProcessNumbers(numbers);
+	CompareArrays(numbers, {1.0, 4.0, 1.0, 6.0});
+}
+
+TEST(ProcessNumbersTest, HandlesEmptyVector) {
+	std::vector<double> numbers;
+	ProcessNumbers(numbers);
+	CompareArrays(numbers, {});
+}
+
+TEST(ReadNumbersTest, HandlesValidInput) {
+	std::vector<double> numbers;
+	std::istringstream input("1.0 2.0 3.0");
+	std::cin.rdbuf(input.rdbuf());
+	EXPECT_TRUE(ReadNumbers(numbers));
+	CompareArrays(numbers, {1.0, 2.0, 3.0});
+}
+
+TEST(ReadNumbersTest, HandlesInvalidInput) {
+	std::vector<double> numbers;
+	std::istringstream input("1.0 abc 3.0");
+	std::cin.rdbuf(input.rdbuf());
+	EXPECT_FALSE(ReadNumbers(numbers));
+}
+
+void TestMain(const std::string& inputFile, const std::string& expectedOutputFile) {
+	std::ifstream input(inputFile);
+	std::ifstream expectedOutput(expectedOutputFile);
+	std::stringstream output;
+
+	std::cin.rdbuf(input.rdbuf());
+	std::cout.rdbuf(output.rdbuf());
+
+	main();
+
+	std::string expectedLine, outputLine;
+	while (std::getline(expectedOutput, expectedLine) && std::getline(output, outputLine)) {
+		EXPECT_EQ(outputLine, expectedLine);
+	}
+}
+
+TEST(MainTest, HandlesValidInput) {
+	TestMain("test_input.txt", "test_expected_output.txt");
+}
+
+TEST(MainTest, HandlesInvalidInput) {
+	TestMain("test_invalid_input.txt", "test_expected_error.txt");
+}
+
+int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
-}
-
-TEST(ReplaceTest, HelpMessage)
-{
-	std::string command = executable + " -h";
-	std::string output = ExecuteCommand(command);
-
-	EXPECT_TRUE(output.find("Usage") != std::string::npos);
-}
-
-TEST(ReplaceTest, EmptySearch)
-{
-	RunPositiveTest("./files/empty_search.txt");
-}
-
-TEST(ReplaceTest, EmptyReplace)
-{
-	RunPositiveTest("./files/empty_replace.txt");
-}
-
-TEST(ReplaceTest, EmptyInput)
-{
-	RunPositiveTest("./files/empty_input.txt");
-}
-
-TEST(ReplaceTest, UniqueSymbol)
-{
-	RunPositiveTest("./files/unique_symbol.txt");
-}
-
-TEST(ReplaceTest, ManySymbols)
-{
-	RunPositiveTest("./files/many_symbols.txt");
-}
-
-TEST(ReplaceTest, SymbolInText)
-{
-	RunPositiveTest("./files/symbol_in_text.txt");
-}
-
-TEST(ReplaceTest, EmptyLines)
-{
-	RunPositiveTest("./files/empty_lines.txt");
-}
-
-TEST(ReplaceTest, SymbolBetweenEmptyLines)
-{
-	RunPositiveTest("./files/symbol_between_empty_lines.txt");
-}
-
-TEST(ReplaceTest, ManySymbolReplace)
-{
-	RunPositiveTest("./files/many_symbol_replace.txt");
-}
-
-TEST(ReplaceTest, NoReplace)
-{
-	RunPositiveTest("./files/no_replace.txt");
-}
-
-TEST(ReplaceTest, InvalidArgumentCount)
-{
-	std::string command;
-	command = executable + " arg1 arg2 2>/dev/null";
-	EXPECT_ANY_THROW(ExecuteCommand(command));
-	command = executable + " arg1 arg2 arg3 2>/dev/null";
-	EXPECT_ANY_THROW(ExecuteCommand(command));
-	command = executable + " arg1 arg2 arg3 arg4 arg5 2>/dev/null";
-	EXPECT_ANY_THROW(ExecuteCommand(command));
-}
-
-TEST(ReplaceTest, DublicatedFiles)
-{
-	std::string command;
-	command = executable + " file.txt file.txt 2>/dev/null";
-	EXPECT_ANY_THROW(ExecuteCommand(command));
-}
-
-void RunPositiveTest(const std::string& filePath)
-{
-	auto paramsMap = ParseTestFile(filePath, expectedParams);
-	auto params = ReplaceParams(paramsMap);
-
-	auto systemOutput = RunSystemStream(params);
-	auto filesOutput = RunWithFiles(params);
-
-	EXPECT_TRUE(systemOutput == params.output);
-	EXPECT_TRUE(filesOutput == params.output);
-}
-
-auto RunSystemStream(const ReplaceParams& params) -> std::string
-{
-	std::ostringstream command;
-	command << "echo \""
-			<< params.search << "\\n"
-			<< params.replace << "\\n"
-			<< params.input << "\" | " << executable;
-
-	return ExecuteCommand(command.str());
-}
-
-auto ExecuteCommand(const std::string& command) -> std::string
-{
-	std::ostringstream result;
-	FILE* pipe = popen(command.c_str(), "r");
-	if (!pipe)
-		throw std::runtime_error("Failed to open pipe");
-
-	char buffer[128];
-	while (fgets(buffer, sizeof(buffer), pipe) != nullptr)
-	{
-		result << buffer;
-	}
-
-	int exitCode = pclose(pipe);
-	if (WIFEXITED(exitCode) && WEXITSTATUS(exitCode) != 0)
-	{
-		throw std::runtime_error("Command failed with exit code: " + std::to_string(WEXITSTATUS(exitCode)));
-	}
-
-	return result.str();
-}
-
-auto RunWithFiles(const ReplaceParams& params) -> std::string
-{
-	std::string inputFile = CreateTempFile(params.input);
-	std::string outputFile = CreateTempFile("");
-
-	std::ostringstream command;
-	command << executable << " " << inputFile << " " << outputFile << " "
-			<< "\"" << params.search << "\" "
-			<< "\"" << params.replace << "\"";
-
-	std::string result = ExecuteCommand(command.str());
-
-	std::ifstream outFile(outputFile);
-	std::string outputContent((std::istreambuf_iterator<char>(outFile)), std::istreambuf_iterator<char>());
-
-	std::remove(inputFile.c_str());
-	std::remove(outputFile.c_str());
-
-	return outputContent;
-}
-
-auto CreateTempFile(const std::string& content) -> std::string
-{
-	char filename[L_tmpnam];
-	std::tmpnam(filename);
-	if (!WriteToFile(filename, content))
-	{
-		return "";
-	}
-	return filename;
-}
-
-auto WriteToFile(const std::string& filename, const std::string& content) -> bool
-{
-	std::ofstream file(filename);
-	if (!file)
-		return false;
-	file << content << "\n";
-	file.close();
-	return true;
-}
-
-auto ParseTestFile(const std::string& fileName, const std::vector<std::string>& names) -> std::map<std::string, std::string>
-{
-	std::ifstream file(fileName);
-	std::map<std::string, std::string> parameters;
-
-	if (!file)
-	{
-		std::cerr << "Error: cannot open file " << fileName << std::endl;
-		return parameters;
-	}
-
-	std::string line;
-	std::string currentParam;
-	while (std::getline(file, line))
-	{
-		if (std::find(names.begin(), names.end(), line) != names.end())
-		{
-			currentParam = line;
-
-			std::getline(file, line);
-			parameters[currentParam] = line;
-		}
-		else if (!currentParam.empty())
-		{
-			parameters[currentParam] += "\n" + line;
-		}
-	}
-
-	return parameters;
 }

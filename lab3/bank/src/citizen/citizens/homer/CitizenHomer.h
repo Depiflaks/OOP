@@ -4,16 +4,18 @@
 
 #ifndef CITIZEN_HOMER_H
 #define CITIZEN_HOMER_H
+
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
+#include "../../description/data/CitizensData.h"
 
 class CitizenHomer final : public ICitizen
 	, protected Actor
 	, protected CitizenDescription
 {
 public:
-	CitizenHomer(Bank& bank, CitizenMap& citizens, Money cash);
+	CitizenHomer(Bank& bank, CitizensData& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
 	void PlanExpenses() override;
 	void PlanExpenses(Money margeAmount, Money bartAmount, Money lisaAmount, Money electricityAmount);

@@ -8,13 +8,14 @@
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
+#include "../../description/data/CitizensData.h"
 
 class CitizenApu final : public ICitizen
 	, protected Actor
 	, protected CitizenDescription
 {
 public:
-	CitizenApu(Bank& bank, CitizenMap& citizens, Money cash);
+	CitizenApu(Bank& bank, CitizensData& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
 	void PlanExpenses() override;
 	void PlanExpenses(Money electricityAmount);

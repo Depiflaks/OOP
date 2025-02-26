@@ -9,13 +9,14 @@
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
+#include "../../description/data/CitizensData.h"
 
 class CitizenMrBurns final : public ICitizen
 	, protected Actor
 	, protected CitizenDescription
 {
 public:
-	CitizenMrBurns(Bank& bank, CitizenMap& citizens, Money cash);
+	CitizenMrBurns(Bank& bank, CitizensData& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
 	void PlanExpenses() override;
 	void PlanExpenses(Money homerAmount, Money smithersAmount, bool shouldUpdateSmithersId);

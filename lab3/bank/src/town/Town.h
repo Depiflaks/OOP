@@ -5,7 +5,7 @@
 #ifndef TOWN_H
 #define TOWN_H
 #include "../bank/Bank.h"
-#include "../citizen/description/map/citizenMap.h"
+#include "../citizen/description/map/CitizensData.h"
 
 #include <vector>
 
@@ -27,7 +27,7 @@ public:
 
 private:
 	Money m_startAmount{ 0 };
-	CitizenMap m_citizens;
+	CitizensData m_citizens;
 	Bank m_bank;
 	std::vector<CitizenName> m_citizenOrder{
 		CitizenName::homerSimpson,

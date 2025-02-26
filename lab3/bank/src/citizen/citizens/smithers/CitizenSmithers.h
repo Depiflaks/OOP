@@ -8,14 +8,14 @@
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../mrBurns/CitizenMrBurns.h"
+#include "../../description/data/CitizensData.h"
 
 class CitizenSmithers final : public ICitizen
     , protected Actor
     , protected CitizenDescription
 {
 public:
-    CitizenSmithers(Bank& bank, CitizenMap& citizens, Money cash);
+    CitizenSmithers(Bank& bank, CitizensData& citizens, Money cash);
     void ExecuteWithErrorHandling() override;
     void PlanExpenses() override;
     void PlanExpenses(Money abuAmount, bool shouldNotifyingBoss);

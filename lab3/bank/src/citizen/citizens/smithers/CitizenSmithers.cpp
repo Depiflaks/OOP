@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-CitizenSmithers::CitizenSmithers(Bank& bank, CitizenMap& citizens, const Money cash)
+CitizenSmithers::CitizenSmithers(Bank& bank, CitizensData& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::waylonSmithers, citizens)
 {

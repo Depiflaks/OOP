@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-CitizenHomer::CitizenHomer(Bank& bank, CitizenMap& citizens, const Money cash)
+CitizenHomer::CitizenHomer(Bank& bank, CitizensData& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::homerSimpson, citizens)
 {
@@ -45,7 +45,7 @@ void CitizenHomer::Execute()
 
 void CitizenHomer::TransferMoneyToMarge() const
 {
-	const Actor marge = FindCitizen(CitizenName::margeSimpson);
+	const auto marge = m_citizens.m_homer;
 	TransferMoney(marge, m_amountToMarge);
 }
 
@@ -57,7 +57,7 @@ void CitizenHomer::PayForElectricity() const
 
 void CitizenHomer::GiveMoneyToChildren()
 {
-	Actor bart = FindCitizen(CitizenName::bartSimpson);
+	Actor bart = m_citizens;
 	Actor lisa = FindCitizen(CitizenName::lisaSimpson);
 	WithdrawMoney(m_amountToBart + m_amountToLisa);
 	HandOverMoney(bart, m_amountToBart);

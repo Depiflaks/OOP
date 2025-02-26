@@ -1,0 +1,9 @@
+$input
+111
+$output
+222
+
+$search
+1
+$replace
+2

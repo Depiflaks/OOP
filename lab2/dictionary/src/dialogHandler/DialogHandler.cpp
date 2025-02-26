@@ -4,7 +4,7 @@
 
 #include "DialogHandler.h"
 #include "../dictionary/Dictionary.h"
-#include "../fileProcessor/FileProcessor.h"
+#include "../dictionaryReader/DictionaryReader.h"
 
 #include <assert.h>
 #include <iomanip>
@@ -15,7 +15,7 @@
 #include <stdexcept>
 
 DialogHandler::DialogHandler(const std::string& fileName)
-	: m_fileProcessor(FileProcessor<DictionaryType>{ fileName })
+	: m_fileProcessor(DictionaryReader<DictionaryType>{ fileName })
 {
 	if (m_fileProcessor.IsFileNameEmpty())
 	{
@@ -68,7 +68,7 @@ void DialogHandler::ProcessWord(const std::string& word)
 	const auto maybeTranslations = m_dictionary.Get(word);
 	if (maybeTranslations != std::nullopt)
 	{
-		const auto stringValue = FormatTranslationSetToString(*maybeTranslations);
+		const auto stringValue = ParseTranslationSetToString(*maybeTranslations);
 		std::cout << stringValue << "\n";
 	}
 	else
@@ -116,7 +116,7 @@ void DialogHandler::ProcessFileName(const std::string& message)
 	m_state = DialogState::exit;
 }
 
-std::string DialogHandler::FormatTranslationSetToString(const std::set<std::string>& translations)
+std::string DialogHandler::ParseTranslationSetToString(const std::set<std::string>& translations)
 {
 	return std::accumulate(
 		std::begin(translations),

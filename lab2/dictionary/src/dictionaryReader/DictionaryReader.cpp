@@ -2,7 +2,7 @@
 // Created by smmm on 12.03.2025.
 //
 
-#include "FileProcessor.h"
+#include "DictionaryReader.h"
 
 #include <cassert>
 #include <fstream>
@@ -10,12 +10,12 @@
 #include <stdexcept>
 #include <utility>
 
-FileProcessor::FileProcessor(std::string fileName)
+DictionaryReader::DictionaryReader(std::string fileName)
 	: m_fileName(std::move(fileName))
 {
 }
 
-DictionaryType FileProcessor::ReadData() const
+DictionaryType DictionaryReader::ReadData() const
 {
 	assert(!m_fileName.empty());
 	std::ifstream file(m_fileName);
@@ -27,7 +27,7 @@ DictionaryType FileProcessor::ReadData() const
 	return data;
 }
 
-void FileProcessor::WriteData(const DictionaryType& data) const
+void DictionaryReader::WriteData(const DictionaryType& data) const
 {
 	assert(!m_fileName.empty());
 	std::ifstream file(m_fileName, std::ios::trunc);
@@ -35,29 +35,29 @@ void FileProcessor::WriteData(const DictionaryType& data) const
 	file << data;
 }
 
-bool FileProcessor::IsFileNameEmpty() const
+bool DictionaryReader::IsFileNameEmpty() const
 {
 	return m_fileName.empty();
 }
 
-void FileProcessor::SetFileName(std::string)
+void DictionaryReader::SetFileName(std::string)
 {
 	m_fileName = std::move(std::string(m_fileName));
 }
 
-void FileProcessor::AssertFileCouldBeOpened(std::ifstream& file)
+void DictionaryReader::AssertFileCouldBeOpened(std::ifstream& file)
 {
 	if (!file.is_open())
 		throw std::runtime_error("File could not be opened");
 }
 
-void FileProcessor::AssertFileNotEmpty(const std::ifstream& file)
+void DictionaryReader::AssertFileNotEmpty(const std::ifstream& file)
 {
 	if (file.eof())
 		throw std::runtime_error("File is empty");
 }
 
-void FileProcessor::AssertExpectedFileData(const std::ifstream& file)
+void DictionaryReader::AssertExpectedFileData(const std::ifstream& file)
 {
 	if (file.fail())
 		throw std::runtime_error("Invalid format of file data");

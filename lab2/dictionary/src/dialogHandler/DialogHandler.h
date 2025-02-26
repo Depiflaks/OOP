@@ -5,7 +5,7 @@
 #ifndef DIALOGHANDLER_H
 #define DIALOGHANDLER_H
 #include "../dictionary/Dictionary.h"
-#include "../fileProcessor/FileProcessor.h"
+#include "../dictionaryReader/DictionaryReader.h"
 
 #include <iostream>
 #include <numeric>
@@ -32,7 +32,7 @@ public:
 
 private:
 	Dictionary m_dictionary;
-	FileProcessor<DictionaryType> m_fileProcessor;
+	DictionaryReader<DictionaryType> m_fileProcessor;
 
 	DialogState m_state{ DialogState::waitForWordOrCommand };
 	std::string m_lastWord;
@@ -43,7 +43,7 @@ private:
 	void ProcessSaveConfirmation(const std::string& message);
 	void ProcessFileName(const std::string& message);
 
-	static std::string FormatTranslationSetToString(const std::set<std::string>& translations);
+	static std::string ParseTranslationSetToString(const std::set<std::string>& translations);
 	static std::set<std::string> FormatStringToTranslationSet(const std::string& value);
 
 	static void PrintSaveConfirmationPrompt();

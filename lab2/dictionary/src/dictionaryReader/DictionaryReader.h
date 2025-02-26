@@ -7,10 +7,10 @@
 #include <string>
 #include "../dictionary/Dictionary.h"
 
-class FileProcessor
+class DictionaryReader
 {
 public:
-	explicit FileProcessor(std::string fileName);
+	explicit DictionaryReader(std::string fileName);
 	[[nodiscard]] DictionaryType ReadData() const;
 	void WriteData(const DictionaryType& data) const;
 	[[nodiscard]] bool IsFileNameEmpty() const;

@@ -1,6 +1,7 @@
 //
 // Created by smmm on 19.03.2025.
 //
+
 #include "../src/bank/Bank.h"
 #include "gtest/gtest.h"
 #include <vector>
@@ -8,7 +9,7 @@
 Money calculateTotalMoney(const Bank& bank, const std::vector<AccountId>& accounts)
 {
 	Money total = bank.GetCash();
-	for (AccountId acc : accounts)
+	for (const AccountId acc : accounts)
 	{
 		total += bank.GetAccountBalance(acc);
 	}
@@ -155,7 +156,7 @@ TEST_F(BankTest, TransferToClosedAccountThrows)
 	AccountId accFrom = bank->OpenAccount();
 	AccountId accTo = bank->OpenAccount();
 	bank->DepositMoney(accFrom, 100);
-	Money resultMoney = bank->CloseAccount(accTo);
+	[[maybe_unused]] Money resultMoney = bank->CloseAccount(accTo);
 	EXPECT_THROW(bank->SendMoney(accFrom, accTo, 50), AccountExistenceException);
 }
 
@@ -164,6 +165,12 @@ TEST_F(BankTest, TransferFromClosedAccountThrows)
 	AccountId accFrom = bank->OpenAccount();
 	AccountId accTo = bank->OpenAccount();
 	bank->DepositMoney(accFrom, 100);
-	Money resultMoney = bank->CloseAccount(accFrom);
+	[[maybe_unused]] Money resultMoney = bank->CloseAccount(accFrom);
 	EXPECT_THROW(bank->SendMoney(accFrom, accTo, 50), AccountExistenceException);
+}
+
+int main(int argc, char** argv)
+{
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

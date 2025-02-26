@@ -18,15 +18,16 @@ enum class DialogState
 class DialogHandler
 {
 public:
-	DialogState HandleMessage(std::string& message) const;
+	DialogState HandleMessage(std::string& message);
 
 private:
 	DialogState m_state{ DialogState::waitForWordOrExitCommand };
+	std::string m_lastWord;
 
-	static void ProcessWordOrExitCommand(std::string& message);
-	static void ProcessTranslation(std::string& message);
-	static void ProcessSaveConfirmation(std::string& message);
-	static void ProcessFileName(std::string& message);
+	void ProcessWordOrExitCommand(const std::string& message);
+	void ProcessTranslation(const std::string& message);
+	void ProcessSaveConfirmation(const std::string& message);
+	void ProcessFileName(const std::string& message);
 };
 
 #endif // DIALOGHANDLER_H

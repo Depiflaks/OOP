@@ -12,4 +12,6 @@ add_executable(OOP lab1/replace/main.cpp
         lab2/dictionary/src/fileProcessor/FileProcessor.cpp
         lab2/dictionary/src/fileProcessor/FileProcessor.h
         lab2/dictionary/src/dialogHandler/DialogHandler.cpp
-        lab2/dictionary/src/dialogHandler/DialogHandler.h)
+        lab2/dictionary/src/dialogHandler/DialogHandler.h
+        lab2/dictionary/src/dictionary/Dictionary.cpp
+        lab2/dictionary/src/dictionary/Dictionary.h)

@@ -4,9 +4,10 @@
 
 #include "DialogHandler.h"
 
+#include <iostream>
 #include <stdexcept>
 
-DialogState DialogHandler::HandleMessage(std::string& message) const
+DialogState DialogHandler::HandleMessage(std::string& message)
 {
 	switch (m_state)
 	{
@@ -28,19 +29,50 @@ DialogState DialogHandler::HandleMessage(std::string& message) const
 	return m_state;
 }
 
-void DialogHandler::ProcessWordOrExitCommand(std::string& message)
+void DialogHandler::ProcessWordOrExitCommand(const std::string& message)
 {
-
+	if (message.empty())
+		return;
+	if (message == "...")
+	{
+		std::cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом.";
+		m_state = DialogState::waitForSaveConfirmation;
+		return;
+	}
+	m_lastWord = message;
+	// todo: проверить, есть ли сообщение в словаре
 }
 
-void DialogHandler::ProcessFileName(std::string& message)
+void DialogHandler::ProcessTranslation(const std::string& message)
 {
+	if (message.empty())
+	{
+		std::cout << "Слово \"" << m_lastWord << "\" проигнорировано.";
+		return;
+	}
+	// todo: сделать запись в словарь
+	m_state = DialogState::waitForWordOrExitCommand;
 }
 
-void DialogHandler::ProcessSaveConfirmation(std::string& message)
+void DialogHandler::ProcessSaveConfirmation(const std::string& message)
 {
+	if (!message.empty() && std::tolower(message[0]) == 'y')
+	{
+		// todo: проверка на то, указан ли файл.
+	} else
+	{
+		m_state = DialogState::waitForWordOrExitCommand;
+	}
 }
 
-void DialogHandler::ProcessTranslation(std::string& message)
+void DialogHandler::ProcessFileName(const std::string& message)
 {
+	if (message.empty())
+	{
+		std::cout << "Операция сохранения отменена. Продолжаение работы со словарём";
+		m_state = DialogState::waitForWordOrExitCommand;
+		return;
+	}
+	// todo: сохранить файл с соответствующим названием
+	m_state = DialogState::exit;
 }

@@ -46,7 +46,7 @@ public:
 	[[nodiscard]] Money GetCashBalance() const;
 
 	// Получить приготовленные деньги
-	[[nodiscard]] Money PopPreparedMoney();
+	[[nodiscard]] Money TakePreparedMoney();
 
 	// Узнать текущий id счёта в банке
 	[[nodiscard]] std::optional<AccountId> GetAccountId() const;
@@ -70,7 +70,7 @@ public:
 	void WithdrawMoney(Money amount);
 
 	// Приготовить деньги к передаче другому актору
-	void StashMoneyToTransfer(Money amount);
+	void PrepareMoneyForTransfer(Money amount);
 
 	// Открыть Счёт
 	void OpenAccount();

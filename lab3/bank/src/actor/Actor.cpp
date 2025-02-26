@@ -22,7 +22,7 @@ Money Actor::GetCashBalance() const
 	return m_cashBalance;
 }
 
-Money Actor::PopPreparedMoney()
+Money Actor::TakePreparedMoney()
 {
 	const Money money = m_preparedCashToTransfer;
 	m_preparedCashToTransfer = 0;
@@ -43,19 +43,19 @@ void Actor::TransferMoney(const Actor& dstActor, const Money amount) const
 
 void Actor::HandOverMoney(Actor& dstActor, const Money amount)
 {
-	StashMoneyToTransfer(amount);
+	PrepareMoneyForTransfer(amount);
 	dstActor.ReceivePreparedCash(*this);
 }
 
 void Actor::ExtortMoney(Actor& dstActor, const Money amount)
 {
-	dstActor.StashMoneyToTransfer(amount);
+	dstActor.PrepareMoneyForTransfer(amount);
 	ReceivePreparedCash(dstActor);
 }
 
 void Actor::ReceivePreparedCash(Actor& dstActor)
 {
-	const Money money = dstActor.PopPreparedMoney();
+	const Money money = dstActor.TakePreparedMoney();
 	m_cashBalance += money;
 }
 
@@ -74,7 +74,7 @@ void Actor::WithdrawMoney(const Money amount)
 	m_cashBalance += amount;
 }
 
-void Actor::StashMoneyToTransfer(const Money amount)
+void Actor::PrepareMoneyForTransfer(const Money amount)
 {
 	CheckActorHaveEnoughCash(*this, amount);
 	m_preparedCashToTransfer += amount;
@@ -101,7 +101,7 @@ void Actor::CheckActorHaveAccount(const Actor& actor)
 		throw ActorNotHaveAccountException();
 }
 
-void Actor::CheckActorHaveEnoughCash(const Actor& actor, Money amount)
+void Actor::CheckActorHaveEnoughCash(const Actor& actor, const Money amount)
 {
 	if (actor.GetCashBalance() < amount)
 		throw ActorNotHaveEnoughCashException();

@@ -32,7 +32,7 @@ public:
 
 private:
 	Dictionary m_dictionary;
-	FileProcessor<dictionaryType> m_fileProcessor;
+	FileProcessor<DictionaryType> m_fileProcessor;
 
 	DialogState m_state{ DialogState::waitForWordOrCommand };
 	std::string m_lastWord;
@@ -43,13 +43,13 @@ private:
 	void ProcessSaveConfirmation(const std::string& message);
 	void ProcessFileName(const std::string& message);
 
-	static std::string DialogHandler::FormatTranslationSetToString(const valueType& value);
-	static valueType DialogHandler::FormatStringToTranslationSet(const keyType& value);
+	static std::string FormatTranslationSetToString(const std::set<std::string>& translations);
+	static std::set<std::string> FormatStringToTranslationSet(const std::string& value);
 
-	static void DialogHandler::PrintSaveConfirmationPrompt();
-	static void DialogHandler::PrintWordIgnored(const std::string& word);
-	static void DialogHandler::PrintSaveCancelled();
-	void DialogHandler::PrintUnknownWord() const;
+	static void PrintSaveConfirmationPrompt();
+	static void PrintWordIgnored(const std::string& word);
+	static void PrintSaveCancelled();
+	void PrintUnknownWord() const;
 };
 
 #endif // DIALOGHANDLER_H

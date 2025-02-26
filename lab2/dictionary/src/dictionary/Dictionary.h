@@ -9,20 +9,18 @@
 #include <set>
 #include <string>
 
-using keyType = std::string;
-using valueType = std::set<keyType>;
-using dictionaryType = std::map<keyType, valueType>;
+using DictionaryType = std::map<std::string, std::set<std::string>>;
 
 class Dictionary
 {
 public:
-	explicit Dictionary(dictionaryType dictionary);
+	explicit Dictionary(DictionaryType dictionary);
 	explicit Dictionary();
-	void Dictionary::Store(const keyType& key, const valueType& translations, bool withMirrorRecording = true);
-	std::optional<valueType> Get(const keyType& key);
+	void Store(const std::string& key, const std::set<std::string>& translations, bool withMirrorRecording = true);
+	std::optional<std::set<std::string>> Get(const std::string& key);
 
 private:
-	dictionaryType m_dictionary{};
+	DictionaryType m_dictionary{};
 };
 
 #endif // DICTIONARY_H

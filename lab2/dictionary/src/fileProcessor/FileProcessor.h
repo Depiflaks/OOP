@@ -11,9 +11,9 @@ class FileProcessor
 {
 public:
 	explicit FileProcessor(std::string fileName);
-	dictionaryType ReadData() const;
-	void WriteData(const dictionaryType& data) const;
-	bool IsFileNameEmpty() const;
+	[[nodiscard]] DictionaryType ReadData() const;
+	void WriteData(const DictionaryType& data) const;
+	[[nodiscard]] bool IsFileNameEmpty() const;
 	void SetFileName(std::string);
 
 private:

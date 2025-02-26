@@ -43,7 +43,7 @@ std::string GetInputFilePath(const int argc, char** argv)
 
 void RunDialog(const auto&)
 {
-	const DialogHandler<dictionaryType> dh;
+	const DialogHandler<DictionaryType> dh;
 	std::string message;
 	auto currentState{ DialogState::waitForWordOrCommand };
 	while (currentState != DialogState::exit)

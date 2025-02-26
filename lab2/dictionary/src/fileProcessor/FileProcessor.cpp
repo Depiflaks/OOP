@@ -15,19 +15,19 @@ FileProcessor::FileProcessor(std::string fileName)
 {
 }
 
-dictionaryType FileProcessor::ReadData() const
+DictionaryType FileProcessor::ReadData() const
 {
 	assert(!m_fileName.empty());
 	std::ifstream file(m_fileName);
 	AssertFileCouldBeOpened(file);
-	dictionaryType data;
+	DictionaryType data;
 	file >> data;
 	AssertFileNotEmpty(file);
 	AssertExpectedFileData(file);
 	return data;
 }
 
-void FileProcessor::WriteData(const dictionaryType& data) const
+void FileProcessor::WriteData(const DictionaryType& data) const
 {
 	assert(!m_fileName.empty());
 	std::ifstream file(m_fileName, std::ios::trunc);

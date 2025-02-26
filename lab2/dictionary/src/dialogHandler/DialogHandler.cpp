@@ -15,7 +15,7 @@
 #include <stdexcept>
 
 DialogHandler::DialogHandler(const std::string& fileName)
-	: m_fileProcessor(FileProcessor<dictionaryType>{ fileName })
+	: m_fileProcessor(FileProcessor<DictionaryType>{ fileName })
 {
 	if (m_fileProcessor.IsFileNameEmpty())
 	{
@@ -116,21 +116,21 @@ void DialogHandler::ProcessFileName(const std::string& message)
 	m_state = DialogState::exit;
 }
 
-std::string DialogHandler::FormatTranslationSetToString(const valueType& value)
+std::string DialogHandler::FormatTranslationSetToString(const std::set<std::string>& translations)
 {
 	return std::accumulate(
-		std::begin(value),
-		std::end(value),
+		std::begin(translations),
+		std::end(translations),
 		std::string{},
 		[](const auto& a, const auto& b) {
 			return a + wordSeparator + b;
 		});
 }
 
-valueType DialogHandler::FormatStringToTranslationSet(const keyType& value)
+std::set<std::string> DialogHandler::FormatStringToTranslationSet(const std::string& value)
 {
 	auto values = std::ranges::views::split(value, ',');
-	return valueType{ values.begin(), values.end() };
+	return std::set<std::string>{ values.begin(), values.end() };
 }
 
 void DialogHandler::PrintSaveConfirmationPrompt()

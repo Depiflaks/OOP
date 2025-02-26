@@ -19,10 +19,7 @@ public:
 private:
 	std::optional<std::string> m_fileName;
 
-	static void LoadFromStream(std::istream& input, Dictionary& dict);
-	void SaveToStream(std::ofstream& output, const Dictionary& dict) const;
-	static void AssertFileCouldBeOpened(std::ifstream& file);
-	static void AssertFileNotEmpty(const std::ifstream& file);
+	static void LoadFromStream(std::istream& input, Dictionary& dict); void SaveToStream(std::ofstream& output, const Dictionary& dict) const; static void AssertFileCouldBeOpened(std::ifstream& file); static void AssertFileNotEmpty(const std::ifstream& file);
 	static void AssertExpectedFileData(const std::ifstream& file);
 };
 

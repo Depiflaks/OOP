@@ -3,11 +3,8 @@
 //
 
 #include "replace.h"
-#include <cstring>
 #include <fstream>
-#include <iostream>
 #include <memory>
-#include <stdexcept>
 
 constexpr char htmlEntityStart = '&';
 constexpr char htmlEntityEnd = ';';
@@ -22,7 +19,7 @@ void ReplaceInStream(std::map<std::string, std::string>& rule, std::istream& inS
 	}
 }
 
-void ReplaceInLine(const std::map<std::string, std::string>& rule, std::string& line)
+void ReplaceInLine(std::map<std::string, std::string>& rule, std::string& line)
 {
 	std::string result;
 	size_t lastPos = 0, entityStart;
@@ -33,7 +30,10 @@ void ReplaceInLine(const std::map<std::string, std::string>& rule, std::string& 
 		const size_t entityEnd = line.find(htmlEntityEnd, entityStart + 1);
 
 		if (entityEnd == std::string::npos)
+		{
+			lastPos = entityStart;
 			break;
+		}
 
 		std::string_view entityName(line.data() + entityStart + 1, entityEnd - entityStart - 1);
 
@@ -46,5 +46,6 @@ void ReplaceInLine(const std::map<std::string, std::string>& rule, std::string& 
 	}
 
 	result.append(line, lastPos, line.size() - lastPos);
+
 	line = std::move(result);
 }

@@ -34,4 +34,6 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/citizen/ICitizen.cpp
         lab3/bank/src/citizen/description/CitizenDescription.cpp
         lab3/bank/src/citizen/description/CitizenDescription.h
-        lab3/bank/src/citizen/description/map/citizenMap.h)
+        lab3/bank/src/citizen/description/map/citizenMap.h
+        lab3/bank/src/citizen/citizens/marge/CitizenMarge.cpp
+        lab3/bank/src/citizen/citizens/marge/CitizenMarge.h)

@@ -12,6 +12,15 @@
 DialogHandler::DialogHandler(const std::string& fileName)
 	: m_fileProcessor(FileProcessor<dictionaryType>{ fileName })
 {
+	if (m_fileProcessor.IsFileNameEmpty())
+	{
+		m_dictionary = Dictionary();
+	}
+	else
+	{
+		const auto data = m_fileProcessor.ReadData();
+		m_dictionary = Dictionary(data);
+	}
 }
 
 DialogState DialogHandler::HandleMessage(const std::string& message)
@@ -47,8 +56,11 @@ void DialogHandler::ProcessWordOrCommand(const std::string& message)
 		return;
 	}
 	m_lastWord = message;
-	if ()
-	// todo: проверить, есть ли сообщение в словаре
+	if (auto value = m_dictionary.Get(message) != std::nullopt)
+	{
+
+	}
+
 }
 
 void DialogHandler::ProcessTranslation(const std::string& message)

@@ -7,4 +7,5 @@ add_executable(OOP lab1/replace/main.cpp
         lab1/replace/main.cpp
         lab2/html_decode/main.cpp
         lab2/html_decode/src/HtmlDecode.cpp
-        lab2/html_decode/tests/TestHtmlDecode.cpp)
+        lab2/html_decode/tests/TestHtmlDecode.cpp
+        lab2/dictionary/main.cpp)

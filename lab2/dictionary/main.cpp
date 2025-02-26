@@ -12,7 +12,7 @@
 #include <ostream>
 
 void RunDialog(const auto& dictFile);
-std::string GetInputFilePath(int argc, char** argv);
+std::optional<std::string> GetInputFilePath(int argc, char** argv);
 
 int main(const int argc, char* argv[])
 {
@@ -29,8 +29,7 @@ int main(const int argc, char* argv[])
 	return 0;
 }
 
-// todo: обратно на optional
-std::string GetInputFilePath(const int argc, char** argv)
+std::optional<std::string> GetInputFilePath(const int argc, char** argv)
 {
 	if (argc > 2)
 		throw std::invalid_argument("Too many arguments");
@@ -38,12 +37,12 @@ std::string GetInputFilePath(const int argc, char** argv)
 	{
 		return argv[1];
 	}
-	return "";
+	return std::nullopt;
 }
 
-void RunDialog(const auto&)
+void RunDialog(const auto& dictFile)
 {
-	const DialogHandler<DictionaryType> dh;
+	const DialogHandler dh;
 	std::string message;
 	auto currentState{ DialogState::waitForWordOrCommand };
 	while (currentState != DialogState::exit)

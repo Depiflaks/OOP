@@ -6,24 +6,22 @@
 #include "../dictionary/Dictionary.h"
 #include "../dictionaryReader/DictionaryReader.h"
 
-#include <assert.h>
-#include <iomanip>
+#include <cassert>
 #include <iostream>
-#include <numeric>
 #include <ranges>
 #include <regex>
 #include <stdexcept>
 
-DialogHandler::DialogHandler(const std::string& fileName)
-	: m_fileProcessor(DictionaryReader<DictionaryType>{ fileName })
+DialogHandler::DialogHandler(const std::optional<std::string>& fileName)
+	: m_dictionaryReader(DictionaryReader{ fileName })
 {
-	if (m_fileProcessor.IsFileNameEmpty())
+	if (m_dictionaryReader.IsFileNameEmpty())
 	{
 		m_dictionary = Dictionary();
 	}
 	else
 	{
-		const auto data = m_fileProcessor.ReadData();
+		const auto data = m_dictionaryReader.ReadData();
 		m_dictionary = Dictionary(data);
 	}
 }
@@ -56,11 +54,23 @@ void DialogHandler::ProcessWordOrCommand(const std::string& message)
 		return;
 	if (message == k_exitCommand)
 	{
-		PrintSaveConfirmationPrompt();
-		m_state = DialogState::waitForSaveConfirmation;
+		ProcessExitCommand();
 		return;
 	}
 	ProcessWord(message);
+}
+
+void DialogHandler::ProcessExitCommand()
+{
+	if (!m_hasDictionaryChanged)
+	{
+		m_state = DialogState::exit;
+	}
+	else
+	{
+		PrintSaveConfirmationPrompt();
+		m_state = DialogState::waitForSaveConfirmation;
+	}
 }
 
 void DialogHandler::ProcessWord(const std::string& word)
@@ -68,12 +78,13 @@ void DialogHandler::ProcessWord(const std::string& word)
 	const auto maybeTranslations = m_dictionary.Get(word);
 	if (maybeTranslations != std::nullopt)
 	{
-		const auto stringValue = ParseTranslationSetToString(*maybeTranslations);
+		const auto stringValue = TranslationSet::FormatTranslationSet(*maybeTranslations);
 		std::cout << stringValue << "\n";
+		m_state = DialogState::waitForWordOrCommand;
 	}
 	else
 	{
-		m_lastWord = word;
+		m_keyWord = word;
 		PrintUnknownWord();
 		m_state = DialogState::waitForTranslation;
 	}
@@ -86,7 +97,8 @@ void DialogHandler::ProcessTranslation(const std::string& message)
 		PrintWordIgnored(message);
 		return;
 	}
-	m_dictionary.Store(m_lastWord, FormatStringToTranslationSet(message));
+	m_dictionary.Store(m_keyWord, TranslationSet::ParseStringToTranslationSet(message));
+	m_hasDictionaryChanged = true;
 	m_state = DialogState::waitForWordOrCommand;
 }
 
@@ -94,14 +106,22 @@ void DialogHandler::ProcessSaveConfirmation(const std::string& message)
 {
 	if (!message.empty() && std::tolower(message[0]) == 'y')
 	{
-		if (m_fileProcessor.IsFileNameEmpty())
+		if (m_dictionaryReader.IsFileNameEmpty())
 		{
+			PrintWaitingForFileNamePrompt();
+			m_state = DialogState::waitForFileName;
 		}
+		else
+			SaveDictionary();
 	}
 	else
-	{
 		m_state = DialogState::exit;
-	}
+}
+
+void DialogHandler::SaveDictionary()
+{
+	m_dictionaryReader.WriteData(m_dictionary.GetDictionary());
+	m_state = DialogState::exit;
 }
 
 void DialogHandler::ProcessFileName(const std::string& message)
@@ -109,28 +129,11 @@ void DialogHandler::ProcessFileName(const std::string& message)
 	if (message.empty())
 	{
 		PrintSaveCancelled();
-		m_state = DialogState::waitForWordOrCommand;
+		m_state = DialogState::exit;
 		return;
 	}
-	// todo: сохранить файл с соответствующим названием
-	m_state = DialogState::exit;
-}
-
-std::string DialogHandler::ParseTranslationSetToString(const std::set<std::string>& translations)
-{
-	return std::accumulate(
-		std::begin(translations),
-		std::end(translations),
-		std::string{},
-		[](const auto& a, const auto& b) {
-			return a + wordSeparator + b;
-		});
-}
-
-std::set<std::string> DialogHandler::FormatStringToTranslationSet(const std::string& value)
-{
-	auto values = std::ranges::views::split(value, ',');
-	return std::set<std::string>{ values.begin(), values.end() };
+	m_dictionaryReader.SetFileName(message);
+	SaveDictionary();
 }
 
 void DialogHandler::PrintSaveConfirmationPrompt()
@@ -145,10 +148,15 @@ void DialogHandler::PrintWordIgnored(const std::string& word)
 
 void DialogHandler::PrintSaveCancelled()
 {
-	std::cout << "Save operation cancelled. Continuing work with the dictionary.\n";
+	std::cout << "Save operation cancelled.\n";
 }
 
 void DialogHandler::PrintUnknownWord() const
 {
-	std::cout << "Unknown word \"" << m_lastWord << "\". Enter translation or empty string to refuse.";
+	std::cout << "Unknown word \"" << m_keyWord << "\". Enter translation or empty string to refuse.";
+}
+
+void DialogHandler::PrintWaitingForFileNamePrompt()
+{
+	std::cout << "Enter file name or empty line to cancel saving \n";
 }

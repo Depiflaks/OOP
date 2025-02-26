@@ -10,14 +10,14 @@
 class DictionaryReader
 {
 public:
-	explicit DictionaryReader(std::string fileName);
-	[[nodiscard]] DictionaryType ReadData() const;
+	explicit DictionaryReader(std::optional<std::string> fileName);
+	DictionaryType ReadData() const;
 	void WriteData(const DictionaryType& data) const;
-	[[nodiscard]] bool IsFileNameEmpty() const;
-	void SetFileName(std::string);
+	bool IsFileNameEmpty() const;
+	void SetFileName(const std::string&);
 
 private:
-	std::string m_fileName;
+	std::optional<std::string> m_fileName;
 
 	static void AssertFileCouldBeOpened(std::ifstream& file);
 	static void AssertFileNotEmpty(const std::ifstream& file);

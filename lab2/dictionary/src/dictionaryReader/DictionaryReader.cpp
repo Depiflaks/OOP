@@ -10,15 +10,15 @@
 #include <stdexcept>
 #include <utility>
 
-DictionaryReader::DictionaryReader(std::string fileName)
+DictionaryReader::DictionaryReader(std::optional<std::string> fileName)
 	: m_fileName(std::move(fileName))
 {
 }
 
 DictionaryType DictionaryReader::ReadData() const
 {
-	assert(!m_fileName.empty());
-	std::ifstream file(m_fileName);
+	assert(m_fileName != std::nullopt);
+	std::ifstream file(*m_fileName);
 	AssertFileCouldBeOpened(file);
 	DictionaryType data;
 	file >> data;
@@ -29,20 +29,20 @@ DictionaryType DictionaryReader::ReadData() const
 
 void DictionaryReader::WriteData(const DictionaryType& data) const
 {
-	assert(!m_fileName.empty());
-	std::ifstream file(m_fileName, std::ios::trunc);
+	assert(m_fileName != std::nullopt);
+	std::ifstream file(*m_fileName, std::ios::trunc);
 	AssertFileCouldBeOpened(file);
 	file << data;
 }
 
 bool DictionaryReader::IsFileNameEmpty() const
 {
-	return m_fileName.empty();
+	return m_fileName == std::nullopt;
 }
 
-void DictionaryReader::SetFileName(std::string)
+void DictionaryReader::SetFileName(const std::string& fileName)
 {
-	m_fileName = std::move(std::string(m_fileName));
+	m_fileName = fileName;
 }
 
 void DictionaryReader::AssertFileCouldBeOpened(std::ifstream& file)

@@ -6,6 +6,7 @@
 #define DIALOGHANDLER_H
 #include "../dictionary/Dictionary.h"
 #include "../dictionaryReader/DictionaryReader.h"
+#include "../translationSet/TranslationSet.h"
 
 #include <iostream>
 #include <numeric>
@@ -21,34 +22,33 @@ enum class DialogState
 	exit
 };
 
-constexpr std::string wordSeparator = ", ";
-
 class DialogHandler
 {
 public:
-	explicit DialogHandler(const std::string& fileName);
+	explicit DialogHandler(const std::optional<std::string>& fileName);
 	DialogState HandleMessage(const std::string& message);
+	void ProcessExitCommand();
 	void ProcessWord(const std::string& word);
 
 private:
 	Dictionary m_dictionary;
-	DictionaryReader<DictionaryType> m_fileProcessor;
+	DictionaryReader m_dictionaryReader;
 
 	DialogState m_state{ DialogState::waitForWordOrCommand };
-	std::string m_lastWord;
+	std::string m_keyWord;
+	bool m_hasDictionaryChanged{ false };
 	static constexpr std::string_view k_exitCommand{ "..." };
 
 	void ProcessWordOrCommand(const std::string& message);
 	void ProcessTranslation(const std::string& message);
 	void ProcessSaveConfirmation(const std::string& message);
+	void SaveDictionary();
 	void ProcessFileName(const std::string& message);
-
-	static std::string ParseTranslationSetToString(const std::set<std::string>& translations);
-	static std::set<std::string> FormatStringToTranslationSet(const std::string& value);
 
 	static void PrintSaveConfirmationPrompt();
 	static void PrintWordIgnored(const std::string& word);
 	static void PrintSaveCancelled();
+	static void PrintWaitingForFileNamePrompt();
 	void PrintUnknownWord() const;
 };
 

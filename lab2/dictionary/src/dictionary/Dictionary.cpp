@@ -38,3 +38,8 @@ std::optional<std::set<std::string>> Dictionary::Get(const std::string& key)
 	else
 		return it->second;
 }
+
+DictionaryType Dictionary::GetDictionary() const
+{
+	return m_dictionary;
+}

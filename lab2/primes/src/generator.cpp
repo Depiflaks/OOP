@@ -26,9 +26,10 @@ std::set<int> GeneratePrimeNumbersSet(int upperBound)
 
 void EratosthenesSieve(const int upperBound, std::vector<bool>& isPrime)
 {
-	// todo: можно ускорить в 2 раза
-	for (int candidate = 2; candidate <= std::sqrt(upperBound); ++candidate)
+	bool isWas2 = false;
+	for (int candidate = 2; candidate <= std::sqrt(upperBound); candidate += 1 + isWas2)
 	{
+		isWas2 = true;
 		if (isPrime[candidate])
 		{
 			for (int multiple = candidate * candidate; multiple <= upperBound; multiple += candidate)

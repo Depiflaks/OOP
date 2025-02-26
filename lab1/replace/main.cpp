@@ -103,23 +103,23 @@ void AssertFilesPathsNotEqual(const std::string& filePath1, const std::string& f
 		throw std::runtime_error("Input and output files must be different.");
 }
 
-// todo: switch case без записи в переменные
 void Replace(const ReplaceConfig& config)
 {
-	std::istream* inStream = &std::cin;
-	std::ostream* outStream = &std::cout;
-	std::ifstream inFile;
-	std::ofstream outFile;
-	if (config.type == SourceType::files)
+	switch (config.type)
 	{
+	case SourceType::standard:
+		ReplaceInStream(config, std::cin, std::cout);
+		break;
+	case SourceType::files:
+		std::ifstream inFile;
+		std::ofstream outFile;
 		inFile.open(config.inFilePath);
 		outFile.open(config.outFilePath);
 		if (!inFile || !outFile)
 			throw std::runtime_error("Error opening files");
-		inStream = &inFile;
-		outStream = &outFile;
+		ReplaceInStream(config, inFile, outFile);
+		break;
 	}
-	ReplaceInStream(config, *inStream, *outStream);
 }
 
 void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream)

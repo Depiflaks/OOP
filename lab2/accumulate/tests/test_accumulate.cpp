@@ -28,6 +28,7 @@ TEST(GetPositiveSumTest, NegativeArray)
 	EXPECT_EQ(GetPositiveSum(numbers), 2);
 }
 
+// todo: не нужна
 TEST(GetPositiveSumTest, HandlesOverflow) {
 	std::vector<double> largeNumbers = {std::numeric_limits<double>::max(), std::numeric_limits<double>::max()};
 

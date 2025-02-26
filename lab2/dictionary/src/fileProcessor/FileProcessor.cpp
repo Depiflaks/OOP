@@ -10,27 +10,24 @@
 #include <stdexcept>
 #include <utility>
 
-template <typename readType>
-FileProcessor<readType>::FileProcessor(std::string fileName)
+FileProcessor::FileProcessor(std::string fileName)
 	: m_fileName(std::move(fileName))
 {
 }
 
-template <typename readType>
-readType FileProcessor<readType>::ReadData() const
+dictionaryType FileProcessor::ReadData() const
 {
 	assert(!m_fileName.empty());
 	std::ifstream file(m_fileName);
 	AssertFileCouldBeOpened(file);
-	readType data;
+	dictionaryType data;
 	file >> data;
 	AssertFileNotEmpty(file);
 	AssertExpectedFileData(file);
 	return data;
 }
 
-template <typename readType>
-void FileProcessor<readType>::WriteData(const readType& data) const
+void FileProcessor::WriteData(const dictionaryType& data) const
 {
 	assert(!m_fileName.empty());
 	std::ifstream file(m_fileName, std::ios::trunc);
@@ -38,34 +35,29 @@ void FileProcessor<readType>::WriteData(const readType& data) const
 	file << data;
 }
 
-template <typename readType>
-bool FileProcessor<readType>::IsFileNameEmpty() const
+bool FileProcessor::IsFileNameEmpty() const
 {
 	return m_fileName.empty();
 }
 
-template <typename readType>
-void FileProcessor<readType>::SetFileName(std::string)
+void FileProcessor::SetFileName(std::string)
 {
 	m_fileName = std::move(std::string(m_fileName));
 }
 
-template <typename readType>
-void FileProcessor<readType>::AssertFileCouldBeOpened(std::ifstream& file)
+void FileProcessor::AssertFileCouldBeOpened(std::ifstream& file)
 {
 	if (!file.is_open())
 		throw std::runtime_error("File could not be opened");
 }
 
-template <typename readType>
-void FileProcessor<readType>::AssertFileNotEmpty(const std::ifstream& file)
+void FileProcessor::AssertFileNotEmpty(const std::ifstream& file)
 {
 	if (file.eof())
 		throw std::runtime_error("File is empty");
 }
 
-template <typename readType>
-void FileProcessor<readType>::AssertExpectedFileData(const std::ifstream& file)
+void FileProcessor::AssertExpectedFileData(const std::ifstream& file)
 {
 	if (file.fail())
 		throw std::runtime_error("Invalid format of file data");

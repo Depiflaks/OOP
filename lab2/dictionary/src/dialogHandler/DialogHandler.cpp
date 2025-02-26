@@ -5,12 +5,14 @@
 #include "DialogHandler.h"
 #include "../dictionary/Dictionary.h"
 #include "../fileProcessor/FileProcessor.h"
+
+#include <assert.h>
+#include <iomanip>
 #include <iostream>
 #include <numeric>
+#include <ranges>
 #include <regex>
 #include <stdexcept>
-#include <iomanip>
-#include <ranges>
 
 DialogHandler::DialogHandler(const std::string& fileName)
 	: m_fileProcessor(FileProcessor<dictionaryType>{ fileName })
@@ -58,14 +60,20 @@ void DialogHandler::ProcessWordOrCommand(const std::string& message)
 		m_state = DialogState::waitForSaveConfirmation;
 		return;
 	}
-	if (const auto value = m_dictionary.Get(message); value != std::nullopt)
+	ProcessWord(message);
+}
+
+void DialogHandler::ProcessWord(const std::string& word)
+{
+	const auto maybeTranslations = m_dictionary.Get(word);
+	if (maybeTranslations != std::nullopt)
 	{
-		auto stringValue = ConvertDictValueToString(value.value());
-		PrintDictValue(stringValue);
+		const auto stringValue = FormatTranslationSetToString(*maybeTranslations);
+		std::cout << stringValue << "\n";
 	}
 	else
 	{
-		m_lastWord = message;
+		m_lastWord = word;
 		PrintUnknownWord();
 		m_state = DialogState::waitForTranslation;
 	}
@@ -78,7 +86,7 @@ void DialogHandler::ProcessTranslation(const std::string& message)
 		PrintWordIgnored(message);
 		return;
 	}
-	// todo: сделать запись в словарь
+	m_dictionary.Store(m_lastWord, FormatStringToTranslationSet(message));
 	m_state = DialogState::waitForWordOrCommand;
 }
 
@@ -108,19 +116,39 @@ void DialogHandler::ProcessFileName(const std::string& message)
 	m_state = DialogState::exit;
 }
 
-std::string DialogHandler::ConvertDictValueToString(const valueType& value)
+std::string DialogHandler::FormatTranslationSetToString(const valueType& value)
 {
 	return std::accumulate(
 		std::begin(value),
 		std::end(value),
 		std::string{},
 		[](const auto& a, const auto& b) {
-			return a + ", " + b;
+			return a + wordSeparator + b;
 		});
 }
 
-valueType DialogHandler::ConvertStringToDictValue(const std::string& value)
+valueType DialogHandler::FormatStringToTranslationSet(const keyType& value)
 {
 	auto values = std::ranges::views::split(value, ',');
-	return valueType{values.begin(), values.end()};
+	return valueType{ values.begin(), values.end() };
+}
+
+void DialogHandler::PrintSaveConfirmationPrompt()
+{
+	std::cout << "The dictionary has been modified. Enter Y or y to save before exiting.\n";
+}
+
+void DialogHandler::PrintWordIgnored(const std::string& word)
+{
+	std::cout << "The word \"" << word << "\" has been ignored.\n";
+}
+
+void DialogHandler::PrintSaveCancelled()
+{
+	std::cout << "Save operation cancelled. Continuing work with the dictionary.\n";
+}
+
+void DialogHandler::PrintUnknownWord() const
+{
+	std::cout << "Unknown word \"" << m_lastWord << "\". Enter translation or empty string to refuse.";
 }

@@ -8,6 +8,8 @@
 #include "../fileProcessor/FileProcessor.h"
 
 #include <iostream>
+#include <numeric>
+#include <ranges>
 #include <string>
 
 enum class DialogState
@@ -26,6 +28,7 @@ class DialogHandler
 public:
 	explicit DialogHandler(const std::string& fileName);
 	DialogState HandleMessage(const std::string& message);
+	void ProcessWord(const std::string& word);
 
 private:
 	Dictionary m_dictionary;
@@ -33,40 +36,20 @@ private:
 
 	DialogState m_state{ DialogState::waitForWordOrCommand };
 	std::string m_lastWord;
-	constexpr std::string_view k_exitCommand{ "..." };
+	static constexpr std::string_view k_exitCommand{ "..." };
 
 	void ProcessWordOrCommand(const std::string& message);
 	void ProcessTranslation(const std::string& message);
 	void ProcessSaveConfirmation(const std::string& message);
 	void ProcessFileName(const std::string& message);
 
-	static std::string ConvertDictValueToString(const valueType& value);
-	static valueType ConvertStringToDictValue(const std::string& value);
+	static std::string DialogHandler::FormatTranslationSetToString(const valueType& value);
+	static valueType DialogHandler::FormatStringToTranslationSet(const keyType& value);
 
-	static void DialogHandler::PrintSaveConfirmationPrompt()
-	{
-		std::cout << "The dictionary has been modified. Enter Y or y to save before exiting.\n";
-	}
-
-	static void DialogHandler::PrintWordIgnored(const std::string& word)
-	{
-		std::cout << "The word \"" << word << "\" has been ignored.\n";
-	}
-
-	static void DialogHandler::PrintSaveCancelled()
-	{
-		std::cout << "Save operation cancelled. Continuing work with the dictionary.\n";
-	}
-
-	void DialogHandler::PrintUnknownWord() const
-	{
-		std::cout << "Unknown word \"" << m_lastWord << "\". Enter translation or empty string to refuse.";
-	}
-
-	static void DialogHandler::PrintDictValue(const auto value)
-	{
-		std::cout << value << "\n";
-	}
+	static void DialogHandler::PrintSaveConfirmationPrompt();
+	static void DialogHandler::PrintWordIgnored(const std::string& word);
+	static void DialogHandler::PrintSaveCancelled();
+	void DialogHandler::PrintUnknownWord() const;
 };
 
 #endif // DIALOGHANDLER_H

@@ -18,7 +18,7 @@ class Dictionary
 public:
 	explicit Dictionary(dictionaryType dictionary);
 	explicit Dictionary();
-	void Store(const keyType& key, const std::string& word);
+	void Dictionary::Store(const keyType& key, const valueType& translations, bool withMirrorRecording = true);
 	std::optional<valueType> Get(const keyType& key);
 
 private:

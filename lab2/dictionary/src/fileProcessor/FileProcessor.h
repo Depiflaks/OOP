@@ -5,14 +5,14 @@
 #ifndef FILEPROVIDER_H
 #define FILEPROVIDER_H
 #include <string>
+#include "../dictionary/Dictionary.h"
 
-template <typename readType>
 class FileProcessor
 {
 public:
 	explicit FileProcessor(std::string fileName);
-	readType ReadData() const;
-	void WriteData(const readType& data) const;
+	dictionaryType ReadData() const;
+	void WriteData(const dictionaryType& data) const;
 	bool IsFileNameEmpty() const;
 	void SetFileName(std::string);
 

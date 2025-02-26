@@ -16,13 +16,12 @@ Dictionary::Dictionary()
 {
 }
 
-void Dictionary::Store(const keyType& key, const std::string& word)
+void Dictionary::Store(const keyType& key, const valueType& translations, bool withMirrorRecording = true)
 {
 	const auto it = m_dictionary.find(key);
 	if (it == m_dictionary.end())
-		m_dictionary[key] = { word };
-	else
-		m_dictionary[key].insert(word);
+		m_dictionary[key] = {};
+	m_dictionary[key].insert(translations.begin(), translations.end());
 }
 
 std::optional<valueType> Dictionary::Get(const keyType& key)

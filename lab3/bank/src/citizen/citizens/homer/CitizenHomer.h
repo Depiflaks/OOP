@@ -15,6 +15,9 @@ public:
 	void ExecuteWithErrorHandling() override;
 
 private:
+	const CitizenName m_name{ CitizenName::homerSimpson };
+	CitizenMap& m_citizens;
+
 	void Execute() override;
 	void TransferMoneyToMarge(Money amount);
 	void PayForElectricity(Money amount);

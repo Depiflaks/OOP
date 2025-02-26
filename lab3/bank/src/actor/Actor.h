@@ -63,9 +63,6 @@ public:
 	// Вывести из собственного счёта
 	void WithdrawMoney(Money amount);
 
-	// Приготовить деньги к передаче другому актору
-	void PrepareMoneyForTransfer(Money amount);
-
 	// Открыть Счёт
 	void OpenAccount();
 

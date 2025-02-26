@@ -8,18 +8,16 @@
 
 #include "../actor/Actor.h"
 #include "../bank/Bank.h"
-#include "../characterName/CharacterName.h"
+#include "../citizenName/CitizenName.h"
 
-using ActorsMap = std::map<CharacterName, Actor>;
-
-class IScenario
+class ICitizen
 {
 public:
 	virtual void ExecuteWithErrorHandling() = 0;
-	virtual ~IScenario() = default;
+	virtual ~ICitizen() = default;
 
 protected:
-	explicit IScenario() = default;
+	explicit ICitizen() = default;
 
 private:
 	void Execute(Bank& bank);

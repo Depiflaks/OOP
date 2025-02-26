@@ -5,7 +5,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-enum class CharacterName
+enum class CitizenName
 {
 	homerSimpson,
 	margeSimpson,

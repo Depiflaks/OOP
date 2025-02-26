@@ -25,5 +25,9 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/actor/Actor.h
         lab3/bank/tests/TestBank.cpp
         lab3/bank/tests/TestActor.cpp
-        lab3/bank/src/scenario/Scenario.h
-        lab3/bank/src/characterName/CharacterName.h)
+        lab3/bank/src/citizen/Citizen.h
+        lab3/bank/src/citizen/citizenName/CitizenName.h
+        lab3/bank/src/town/Town.cpp
+        lab3/bank/src/town/Town.h
+        lab3/bank/src/citizen/citizens/homer/CitizenHomer.cpp
+        lab3/bank/src/citizen/citizens/homer/CitizenHomer.h)

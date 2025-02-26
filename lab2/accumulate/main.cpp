@@ -1,13 +1,13 @@
 //
 // Created by smmm on 26.02.2025.
 //
+#include "accumulate.h"
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
 #include <numeric>
 #include <sstream>
 #include <vector>
-#include "accumulate.h"
 
 auto main() -> int
 {
@@ -47,9 +47,8 @@ auto ProcessNumbers(std::vector<double>& numbers) -> void
 	if (numbers.empty())
 		return;
 
-	double sum = std::accumulate(numbers.begin(), numbers.end(), 0.0,
-		[](double acc, double val) { return val > 0 ? acc + val : acc; });
-	int count = std::count_if(numbers.begin(), numbers.end(), [](double val) { return val > 0; });
+	double sum = GetPositiveSum(numbers);
+	int count = GetPositiveCount(numbers);
 
 	if (count == 0)
 		return;
@@ -60,6 +59,23 @@ auto ProcessNumbers(std::vector<double>& numbers) -> void
 	{
 		num += average;
 	}
+}
+
+auto GetPositiveCount(std::vector<double>& numbers) -> int
+{
+	return std::count_if(
+		numbers.begin(),
+		numbers.end(),
+		[](double val) { return val > 0; });
+}
+
+auto GetPositiveSum(std::vector<double>& numbers) -> double
+{
+	return std::accumulate(
+		numbers.begin(),
+		numbers.end(),
+		0.0,
+		[](double acc, double val) { return val > 0 ? acc + val : acc; });
 }
 
 auto PrintSortedNumbers(const std::vector<double>& numbers) -> void

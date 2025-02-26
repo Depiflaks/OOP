@@ -12,24 +12,20 @@ class CitizenNotFoundException final : public std::out_of_range
 {
 public:
 	using std::out_of_range::out_of_range;
-	~CitizenNotFoundException()() override = default;
+	~CitizenNotFoundException() override = default;
 };
 
-class Citizen
+class ICitizen
 {
 public:
-	explicit Citizen(CitizenName name, CitizenMap& citizens);
 	virtual void ExecuteWithErrorHandling();
-	virtual ~Citizen() = default;
+	virtual ~ICitizen() = default;
 
 protected:
-
-	explicit Citizen() = default;
-	Citizen FindCitizen(CitizenName citizen);
+	explicit ICitizen() = default;
 
 private:
-	void Execute();
-	static void CheckCitizenExist(CitizenName citizen);
+	virtual void Execute() = 0;
 };
 
 #endif // SCENARIO_H

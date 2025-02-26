@@ -1,20 +1,14 @@
 //
 // Created by smmm on 27.03.2025.
 //
-#include "Citizen.h"
+#include "ICitizen.h"
 
 #include "../actor/Actor.h"
 #include "../bank/Bank.h"
 
 #include <iostream>
 
-Citizen::Citizen(const CitizenName name, CitizenMap& citizens)
-	: m_name(name)
-	, m_citizens(citizens)
-{
-}
-
-void Citizen::ExecuteWithErrorHandling()
+void ICitizen::ExecuteWithErrorHandling()
 {
 	try
 	{
@@ -32,16 +26,4 @@ void Citizen::ExecuteWithErrorHandling()
 	{
 		std::cout << "unexpected error: " << exception.what();
 	}
-}
-
-Citizen Citizen::FindCitizen(CitizenName citizen)
-{
-	CheckCitizenExist(citizen);
-	return m_citizens[citizen];
-}
-
-void Citizen::CheckCitizenExist(CitizenName citizen)
-{
-	if (!m_citizens.contains(citizen))
-		throw CitizenNotFoundException{ "citizen " + getName(citizen) + "not found" };
 }

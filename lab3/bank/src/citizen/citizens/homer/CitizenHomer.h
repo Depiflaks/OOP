@@ -5,22 +5,21 @@
 #ifndef CITIZEN_HOMER_H
 #define CITIZEN_HOMER_H
 #include "../../../actor/Actor.h"
-#include "../../Citizen.h"
+#include "../../ICitizen.h"
+#include "../../description/CitizenDescription.h"
 
-class CitizenHomer final : public Citizen
+class CitizenHomer final : public ICitizen
 	, protected Actor
+	, protected CitizenDescription
 {
 public:
 	CitizenHomer(Bank& bank, CitizenMap& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
 
 private:
-	using Citizen::m_citizens;
-	using Citizen::m_name;
-
 	void Execute() override;
-	void TransferMoneyToMarge(Money amount);
-	void PayForElectricity(Money amount);
+	void TransferMoneyToMarge(Money amount) const;
+	void PayForElectricity(Money amount) const;
 	void GiveMoneyToChildren(Money bartAmount, Money lisaAmount);
 };
 

@@ -8,14 +8,14 @@
 
 CitizenHomer::CitizenHomer(Bank& bank, CitizenMap& citizens, const Money cash)
 	: Actor(bank, cash)
+	, CitizenDescription(CitizenName::homerSimpson, citizens)
 {
-	m_citizens = citizens;
 }
 
 void CitizenHomer::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	ICitizen::ExecuteWithErrorHandling();
 }
 
 void CitizenHomer::Execute()
@@ -25,17 +25,23 @@ void CitizenHomer::Execute()
 	GiveMoneyToChildren(5, 5);
 }
 
-void CitizenHomer::TransferMoneyToMarge(Money amount)
+void CitizenHomer::TransferMoneyToMarge(const Money amount) const
 {
-	CheckCitizenExist(CitizenName::margeSimpson);
-	auto marge = m_citizens.find(CitizenName::margeSimpson);
-
+	const Actor marge = FindCitizen(CitizenName::margeSimpson);
+	TransferMoney(marge, amount);
 }
 
-void CitizenHomer::PayForElectricity(Money amount)
+void CitizenHomer::PayForElectricity(Money amount) const
 {
+	const Actor mrBurns = FindCitizen(CitizenName::mrBurns);
+	TransferMoney(mrBurns, amount);
 }
 
 void CitizenHomer::GiveMoneyToChildren(Money bartAmount, Money lisaAmount)
 {
+	Actor bart = FindCitizen(CitizenName::bartSimpson);
+	Actor lisa = FindCitizen(CitizenName::lisaSimpson);
+	WithdrawMoney(bartAmount + lisaAmount);
+	HandOverMoney(bart, bartAmount);
+	HandOverMoney(lisa, lisaAmount);
 }

@@ -13,9 +13,14 @@ class CitizenDescription
 public:
 	explicit CitizenDescription::CitizenDescription(CitizenName name, CitizenMap& citizens);
 
-private:
+protected:
 	const CitizenName m_name{ CitizenName::homerSimpson };
 	CitizenMap& m_citizens;
+
+	[[nodiscard]] Actor FindCitizen(CitizenName citizen) const;
+
+private:
+	void CheckCitizenExist(CitizenName citizen) const;
 };
 
 #endif // CITIZEN_DESCRIPTION_H

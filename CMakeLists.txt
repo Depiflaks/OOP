@@ -25,13 +25,13 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/actor/Actor.h
         lab3/bank/tests/TestBank.cpp
         lab3/bank/tests/TestActor.cpp
-        lab3/bank/src/citizen/Citizen.h
+        lab3/bank/src/citizen/ICitizen.h
         lab3/bank/src/citizen/description/name/CitizenName.h
         lab3/bank/src/town/Town.cpp
         lab3/bank/src/town/Town.h
         lab3/bank/src/citizen/citizens/homer/CitizenHomer.cpp
         lab3/bank/src/citizen/citizens/homer/CitizenHomer.h
-        lab3/bank/src/citizen/Citizen.cpp
+        lab3/bank/src/citizen/ICitizen.cpp
         lab3/bank/src/citizen/description/CitizenDescription.cpp
         lab3/bank/src/citizen/description/CitizenDescription.h
         lab3/bank/src/citizen/description/map/citizenMap.h)

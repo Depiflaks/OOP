@@ -4,11 +4,11 @@
 
 #ifndef CITIZEN_MAP_H
 #define CITIZEN_MAP_H
-#include "../../Citizen.h"
+#include "../../ICitizen.h"
 #include "../name/CitizenName.h"
 
 #include <map>
 
-using CitizenMap = std::map<CitizenName, Citizen>;
+using CitizenMap = std::map<CitizenName, Actor>;
 
 #endif //CITIZEN_MAP_H

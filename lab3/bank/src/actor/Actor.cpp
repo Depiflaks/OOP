@@ -23,13 +23,6 @@ Money Actor::GetCashBalance() const
 	return m_cashBalance;
 }
 
-Money Actor::TakePreparedMoney()
-{
-	const Money money = m_preparedCashToTransfer;
-	m_preparedCashToTransfer = 0;
-	return money;
-}
-
 std::optional<AccountId> Actor::GetAccountId() const
 {
 	return m_accountId;
@@ -45,20 +38,18 @@ void Actor::TransferMoney(const Actor& dstActor, const Money amount) const
 
 void Actor::HandOverMoney(Actor& dstActor, const Money amount)
 {
-	PrepareMoneyForTransfer(amount);
-	dstActor.ReceivePreparedCash(*this);
+	CheckActorHaveEnoughCash(*this, amount);
+
+	m_cashBalance -= amount;
+	dstActor.m_cashBalance += amount;
 }
 
 void Actor::ExtortMoney(Actor& dstActor, const Money amount)
 {
-	dstActor.PrepareMoneyForTransfer(amount);
-	ReceivePreparedCash(dstActor);
-}
+	CheckActorHaveEnoughCash(dstActor, amount);
 
-void Actor::ReceivePreparedCash(Actor& dstActor)
-{
-	const Money money = dstActor.TakePreparedMoney();
-	m_cashBalance += money;
+	dstActor.m_cashBalance -= amount;
+	m_cashBalance += amount;
 }
 
 void Actor::DepositMoney(const Money amount)
@@ -75,13 +66,6 @@ void Actor::WithdrawMoney(const Money amount)
 	CheckActorHaveAccount(*this);
 	m_bank.WithdrawMoney(*GetAccountId(), amount);
 	m_cashBalance += amount;
-}
-
-void Actor::PrepareMoneyForTransfer(const Money amount)
-{
-	CheckActorHaveEnoughCash(*this, amount);
-	m_preparedCashToTransfer += amount;
-	m_cashBalance -= amount;
 }
 
 void Actor::OpenAccount()

@@ -45,9 +45,6 @@ public:
 	// Узнать баланс в нале
 	[[nodiscard]] Money GetCashBalance() const;
 
-	// Получить приготовленные деньги
-	[[nodiscard]] Money TakePreparedMoney();
-
 	// Узнать текущий id счёта в банке
 	[[nodiscard]] std::optional<AccountId> GetAccountId() const;
 
@@ -59,9 +56,6 @@ public:
 
 	// Вытрясти деньги у другого актора (наличка)
 	void ExtortMoney(Actor& dstActor, Money amount);
-
-	// Забрать приготовленные деньги другого актора
-	void ReceivePreparedCash(Actor& dstActor);
 
 	// Пополнить собственный баланс
 	void DepositMoney(Money amount);
@@ -86,8 +80,6 @@ private:
 	std::optional<AccountId> m_accountId;
 	// Ссылка на банк
 	Bank& m_bank;
-	// Сумма, которую актор приготовил к передаче
-	Money m_preparedCashToTransfer{ 0 };
 
 	// Приватные методы
 	// Проверить, есть ли у пользователя счёт в банке

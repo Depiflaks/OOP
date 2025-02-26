@@ -4,6 +4,7 @@
 
 #ifndef BANK_H
 #define BANK_H
+
 #include <map>
 #include <stdexcept>
 
@@ -114,7 +115,7 @@ private:
 
 	static void CheckTransferAmountPositive(Money amount);
 	void CheckAccountExists(AccountId account) const;
-	void CheckAccountDontExist(AccountId account) const;
+	void CheckAccountDontExists(AccountId account) const;
 	void CheckEnoughMoneyInCash(Money amount) const;
 	void CheckEnoughMoneyOnExistingAccount(AccountId srcAccountId, Money amount) const;
 };

@@ -4,8 +4,6 @@
 
 #include "Bank.h"
 
-#include <limits>
-
 Bank::Bank(const Money cash)
 {
 	CheckTransferAmountPositive(cash);
@@ -16,8 +14,8 @@ Bank::Bank(const Money cash)
 
 void Bank::SendMoney(const AccountId srcAccountId, const AccountId dstAccountId, const Money amount)
 {
-	CheckAccountExist(srcAccountId);
-	CheckAccountExist(dstAccountId);
+	CheckAccountExists(srcAccountId);
+	CheckAccountExists(dstAccountId);
 	CheckTransferAmountPositive(amount);
 	CheckEnoughMoneyOnExistingAccount(srcAccountId, amount);
 
@@ -32,7 +30,7 @@ bool Bank::TrySendMoney(const AccountId srcAccountId, const AccountId dstAccount
 		SendMoney(srcAccountId, dstAccountId, amount);
 		return true;
 	}
-	catch (const NotEnoughMoneyException& e)
+	catch (const NotEnoughMoneyException&)
 	{
 		return false;
 	}
@@ -45,13 +43,13 @@ Money Bank::GetCash() const
 
 Money Bank::GetAccountBalance(const AccountId account) const
 {
-	CheckAccountExist(account);
+	CheckAccountExists(account);
 	return m_accountBalances.at(account);
 }
 
 void Bank::WithdrawMoney(const AccountId account, const Money amount)
 {
-	CheckAccountExist(account);
+	CheckAccountExists(account);
 	CheckTransferAmountPositive(amount);
 	CheckEnoughMoneyOnExistingAccount(account, amount);
 
@@ -66,7 +64,7 @@ bool Bank::TryWithdrawMoney(const AccountId account, const Money amount)
 		WithdrawMoney(account, amount);
 		return true;
 	}
-	catch (const NotEnoughMoneyException& e)
+	catch (const NotEnoughMoneyException&)
 	{
 		return false;
 	}
@@ -74,7 +72,7 @@ bool Bank::TryWithdrawMoney(const AccountId account, const Money amount)
 
 void Bank::DepositMoney(const AccountId account, const Money amount)
 {
-	CheckAccountExist(account);
+	CheckAccountExists(account);
 	CheckTransferAmountPositive(amount);
 	CheckEnoughMoneyInCash(amount);
 
@@ -92,7 +90,7 @@ AccountId Bank::OpenAccount()
 
 Money Bank::CloseAccount(const AccountId account)
 {
-	CheckAccountExist(account);
+	CheckAccountExists(account);
 	const Money balance = m_accountBalances[account];
 	m_cash += balance;
 	m_accountBalances.erase(account);
@@ -111,7 +109,7 @@ void Bank::CheckAccountExists(const AccountId account) const
 		throw AccountExistenceException("Account not exist");
 }
 
-void Bank::CheckAccountDontExist(const AccountId account) const
+void Bank::CheckAccountDontExists(const AccountId account) const
 {
 	if (m_accountBalances.contains(account))
 		throw AccountExistenceException("Account already exist");

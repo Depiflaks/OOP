@@ -7,12 +7,9 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
-struct ReplaceConfig
-{
-	std::vector<std::string> search;
-	std::vector<std::string> replace;
-};
+
 
 void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream);
 void ReplaceInLine(const ReplaceConfig& config, std::string& line);

@@ -12,6 +12,14 @@
 const char htmlEntityStart = '&';
 const char htmlEntityEnd = ';';
 
+const std::map<std::string, std::string> rule{
+    {"quot", "\""},
+    {"apos", "\'"},
+    {"lt", "<"},
+    {"qt", ">"},
+    {"amp", "&"},
+};
+
 void ReplaceInStream(const ReplaceConfig& config, std::istream& inStream, std::ostream& outStream)
 {
 	std::string line;

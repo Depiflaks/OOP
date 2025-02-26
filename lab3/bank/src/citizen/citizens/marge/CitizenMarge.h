@@ -23,7 +23,7 @@ private:
 	Money m_amountToApu{ 0 };
 
 	void Execute() override;
-	void TransferMoneyToApu() const;
+	void BuyGroceriesFromApu() const;
 };
 
 

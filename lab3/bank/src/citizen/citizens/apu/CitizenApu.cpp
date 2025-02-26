@@ -8,7 +8,7 @@
 
 CitizenApu::CitizenApu(Bank& bank, CitizenMap& citizens, const Money cash)
 	: Actor(bank, cash)
-	, CitizenDescription(CitizenName::margeSimpson, citizens)
+	, CitizenDescription(CitizenName::apu, citizens)
 {
 	OpenAccount();
 }

@@ -30,10 +30,10 @@ void CitizenMarge::PlanExpenses(const Money apuAmount)
 
 void CitizenMarge::Execute()
 {
-	TransferMoneyToApu();
+	BuyGroceriesFromApu();
 }
 
-void CitizenMarge::TransferMoneyToApu() const
+void CitizenMarge::BuyGroceriesFromApu() const
 {
 	const auto apu = FindCitizen(CitizenName::apu);
 	TransferMoney(apu, m_amountToApu);

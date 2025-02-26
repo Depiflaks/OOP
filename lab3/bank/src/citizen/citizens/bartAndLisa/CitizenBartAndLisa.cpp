@@ -32,10 +32,10 @@ void CitizenBartAndLisa::PlanExpenses(
 
 void CitizenBartAndLisa::Execute()
 {
-	TransferMoneyToApu();
+	BuyCandyFromApu();
 }
 
-void CitizenBartAndLisa::TransferMoneyToApu()
+void CitizenBartAndLisa::BuyCandyFromApu()
 {
 	Actor apu = FindCitizen(CitizenName::apu);
 	HandOverMoney(apu, m_amountToApuFromBart);

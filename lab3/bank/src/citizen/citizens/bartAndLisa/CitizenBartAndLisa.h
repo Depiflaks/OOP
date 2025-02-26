@@ -25,7 +25,7 @@ private:
 	Money m_amountToApuFromLisa{ 0 };
 
 	void Execute() override;
-	void TransferMoneyToApu();
+	void BuyCandyFromApu();
 };
 
 

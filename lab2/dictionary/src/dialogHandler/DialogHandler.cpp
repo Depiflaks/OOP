@@ -9,12 +9,17 @@
 #include <regex>
 #include <stdexcept>
 
+DialogHandler::DialogHandler(const std::string& fileName)
+	: m_fileProcessor(FileProcessor<dictionaryType>{ fileName })
+{
+}
+
 DialogState DialogHandler::HandleMessage(const std::string& message)
 {
 	switch (m_state)
 	{
 	case DialogState::waitForWordOrCommand:
-		ProcessWordOrExitCommand(message);
+		ProcessWordOrCommand(message);
 		break;
 	case DialogState::waitForTranslation:
 		ProcessTranslation(message);
@@ -31,17 +36,18 @@ DialogState DialogHandler::HandleMessage(const std::string& message)
 	return m_state;
 }
 
-void DialogHandler::ProcessWordOrExitCommand(const std::string& message)
+void DialogHandler::ProcessWordOrCommand(const std::string& message)
 {
 	if (message.empty())
 		return;
-	if (message == "...")
+	if (message == k_exitCommand)
 	{
 		PrintSaveConfirmationPrompt();
 		m_state = DialogState::waitForSaveConfirmation;
 		return;
 	}
 	m_lastWord = message;
+	if ()
 	// todo: проверить, есть ли сообщение в словаре
 }
 

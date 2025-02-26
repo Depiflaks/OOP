@@ -4,16 +4,10 @@
 
 #ifndef DIALOGHANDLER_H
 #define DIALOGHANDLER_H
+#include "../dictionary/Dictionary.h"
+#include "../fileProcessor/FileProcessor.h"
+
 #include <string>
-
-namespace DialogMessages
-{
-const std::string SaveConfirmationPrompt = "The dictionary has been modified. Enter Y or y to save before exiting.\n";
-
-const std::string WordIgnored = "The word \"{}\" has been ignored.\n";
-
-const std::string SaveCancelled = "Save operation cancelled. Continuing work with the dictionary.\n";
-} // namespace DialogMessages
 
 enum class DialogState
 {
@@ -27,13 +21,18 @@ enum class DialogState
 class DialogHandler
 {
 public:
+	explicit DialogHandler(const std::string& fileName);
 	DialogState HandleMessage(const std::string& message);
 
 private:
+	Dictionary m_dictionary;
+	FileProcessor<dictionaryType> m_fileProcessor;
+
 	DialogState m_state{ DialogState::waitForWordOrCommand };
 	std::string m_lastWord;
+	const std::string k_exitCommand{ "..." };
 
-	void ProcessWordOrExitCommand(const std::string& message);
+	void ProcessWordOrCommand(const std::string& message);
 	void ProcessTranslation(const std::string& message);
 	void ProcessSaveConfirmation(const std::string& message);
 	void ProcessFileName(const std::string& message);

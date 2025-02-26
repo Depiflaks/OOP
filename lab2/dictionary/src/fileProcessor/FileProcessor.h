@@ -13,6 +13,8 @@ public:
 	explicit FileProcessor(std::string fileName);
 	readType ReadData() const;
 	void WriteData(const readType& data) const;
+	bool isFileNameEmpty() const;
+	void setFileName(std::string);
 
 private:
 	std::string m_fileName;

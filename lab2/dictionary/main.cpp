@@ -12,7 +12,7 @@
 #include <ostream>
 
 void RunDialog(const auto& dictFile);
-std::optional<std::string> ParseArguments(int argc, char** argv);
+std::string ParseArguments(int argc, char** argv);
 
 int main(const int argc, char* argv[])
 {
@@ -41,14 +41,13 @@ void RunDialog(const auto& dictFile)
 	}
 }
 
-std::optional<std::string> ParseArguments(const int argc, char** argv)
+std::string ParseArguments(const int argc, char** argv)
 {
 	if (argc > 2)
 		throw std::invalid_argument("Too many arguments");
-
 	if (argc == 2)
 	{
-		return std::string(argv[1]);
+		return argv[1];
 	}
-	return std::nullopt;
+	return "";
 }

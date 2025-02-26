@@ -46,7 +46,7 @@ public:
 	// Инициализирует монетарную систему. cash — количество денег в наличном обороте
 	// При отрицательном количестве денег, выбрасывается BankOperationError
 	explicit Bank(Money cash);
-	void AssertEnoughMoneyOnExistingAccount(AccountId srcAccountId, Money amount) const;
+	void CheckEnoughMoneyOnExistingAccount(AccountId srcAccountId, Money amount) const;
 
 	Bank(const Bank&) = delete;
 	Bank& operator=(const Bank&) = delete;
@@ -112,10 +112,10 @@ private:
 	std::map<AccountId, Money> m_accountBalances;
 	AccountId m_lastAccountId;
 
-	static void AssertTransferAmountPositive(Money amount);
-	void AssertAccountExist(AccountId account_id) const;
-	void AssertAccountDontExist(AccountId account_id) const;
-	void AssertEnoughMoneyInCash(Money amount) const;
+	static void CheckTransferAmountPositive(Money amount);
+	void CheckAccountExist(AccountId account_id) const;
+	void CheckAccountDontExist(AccountId account_id) const;
+	void CheckEnoughMoneyInCash(Money amount) const;
 };
 
 #endif // BANK_H

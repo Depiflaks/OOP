@@ -30,14 +30,14 @@ public:
 	explicit ContactList() = default;
 	~ContactList() = default;
 
-	const CitizenHomer& GetHomer();
-	const CitizenMarge& GetMarge();
-	const CitizenBartAndLisa& GetBartAndLisa();
-	const CitizenApu& GetApu();
-	const CitizenMrBurns& GetMrBurns();
-	const CitizenNelson& GetNelson();
-	const CitizenSnake& GetSnake();
-	const CitizenSmithers& GetSmithers();
+	CitizenHomer& GetHomer();
+	CitizenMarge& GetMarge();
+	CitizenBartAndLisa& GetBartAndLisa();
+	CitizenApu& GetApu();
+	CitizenMrBurns& GetMrBurns();
+	CitizenNelson& GetNelson();
+	CitizenSnake& GetSnake();
+	CitizenSmithers& GetSmithers();
 	Citizen& GetRandomCitizen();
 
 protected:
@@ -60,16 +60,7 @@ private:
 	std::optional<CitizenSnake&> m_snake;
 	std::optional<CitizenSmithers&> m_smithers;
 
-	std::vector<std::optional<Citizen&>> m_citizens{
-		m_homer,
-		m_marge,
-		m_bartAndLisa,
-		m_apu,
-		m_mrBurns,
-		m_nelson,
-		m_snake,
-		m_smithers
-	};
+	const int k_citizenCount{ 8 };
 
 	static static void CheckContactExist(std::optional<Citizen&> citizen, CitizenName name);
 };

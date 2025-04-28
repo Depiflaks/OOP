@@ -4,52 +4,81 @@
 
 #include "ContactList.h"
 
-const CitizenHomer& ContactList::GetHomer()
+#include "../../../random/random.h"
+
+#include <assert.h>
+
+CitizenHomer& ContactList::GetHomer()
 {
 	CheckContactExist(m_homer, CitizenName::homerSimpson);
 	return *m_homer;
 }
 
-const CitizenMarge& ContactList::GetMarge()
+CitizenMarge& ContactList::GetMarge()
 {
 	CheckContactExist(m_marge, CitizenName::margeSimpson);
 	return *m_marge;
 }
 
-const CitizenBartAndLisa& ContactList::GetBartAndLisa()
+CitizenBartAndLisa& ContactList::GetBartAndLisa()
 {
 	CheckContactExist(m_bartAndLisa, CitizenName::bartAndLisaSimpson);
 	return *m_bartAndLisa;
 }
 
-const CitizenApu& ContactList::GetApu()
+CitizenApu& ContactList::GetApu()
 {
 	CheckContactExist(m_apu, CitizenName::apu);
 	return *m_apu;
 }
 
-const CitizenMrBurns& ContactList::GetMrBurns()
+CitizenMrBurns& ContactList::GetMrBurns()
 {
 	CheckContactExist(m_mrBurns, CitizenName::mrBurns);
 	return *m_mrBurns;
 }
 
-const CitizenNelson& ContactList::GetNelson()
+CitizenNelson& ContactList::GetNelson()
 {
 	CheckContactExist(m_nelson, CitizenName::nelson);
 	return *m_nelson;
 }
 
-const CitizenSnake& ContactList::GetSnake()
+CitizenSnake& ContactList::GetSnake()
 {
 	CheckContactExist(m_snake, CitizenName::snake);
 	return *m_snake;
 }
 
-const CitizenSmithers& ContactList::GetSmithers()
+CitizenSmithers& ContactList::GetSmithers()
 {
 	CheckContactExist(m_smithers, CitizenName::waylonSmithers);
 	return *m_smithers;
+}
+
+Citizen& ContactList::GetRandomCitizen()
+{
+	switch (GetRandomNumber(0, k_citizenCount - 1))
+	{
+	case 0:
+		return GetHomer();
+	case 1:
+		return GetMarge();
+	case 2:
+		return GetBartAndLisa();
+	case 3:
+		return GetNelson();
+	case 4:
+		return GetSmithers();
+	case 5:
+		return GetMrBurns();
+	case 6:
+		return GetSnake();
+	case 7:
+		return GetApu();
+	default:;
+	}
+	assert(false);
 }
 
 void ContactList::SetHomer(CitizenHomer& citizen)

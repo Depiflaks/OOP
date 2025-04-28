@@ -1,45 +1,32 @@
-#include "src/bank/Bank.h"
-
 #include <iostream>
 #include <ostream>
 //
 // Created by smmm on 15.03.2025.
 //
 
-class A
+
+
+class ContactList
 {
 public:
-	void publicA()
+	ContactList()
 	{
-		std::cout << "publicA" << std::endl;
-	}
-
-protected:
-	void protectedA()
-	{
-		std::cout << "protectedA" << std::endl;
 	}
 
 private:
-	void privateA()
-	{
-		std::cout << "privateA" << std::endl;
-	}
+	Actor m_actor1;
 };
 
-class B : protected A
+class Actor
 {
 public:
-	B()
+	explicit Actor(const ContactList& contact_list)
+		: m_cl{ contact_list }
 	{
-		std::cout << "B{B}" << std::endl;
-		protectedA();
 	}
+
 private:
-	void privateB()
-	{
-		protectedA();
-	}
+	ContactList m_cl;
 };
 
 int main(int argc, char* argv[])

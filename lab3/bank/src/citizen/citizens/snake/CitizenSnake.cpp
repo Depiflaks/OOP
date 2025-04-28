@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-CitizenSnake::CitizenSnake(Bank& bank, CitizensRegistry& citizens, const Money cash)
+CitizenSnake::CitizenSnake(Bank& bank, ContactList& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::snake, citizens)
 {

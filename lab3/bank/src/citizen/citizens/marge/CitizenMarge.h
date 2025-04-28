@@ -8,7 +8,7 @@
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/data/CitizensRegistry.h"
+#include "../../description/data/ContactList.h"
 
 class CitizenMarge final : public ICitizen
 	, protected Actor

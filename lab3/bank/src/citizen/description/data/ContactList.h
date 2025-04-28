@@ -14,10 +14,10 @@
 #include "../../citizens/smithers/CitizenSmithers.h"
 #include "../../citizens/snake/CitizenSnake.h"
 
-class CitizensRegistry
+class ContactList
 {
 public:
-	explicit CitizensRegistry(Bank& bank, Money amount);
+	explicit ContactList(Bank& bank, Money amount);
 
 	const CitizenHomer& getHomer();
 	const CitizenMarge& getMarge();

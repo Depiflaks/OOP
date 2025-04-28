@@ -23,7 +23,7 @@ public:
 	virtual ~ICitizen() = default;
 
 	// todo: избавиться от protected методов геттерами
-protected:
+private:
 	explicit ICitizen() = default;
 	virtual void Execute() = 0;
 };

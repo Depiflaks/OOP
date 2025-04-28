@@ -7,7 +7,7 @@
 #include <iostream>
 #include <random>
 
-CitizenNelson::CitizenNelson(Bank& bank, CitizensRegistry& citizens, const Money cash)
+CitizenNelson::CitizenNelson(Bank& bank, ContactList& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::nelson, citizens)
 {

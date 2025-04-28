@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-CitizenApu::CitizenApu(Bank& bank, CitizensRegistry& citizens, const Money cash)
+CitizenApu::CitizenApu(Bank& bank, ContactList& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::apu, citizens)
 {

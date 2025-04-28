@@ -8,13 +8,14 @@
 #include "../../../actor/Actor.h"
 #include "../../ICitizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/data/CitizensRegistry.h"
+#include "../../description/data/ContactList.h"
 
 class CitizenApu final : public ICitizen
-	, protected Actor
+// убрать защищённое наследование
+	, public Actor
 {
 public:
-	CitizenApu(Bank& bank, CitizensRegistry& citizens, Money cash);
+	CitizenApu(Bank& bank, ContactList& citizens, Money cash);
 	void ExecuteWithErrorHandling() override;
 	void PlanExpenses() override;
 	void PlanExpenses(Money electricityAmount);

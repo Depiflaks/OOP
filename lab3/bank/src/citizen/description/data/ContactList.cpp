@@ -2,8 +2,8 @@
 // Created by smmm on 27.03.2025.
 //
 
-#include "CitizensRegistry.h"
-CitizensRegistry::CitizensRegistry(Bank& bank, const Money amount)
+#include "ContactList.h"
+ContactList::ContactList(Bank& bank, const Money amount)
 	: m_homer{ bank, *this, amount / k_citizensCount }
 	, m_marge{ bank, *this, amount / k_citizensCount }
 	, m_bartAndLisa{ bank, *this, amount / k_citizensCount }
@@ -15,42 +15,42 @@ CitizensRegistry::CitizensRegistry(Bank& bank, const Money amount)
 {
 }
 
-const CitizenHomer& CitizensRegistry::getHomer()
+const CitizenHomer& ContactList::getHomer()
 {
 	return m_homer;
 }
 
-const CitizenMarge& CitizensRegistry::getMarge()
+const CitizenMarge& ContactList::getMarge()
 {
 	return m_marge;
 }
 
-const CitizenBartAndLisa& CitizensRegistry::getBartAndLisa()
+const CitizenBartAndLisa& ContactList::getBartAndLisa()
 {
 	return m_bartAndLisa;
 }
 
-const CitizenApu& CitizensRegistry::getApu()
+const CitizenApu& ContactList::getApu()
 {
 	return m_apu;
 }
 
-const CitizenMrBurns& CitizensRegistry::getMrBurns()
+const CitizenMrBurns& ContactList::getMrBurns()
 {
 	return m_mrBurns;
 }
 
-const CitizenNelson& CitizensRegistry::getNelson()
+const CitizenNelson& ContactList::getNelson()
 {
 	return m_nelson;
 }
 
-const CitizenSnake& CitizensRegistry::getSnake()
+const CitizenSnake& ContactList::getSnake()
 {
 	return m_snake;
 }
 
-const CitizenSmithers& CitizensRegistry::getSmithers()
+const CitizenSmithers& ContactList::getSmithers()
 {
 	return m_smithers;
 }

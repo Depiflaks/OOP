@@ -17,8 +17,8 @@
 class ContactNotFoundException final : public std::runtime_error
 {
 public:
-	explicit ContactNotFoundException(Citizen &citizen)
-		: std::runtime_error{ "Contact" }
+	explicit ContactNotFoundException(const CitizenName name)
+		: std::runtime_error{ "Contact of citizen: " + GetName(name) + " not found" }
 	{
 	}
 	~ContactNotFoundException() override = default;
@@ -27,22 +27,28 @@ public:
 class ContactList
 {
 public:
-	explicit ContactList();
+	explicit ContactList() = default;
 
+	const CitizenHomer& GetHomer();
+	const CitizenMarge& GetMarge();
+	const CitizenBartAndLisa& GetBartAndLisa();
+	const CitizenApu& GetApu();
+	const CitizenMrBurns& GetMrBurns();
+	const CitizenNelson& GetNelson();
+	const CitizenSnake& GetSnake();
+	const CitizenSmithers& GetSmithers();
 
-
-	const CitizenHomer& getHomer();
-	const CitizenMarge& getMarge();
-	const CitizenBartAndLisa& getBartAndLisa();
-	const CitizenApu& getApu();
-	const CitizenMrBurns& getMrBurns();
-	const CitizenNelson& getNelson();
-	const CitizenSnake& getSnake();
-	const CitizenSmithers& getSmithers();
+protected:
+	void SetHomer(CitizenHomer& citizen);
+	void SetMarge(CitizenMarge& citizen);
+	void SetBartAndLisa(CitizenBartAndLisa& citizen);
+	void SetApu(CitizenApu& citizen);
+	void SetMrBurns(CitizenMrBurns& citizen);
+	void SetNelson(CitizenNelson& citizen);
+	void SetSnake(CitizenSnake& citizen);
+	void SetSmithers(CitizenSmithers& citizen);
 
 private:
-	friend class CitizenRegistry;
-
 	std::optional<CitizenHomer&> m_homer;
 	std::optional<CitizenMarge&> m_marge;
 	std::optional<CitizenBartAndLisa&> m_bartAndLisa;
@@ -53,6 +59,8 @@ private:
 	std::optional<CitizenSmithers&> m_smithers;
 
 	const size_t k_citizensCount{ 8 };
+
+	static static void CheckContactExist(std::optional<Citizen&> citizen, CitizenName name);
 };
 
 #endif // CITIZENS_REGISTRY_H

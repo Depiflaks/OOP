@@ -3,54 +3,97 @@
 //
 
 #include "ContactList.h"
-ContactList::ContactList(Bank& bank, const Money amount)
-	: m_homer{ bank, *this, amount / k_citizensCount }
-	, m_marge{ bank, *this, amount / k_citizensCount }
-	, m_bartAndLisa{ bank, *this, amount / k_citizensCount }
-	, m_apu{ bank, *this, amount / k_citizensCount }
-	, m_mrBurns{ bank, *this, amount / k_citizensCount }
-	, m_nelson{ bank, *this, amount / k_citizensCount }
-	, m_snake{ bank, *this, amount / k_citizensCount }
-	, m_smithers{ bank, *this, amount / k_citizensCount }
+
+const CitizenHomer& ContactList::GetHomer()
 {
+	CheckContactExist(m_homer, CitizenName::homerSimpson);
+	return *m_homer;
 }
 
-const CitizenHomer& ContactList::getHomer()
+const CitizenMarge& ContactList::GetMarge()
 {
-	return m_homer;
+	CheckContactExist(m_marge, CitizenName::margeSimpson);
+	return *m_marge;
 }
 
-const CitizenMarge& ContactList::getMarge()
+const CitizenBartAndLisa& ContactList::GetBartAndLisa()
 {
-	return m_marge;
+	CheckContactExist(m_bartAndLisa, CitizenName::bartAndLisaSimpson);
+	return *m_bartAndLisa;
 }
 
-const CitizenBartAndLisa& ContactList::getBartAndLisa()
+const CitizenApu& ContactList::GetApu()
 {
-	return m_bartAndLisa;
+	CheckContactExist(m_apu, CitizenName::apu);
+	return *m_apu;
 }
 
-const CitizenApu& ContactList::getApu()
+const CitizenMrBurns& ContactList::GetMrBurns()
 {
-	return m_apu;
+	CheckContactExist(m_mrBurns, CitizenName::mrBurns);
+	return *m_mrBurns;
 }
 
-const CitizenMrBurns& ContactList::getMrBurns()
+const CitizenNelson& ContactList::GetNelson()
 {
-	return m_mrBurns;
+	CheckContactExist(m_nelson, CitizenName::nelson);
+	return *m_nelson;
 }
 
-const CitizenNelson& ContactList::getNelson()
+const CitizenSnake& ContactList::GetSnake()
 {
-	return m_nelson;
+	CheckContactExist(m_snake, CitizenName::snake);
+	return *m_snake;
 }
 
-const CitizenSnake& ContactList::getSnake()
+const CitizenSmithers& ContactList::GetSmithers()
 {
-	return m_snake;
+	CheckContactExist(m_smithers, CitizenName::waylonSmithers);
+	return *m_smithers;
 }
 
-const CitizenSmithers& ContactList::getSmithers()
+void ContactList::SetHomer(CitizenHomer& citizen)
 {
-	return m_smithers;
+	m_homer.emplace(citizen);
+}
+
+void ContactList::SetMarge(CitizenMarge& citizen)
+{
+	m_marge.emplace(citizen);
+}
+
+void ContactList::SetBartAndLisa(CitizenBartAndLisa& citizen)
+{
+	m_bartAndLisa.emplace(citizen);
+}
+
+void ContactList::SetApu(CitizenApu& citizen)
+{
+	m_apu.emplace(citizen);
+}
+
+void ContactList::SetMrBurns(CitizenMrBurns& citizen)
+{
+	m_mrBurns.emplace(citizen);
+}
+
+void ContactList::SetNelson(CitizenNelson& citizen)
+{
+	m_nelson.emplace(citizen);
+}
+
+void ContactList::SetSnake(CitizenSnake& citizen)
+{
+	m_snake.emplace(citizen);
+}
+
+void ContactList::SetSmithers(CitizenSmithers& citizen)
+{
+	m_smithers.emplace(citizen);
+}
+
+void ContactList::CheckContactExist(const std::optional<Citizen&> citizen, const CitizenName name)
+{
+	if (!citizen.has_value())
+		throw ContactNotFoundException(name);
 }

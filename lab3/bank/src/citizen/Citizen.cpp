@@ -1,14 +1,14 @@
 //
 // Created by smmm on 27.03.2025.
 //
-#include "ICitizen.h"
+#include "Citizen.h"
 
 #include "../actor/Actor.h"
 #include "../bank/Bank.h"
 
 #include <iostream>
 
-void ICitizen::ExecuteWithErrorHandling()
+void Citizen::ExecuteWithErrorHandling()
 {
 	try
 	{

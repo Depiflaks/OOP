@@ -17,7 +17,7 @@ CitizenApu::CitizenApu(Bank& bank, ContactList& citizens, const Money cash)
 void CitizenApu::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	ICitizen::ExecuteWithErrorHandling();
+	Citizen::ExecuteWithErrorHandling();
 }
 
 void CitizenApu::PlanExpenses()

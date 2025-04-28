@@ -17,7 +17,7 @@ CitizenMrBurns::CitizenMrBurns(Bank& bank, ContactList& citizens, const Money ca
 void CitizenMrBurns::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	ICitizen::ExecuteWithErrorHandling();
+	Citizen::ExecuteWithErrorHandling();
 }
 
 void CitizenMrBurns::PlanExpenses()

@@ -39,7 +39,7 @@ void Town::InitializeTheSpendingPlan()
 	m_citizens[CitizenName::homerSimpson]->PlanExpenses();
 }
 
-void Town::ExecuteSimulationStep(const std::unique_ptr<ICitizen>& citizen)
+void Town::ExecuteSimulationStep(const std::unique_ptr<Citizen>& citizen)
 {
 	citizen->ExecuteWithErrorHandling();
 }

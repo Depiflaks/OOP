@@ -15,16 +15,15 @@ public:
 	~CitizenNotFoundException() override = default;
 };
 
-class ICitizen
+class Citizen
 {
 public:
 	virtual void ExecuteWithErrorHandling();
 	virtual void PlanExpenses() = 0;
-	virtual ~ICitizen() = default;
+	virtual ~Citizen() = default;
 
-	// todo: избавиться от protected методов геттерами
 private:
-	explicit ICitizen() = default;
+	explicit Citizen() = default;
 	virtual void Execute() = 0;
 };
 

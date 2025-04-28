@@ -17,7 +17,7 @@ CitizenSnake::CitizenSnake(Bank& bank, ContactList& citizens, const Money cash)
 void CitizenSnake::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	ICitizen::ExecuteWithErrorHandling();
+	Citizen::ExecuteWithErrorHandling();
 }
 
 void CitizenSnake::PlanExpenses()

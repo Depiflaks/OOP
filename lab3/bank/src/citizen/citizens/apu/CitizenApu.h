@@ -6,11 +6,10 @@
 #define CITIZEN_APU_H
 
 #include "../../../actor/Actor.h"
-#include "../../ICitizen.h"
-#include "../../description/CitizenDescription.h"
-#include "../../description/data/ContactList.h"
+#include "../../Citizen.h"
+#include "../../description/contactList/ContactList.h"
 
-class CitizenApu final : public ICitizen
+class CitizenApu final : public Citizen
 // убрать защищённое наследование
 	, public Actor
 {

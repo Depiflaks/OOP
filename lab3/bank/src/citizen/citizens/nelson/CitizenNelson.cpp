@@ -16,7 +16,7 @@ CitizenNelson::CitizenNelson(Bank& bank, ContactList& citizens, const Money cash
 void CitizenNelson::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	ICitizen::ExecuteWithErrorHandling();
+	Citizen::ExecuteWithErrorHandling();
 }
 
 void CitizenNelson::PlanExpenses()

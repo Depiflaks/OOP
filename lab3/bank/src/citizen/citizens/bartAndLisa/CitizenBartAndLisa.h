@@ -7,11 +7,11 @@
 
 
 #include "../../../actor/Actor.h"
-#include "../../ICitizen.h"
+#include "../../Citizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/data/ContactList.h"
+#include "../../description/contactList/ContactList.h"
 
-class CitizenBartAndLisa final : public ICitizen
+class CitizenBartAndLisa final : public Citizen
 	, protected Actor
 	, protected CitizenDescription
 {

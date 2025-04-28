@@ -6,11 +6,11 @@
 #define CITIZEN_SNAKE_H
 
 #include "../../../actor/Actor.h"
-#include "../../ICitizen.h"
+#include "../../Citizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/data/ContactList.h"
+#include "../../description/contactList/ContactList.h"
 
-class CitizenSnake final : public ICitizen
+class CitizenSnake final : public Citizen
 	, protected Actor
 	, protected CitizenDescription
 {

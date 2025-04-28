@@ -6,11 +6,11 @@
 #define CITIZEN_HOMER_H
 
 #include "../../../actor/Actor.h"
-#include "../../ICitizen.h"
+#include "../../Citizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/data/ContactList.h"
+#include "../../description/contactList/ContactList.h"
 
-class CitizenHomer final : public ICitizen
+class CitizenHomer final : public Citizen
 	, protected Actor
 	, protected CitizenDescription
 {

@@ -19,7 +19,7 @@ CitizenSmithers::CitizenSmithers(Bank& bank, ContactList& citizens, const Money 
 void CitizenSmithers::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	ICitizen::ExecuteWithErrorHandling();
+	Citizen::ExecuteWithErrorHandling();
 }
 
 void CitizenSmithers::PlanExpenses()

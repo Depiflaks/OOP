@@ -38,6 +38,7 @@ public:
 	const CitizenNelson& GetNelson();
 	const CitizenSnake& GetSnake();
 	const CitizenSmithers& GetSmithers();
+	Citizen& GetRandomCitizen();
 
 protected:
 	void SetHomer(CitizenHomer& citizen);
@@ -59,7 +60,16 @@ private:
 	std::optional<CitizenSnake&> m_snake;
 	std::optional<CitizenSmithers&> m_smithers;
 
-	const size_t k_citizensCount{ 8 };
+	std::vector<std::optional<Citizen&>> m_citizens{
+		m_homer,
+		m_marge,
+		m_bartAndLisa,
+		m_apu,
+		m_mrBurns,
+		m_nelson,
+		m_snake,
+		m_smithers
+	};
 
 	static static void CheckContactExist(std::optional<Citizen&> citizen, CitizenName name);
 };

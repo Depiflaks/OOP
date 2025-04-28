@@ -4,8 +4,9 @@
 
 #ifndef TOWN_H
 #define TOWN_H
+
 #include "../bank/Bank.h"
-#include "../citizen/description/map/CitizensData.h"
+#include "citizenRegistry/CitizenRegistry.h"
 
 #include <vector>
 
@@ -23,24 +24,14 @@ class Town
 public:
 	explicit Town(Money startAmount);
 	void ExecuteSimulation(size_t stepCount);
-	void InitializeTheSpendingPlan();
 
 private:
 	Money m_startAmount{ 0 };
-	CitizensData m_citizens;
 	Bank m_bank;
-	std::vector<CitizenName> m_citizenOrder{
-		CitizenName::homerSimpson,
-		CitizenName::margeSimpson,
-		CitizenName::bartAndLisaSimpson,
-		CitizenName::apu,
-		CitizenName::mrBurns,
-		CitizenName::nelson,
-		CitizenName::snake,
-		CitizenName::waylonSmithers,
-	};
+	CitizenRegistry m_registry;
+	const int k_citizenCount{ 8 };
 
-	static static void ExecuteSimulationStep(const std::unique_ptr<ICitizen>& citizen);
+	static void ExecuteSimulationStep();
 	void CheckTotalAmount();
 };
 

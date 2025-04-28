@@ -5,8 +5,13 @@
 
 #include "../actor/Actor.h"
 #include "../bank/Bank.h"
+#include "description/name/CitizenName.h"
 
 #include <iostream>
+
+Citizen::Citizen(const CitizenName& name, )
+{
+}
 
 void Citizen::ExecuteWithErrorHandling()
 {

@@ -23,8 +23,9 @@ public:
 	virtual ~Citizen() = default;
 
 private:
-	explicit Citizen() = default;
+	explicit Citizen();
 	virtual void Execute() = 0;
+
 };
 
 #endif // SCENARIO_H

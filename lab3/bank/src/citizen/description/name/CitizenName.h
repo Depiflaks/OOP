@@ -26,7 +26,7 @@ enum class CitizenName
 	waylonSmithers
 };
 
-inline std::string getName(const CitizenName name)
+inline std::string GetName(const CitizenName name)
 {
 	switch (name)
 	{

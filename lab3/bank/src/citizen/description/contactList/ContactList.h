@@ -14,6 +14,16 @@
 #include "../../citizens/smithers/CitizenSmithers.h"
 #include "../../citizens/snake/CitizenSnake.h"
 
+class ContactNotFoundException final : public std::runtime_error
+{
+public:
+	explicit ContactNotFoundException(Citizen &citizen)
+		: std::runtime_error{ "Contact" }
+	{
+	}
+	~ContactNotFoundException() override = default;
+};
+
 class ContactList
 {
 public:
@@ -29,14 +39,14 @@ public:
 	const CitizenSmithers& getSmithers();
 
 private:
-	CitizenHomer m_homer;
-	CitizenMarge m_marge;
-	CitizenBartAndLisa m_bartAndLisa;
-	CitizenApu m_apu;
-	CitizenMrBurns m_mrBurns;
-	CitizenNelson m_nelson;
-	CitizenSnake m_snake;
-	CitizenSmithers m_smithers;
+	std::optional<CitizenHomer&> m_homer;
+	std::optional<CitizenMarge&> m_marge;
+	std::optional<CitizenBartAndLisa&> m_bartAndLisa;
+	std::optional<CitizenApu&> m_apu;
+	std::optional<CitizenMrBurns&> m_mrBurns;
+	std::optional<CitizenNelson&> m_nelson;
+	std::optional<CitizenSnake&> m_snake;
+	std::optional<CitizenSmithers&> m_smithers;
 
 	const size_t k_citizensCount{ 8 };
 };

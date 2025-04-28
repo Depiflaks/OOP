@@ -10,7 +10,7 @@
 #include "../../description/contactList/ContactList.h"
 
 class CitizenApu final : public Citizen
-// убрать защищённое наследование
+	// убрать защищённое наследование
 	, public Actor
 {
 public:

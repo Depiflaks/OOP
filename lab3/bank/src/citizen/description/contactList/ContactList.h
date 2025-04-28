@@ -27,7 +27,9 @@ public:
 class ContactList
 {
 public:
-	explicit ContactList(Bank& bank, Money amount);
+	explicit ContactList();
+
+
 
 	const CitizenHomer& getHomer();
 	const CitizenMarge& getMarge();
@@ -39,6 +41,8 @@ public:
 	const CitizenSmithers& getSmithers();
 
 private:
+	friend class CitizenRegistry;
+
 	std::optional<CitizenHomer&> m_homer;
 	std::optional<CitizenMarge&> m_marge;
 	std::optional<CitizenBartAndLisa&> m_bartAndLisa;

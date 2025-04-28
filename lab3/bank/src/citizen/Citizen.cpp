@@ -9,10 +9,6 @@
 
 #include <iostream>
 
-Citizen::Citizen(const CitizenName& name, )
-{
-}
-
 void Citizen::ExecuteWithErrorHandling()
 {
 	try
@@ -31,4 +27,21 @@ void Citizen::ExecuteWithErrorHandling()
 	{
 		std::cout << "unexpected error: " << exception.what();
 	}
+}
+
+Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, ContactList& contacts)
+	: Actor(bank, cash)
+	, m_name(name)
+	, m_contacts(contacts)
+{
+}
+
+CitizenName Citizen::GetName() const
+{
+	return m_name;
+}
+
+ContactList& Citizen::GetContactList() const
+{
+	return m_contacts;
 }

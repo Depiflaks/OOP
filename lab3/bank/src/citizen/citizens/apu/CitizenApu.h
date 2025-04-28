@@ -5,17 +5,13 @@
 #ifndef CITIZEN_APU_H
 #define CITIZEN_APU_H
 
-#include "../../../actor/Actor.h"
 #include "../../Citizen.h"
 #include "../../description/contactList/ContactList.h"
 
 class CitizenApu final : public Citizen
-	// убрать защищённое наследование
-	, public Actor
 {
 public:
-	CitizenApu(Bank& bank, ContactList& citizens, Money cash);
-	void ExecuteWithErrorHandling() override;
+	CitizenApu(Bank& bank, ContactList& contacts, Money cash);
 	void PlanExpenses() override;
 	void PlanExpenses(Money electricityAmount);
 

@@ -20,7 +20,7 @@ public:
 class Citizen : public Actor
 {
 public:
-	virtual void ExecuteWithErrorHandling();
+	void ExecuteWithErrorHandling();
 	virtual void PlanExpenses() = 0;
 	virtual ~Citizen() = default;
 

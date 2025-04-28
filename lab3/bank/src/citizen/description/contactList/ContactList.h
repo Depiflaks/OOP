@@ -28,6 +28,7 @@ class ContactList
 {
 public:
 	explicit ContactList() = default;
+	~ContactList() = default;
 
 	const CitizenHomer& GetHomer();
 	const CitizenMarge& GetMarge();

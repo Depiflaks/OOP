@@ -6,18 +6,11 @@
 
 #include <iostream>
 
-CitizenApu::CitizenApu(Bank& bank, ContactList& citizens, const Money cash)
-	: Actor(bank, cash)
-	, CitizenDescription(CitizenName::apu, citizens)
+CitizenApu::CitizenApu(Bank& bank, ContactList& contacts, const Money cash)
+	: Citizen(bank, cash, CitizenName::apu, contacts)
 {
 	OpenAccount();
 	DepositMoney(cash);
-}
-
-void CitizenApu::ExecuteWithErrorHandling()
-{
-	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
 }
 
 void CitizenApu::PlanExpenses()

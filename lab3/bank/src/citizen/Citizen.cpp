@@ -11,6 +11,7 @@
 
 void Citizen::ExecuteWithErrorHandling()
 {
+	std::cout << "Executing " << ::GetName(m_name) << " scenario\n";
 	try
 	{
 		Execute();

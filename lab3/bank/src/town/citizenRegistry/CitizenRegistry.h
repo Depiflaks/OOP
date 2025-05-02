@@ -29,8 +29,6 @@ public:
 private:
 	std::map<CitizenName, std::unique_ptr<Citizen>> m_citizens;
 
-	int k_citizenCount{ 9 };
-
 	void CheckCitizenExist(CitizenName name) const;
 };
 

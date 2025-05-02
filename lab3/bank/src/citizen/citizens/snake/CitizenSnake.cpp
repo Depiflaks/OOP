@@ -17,7 +17,7 @@ CitizenSnake::CitizenSnake(Bank& bank, IContactList& citizens, const Money cash)
 void CitizenSnake::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	Citizen::PerformRandomActionWithErrorHandling();
 }
 
 void CitizenSnake::PlanExpenses()
@@ -30,7 +30,7 @@ void CitizenSnake::PlanExpenses(const Money hackedAmount, const Money apuAmount)
 	m_apuAmount = apuAmount;
 }
 
-void CitizenSnake::Execute()
+void CitizenSnake::PerformRandomAction()
 {
 	HackHomerAccount();
 	BuyGroceriesFromApu();

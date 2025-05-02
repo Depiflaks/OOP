@@ -24,7 +24,7 @@ private:
 	Money m_hackedAmount{ 0 };
 	Money m_apuAmount{ 0 };
 
-	void Execute() override;
+	void PerformRandomAction() override;
 	void HackHomerAccount() const;
 	void BuyGroceriesFromApu() const;
 };

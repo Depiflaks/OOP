@@ -7,7 +7,7 @@
 #include "../../citizen/citizens/apu/CitizenApu.h"
 #include "../../random/random.h"
 
-CitizenRegistry::CitizenRegistry(Bank bank)
+CitizenRegistry::CitizenRegistry(Bank& bank)
 {
 	const Money allCash = bank.GetCash();
 	const Money share{ allCash / k_citizenCount };

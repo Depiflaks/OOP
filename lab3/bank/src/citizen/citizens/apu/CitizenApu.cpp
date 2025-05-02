@@ -13,16 +13,8 @@ CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 	DepositMoney(cash);
 }
 
-void CitizenApu::PlanExpenses()
-{
-}
 
-void CitizenApu::PlanExpenses(const Money electricityAmount)
-{
-	m_amountToElectricity = electricityAmount;
-}
-
-void CitizenApu::Execute()
+void CitizenApu::PerformRandomAction()
 {
 	PayForElectricity();
 }

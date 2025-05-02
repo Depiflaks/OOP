@@ -25,7 +25,7 @@ private:
 	Money m_amountToApuFromBart{ 0 };
 	Money m_amountToApuFromLisa{ 0 };
 
-	void Execute() override;
+	void PerformRandomAction() override;
 	void BuyCandyFromApu();
 };
 

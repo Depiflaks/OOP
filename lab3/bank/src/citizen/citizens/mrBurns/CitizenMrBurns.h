@@ -27,7 +27,7 @@ private:
 	AccountId m_smithersId{ 0 };
 	bool m_shouldUpdateSmithersId{ false };
 
-	void Execute() override;
+	void PerformRandomAction() override;
 	void GiveSalaryToHomer() const;
 	void UpdateSmithersAccount();
 	void GiveSalaryToSmithers() const;

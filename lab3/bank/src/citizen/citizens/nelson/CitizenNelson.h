@@ -23,7 +23,7 @@ public:
 private:
     Money m_stolenAmount = 0;
 
-    void Execute() override;
+    void PerformRandomAction() override;
     void StealFromBart();
     void BuyCigarettesFromApu();
 };

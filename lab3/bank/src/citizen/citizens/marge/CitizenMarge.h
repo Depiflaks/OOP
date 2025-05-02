@@ -23,7 +23,7 @@ public:
 private:
 	Money m_amountToApu{ 0 };
 
-	void Execute() override;
+	void PerformRandomAction() override;
 	void BuyGroceriesFromApu() const;
 };
 

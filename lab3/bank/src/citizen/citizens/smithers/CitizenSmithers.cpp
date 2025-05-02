@@ -19,7 +19,7 @@ CitizenSmithers::CitizenSmithers(Bank& bank, IContactList& citizens, const Money
 void CitizenSmithers::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	Citizen::PerformRandomActionWithErrorHandling();
 }
 
 void CitizenSmithers::PlanExpenses()
@@ -32,7 +32,7 @@ void CitizenSmithers::PlanExpenses(const Money abuAmount, const bool shouldNotif
 	m_shouldNotifyingBoss = shouldNotifyingBoss;
 }
 
-void CitizenSmithers::Execute()
+void CitizenSmithers::PerformRandomAction()
 {
 	ChangeAccount();
 	BuyGroceries();

@@ -22,7 +22,7 @@ public:
 class CitizenRegistry final : public IContactList
 {
 public:
-	explicit CitizenRegistry(Bank bank);
+	explicit CitizenRegistry(Bank& bank);
 	Citizen& GetCitizen(CitizenName name) override;
 	Citizen& GetRandomCitizen() override;
 

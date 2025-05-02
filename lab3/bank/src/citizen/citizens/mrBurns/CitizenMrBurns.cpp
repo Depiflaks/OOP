@@ -17,7 +17,7 @@ CitizenMrBurns::CitizenMrBurns(Bank& bank, IContactList& citizens, const Money c
 void CitizenMrBurns::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	Citizen::PerformRandomActionWithErrorHandling();
 }
 
 void CitizenMrBurns::PlanExpenses()
@@ -34,7 +34,7 @@ void CitizenMrBurns::PlanExpenses(
 	m_shouldUpdateSmithersId = shouldUpdateSmithersId;
 }
 
-void CitizenMrBurns::Execute()
+void CitizenMrBurns::PerformRandomAction()
 {
 	GiveSalaryToHomer();
 	if (m_shouldUpdateSmithersId)

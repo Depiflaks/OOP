@@ -18,16 +18,8 @@
 Town::Town(const Money startAmount)
 	: m_startAmount(startAmount)
 	, m_bank(Bank{ startAmount })
-	, m_registry()
+	, m_registry(m_bank)
 {
-	// поровну разделяем все деньги между владельцами
-	const Money share{ startAmount / k_citizenCount };
-	const Money reminder{ startAmount % k_citizenCount };
-
-	CitizenApu apu{ m_bank, m_registry, share };
-	m_citizens = { apu };
-
-	m_registry.SetApu(apu);
 }
 
 void Town::ExecuteSimulation(const size_t stepCount)
@@ -35,7 +27,7 @@ void Town::ExecuteSimulation(const size_t stepCount)
 	for (size_t step = 0; step < stepCount; ++step)
 	{
 		Citizen& citizen = m_registry.GetRandomCitizen();
-		citizen.ExecuteWithErrorHandling();
+		citizen.PerformRandomActionWithErrorHandling();
 	}
 }
 

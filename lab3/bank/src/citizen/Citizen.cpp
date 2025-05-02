@@ -9,12 +9,12 @@
 
 #include <iostream>
 
-void Citizen::ExecuteWithErrorHandling()
+void Citizen::PerformRandomActionWithErrorHandling()
 {
 	std::cout << "Executing " << ::GetName(m_name) << " scenario\n";
 	try
 	{
-		Execute();
+		PerformRandomAction();
 	}
 	catch (BankOperationException& exception)
 	{

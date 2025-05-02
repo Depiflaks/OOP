@@ -16,7 +16,7 @@ CitizenNelson::CitizenNelson(Bank& bank, IContactList& citizens, const Money cas
 void CitizenNelson::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	Citizen::PerformRandomActionWithErrorHandling();
 }
 
 void CitizenNelson::PlanExpenses()
@@ -28,7 +28,7 @@ void CitizenNelson::PlanExpenses(const Money stolenAmount)
 	m_stolenAmount = stolenAmount;
 }
 
-void CitizenNelson::Execute()
+void CitizenNelson::PerformRandomAction()
 {
 	StealFromBart();
 	BuyCigarettesFromApu();
@@ -36,7 +36,7 @@ void CitizenNelson::Execute()
 
 void CitizenNelson::StealFromBart()
 {
-	auto bart = FindCitizen(CitizenName::bartAndLisaSimpson);
+	auto bart = FindCitizen(CitizenName::bartSimpson);
 	ExtortMoney(bart, m_stolenAmount);
 }
 

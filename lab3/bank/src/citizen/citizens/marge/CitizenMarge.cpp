@@ -17,7 +17,7 @@ CitizenMarge::CitizenMarge(Bank& bank, IContactList& citizens, const Money cash)
 void CitizenMarge::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	Citizen::PerformRandomActionWithErrorHandling();
 }
 
 void CitizenMarge::PlanExpenses()
@@ -29,7 +29,7 @@ void CitizenMarge::PlanExpenses(const Money apuAmount)
 	m_amountToApu = apuAmount;
 }
 
-void CitizenMarge::Execute()
+void CitizenMarge::PerformRandomAction()
 {
 	BuyGroceriesFromApu();
 }

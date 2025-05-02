@@ -17,7 +17,7 @@ CitizenHomer::CitizenHomer(Bank& bank, IContactList& citizens, const Money cash)
 void CitizenHomer::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	Citizen::PerformRandomActionWithErrorHandling();
 }
 
 void CitizenHomer::PlanExpenses()
@@ -36,7 +36,7 @@ void CitizenHomer::PlanExpenses(
 	m_amountToLisa = lisaAmount;
 }
 
-void CitizenHomer::Execute()
+void CitizenHomer::PerformRandomAction()
 {
 	TransferMoneyToMarge();
 	PayForElectricity();

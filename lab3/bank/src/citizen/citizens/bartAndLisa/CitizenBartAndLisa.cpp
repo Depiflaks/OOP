@@ -8,14 +8,14 @@
 
 CitizenBartAndLisa::CitizenBartAndLisa(Bank& bank, IContactList& citizens, const Money cash)
 	: Actor(bank, cash)
-	, CitizenDescription(CitizenName::bartAndLisaSimpson, citizens)
+	, CitizenDescription(CitizenName::bartSimpson, citizens)
 {
 }
 
 void CitizenBartAndLisa::ExecuteWithErrorHandling()
 {
 	std::cout << "Executing " << getName(m_name) << " scenario\n";
-	Citizen::ExecuteWithErrorHandling();
+	Citizen::PerformRandomActionWithErrorHandling();
 }
 
 void CitizenBartAndLisa::PlanExpenses()
@@ -30,7 +30,7 @@ void CitizenBartAndLisa::PlanExpenses(
 	m_amountToApuFromLisa = apuAmountFromLisa;
 }
 
-void CitizenBartAndLisa::Execute()
+void CitizenBartAndLisa::PerformRandomAction()
 {
 	BuyCandyFromApu();
 }

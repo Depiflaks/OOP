@@ -20,8 +20,7 @@ public:
 class Citizen : public Actor
 {
 public:
-	void ExecuteWithErrorHandling();
-	virtual void PlanExpenses() = 0;
+	void PerformRandomActionWithErrorHandling();
 	virtual ~Citizen() = default;
 
 	[[nodiscard]] CitizenName GetName() const;
@@ -29,7 +28,7 @@ public:
 
 private:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
-	virtual void Execute() = 0;
+	virtual void PerformRandomAction() = 0;
 
 	CitizenName m_name;
 	IContactList& m_contacts;

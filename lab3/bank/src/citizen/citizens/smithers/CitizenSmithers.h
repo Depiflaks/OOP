@@ -24,7 +24,7 @@ private:
     Money m_amountToAbu = 0;
     bool m_shouldNotifyingBoss = true;
 
-    void Execute() override;
+    void PerformRandomAction() override;
     void BuyGroceries() const;
     void ChangeAccount();
 };

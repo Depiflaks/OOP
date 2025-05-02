@@ -26,7 +26,7 @@ private:
 	Money m_amountToBart{ 0 };
 	Money m_amountForElectricity{ 0 };
 
-	void Execute() override;
+	void PerformRandomAction() override;
 	void TransferMoneyToMarge() const;
 	void PayForElectricity() const;
 	void GiveMoneyToChildren();

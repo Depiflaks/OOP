@@ -18,7 +18,8 @@ enum class CitizenName
 {
 	homerSimpson,
 	margeSimpson,
-	bartAndLisaSimpson,
+	bartSimpson,
+	lisaSimpson,
 	apu,
 	mrBurns,
 	nelson,
@@ -34,8 +35,10 @@ inline std::string GetName(const CitizenName name)
 		return "Homer Simpson";
 	case CitizenName::margeSimpson:
 		return "Marge Simpson";
-	case CitizenName::bartAndLisaSimpson:
-		return "Bart and Lisa Simpson";
+	case CitizenName::bartSimpson:
+		return "Bart Simpson";
+	case CitizenName::lisaSimpson:
+		return "Lisa Simpson";
 	case CitizenName::apu:
 		return "Apu";
 	case CitizenName::mrBurns:
@@ -46,6 +49,7 @@ inline std::string GetName(const CitizenName name)
 		return "Criminal Snake";
 	case CitizenName::waylonSmithers:
 		return "Waylon Smithers";
+	default:;
 	}
 	throw CitizenNameException{ "Invalid name" };
 }

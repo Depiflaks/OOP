@@ -11,7 +11,8 @@
 class CitizenApu final : public Citizen
 {
 public:
-	CitizenApu(Bank& bank, ContactList& contacts, Money cash);
+	CitizenApu(Bank& bank, IContactList& contacts, Money cash);
+
 	void PlanExpenses() override;
 	void PlanExpenses(Money electricityAmount);
 

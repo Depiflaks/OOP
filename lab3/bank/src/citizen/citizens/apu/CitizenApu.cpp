@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-CitizenApu::CitizenApu(Bank& bank, ContactList& contacts, const Money cash)
+CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::apu, contacts)
 {
 	OpenAccount();

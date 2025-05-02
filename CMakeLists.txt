@@ -46,8 +46,8 @@ add_executable(OOP lab1/replace/main.cpp
         lab3/bank/src/citizen/citizens/snake/CitizenSnake.h
         lab3/bank/src/citizen/citizens/smithers/CitizenSmithers.cpp
         lab3/bank/src/citizen/citizens/smithers/CitizenSmithers.h
-        lab3/bank/src/citizen/description/contactList/ContactList.cpp
-        lab3/bank/src/citizen/description/contactList/ContactList.h
+        lab3/bank/src/citizen/description/contactList/IContactList.cpp
+        lab3/bank/src/citizen/description/contactList/IContactList.h
         lab3/bank/src/town/citizenRegistry/CitizenRegistry.cpp
         lab3/bank/src/town/citizenRegistry/CitizenRegistry.h
         lab3/bank/src/random/random.h

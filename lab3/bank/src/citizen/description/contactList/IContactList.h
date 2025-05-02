@@ -7,11 +7,11 @@
 
 #include "../../Citizen.h"
 
-class ContactList
+class IContactList
 {
 public:
-	ContactList() = default;
-	virtual ~ContactList() = default;
+	IContactList() = default;
+	virtual ~IContactList() = default;
 
 	virtual Citizen& GetRandomCitizen() = 0;
 	virtual Citizen& GetCitizen(CitizenName name) = 0;

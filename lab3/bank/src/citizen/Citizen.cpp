@@ -30,7 +30,7 @@ void Citizen::ExecuteWithErrorHandling()
 	}
 }
 
-Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, ContactList& contacts)
+Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactList& contacts)
 	: Actor(bank, cash)
 	, m_name(name)
 	, m_contacts(contacts)
@@ -42,7 +42,7 @@ CitizenName Citizen::GetName() const
 	return m_name;
 }
 
-ContactList& Citizen::GetContactList() const
+IContactList& Citizen::GetContactList() const
 {
 	return m_contacts;
 }

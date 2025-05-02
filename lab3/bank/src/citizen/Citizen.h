@@ -7,7 +7,7 @@
 
 #include "../actor/Actor.h"
 #include "../town/Town.h"
-#include "description/contactList/ContactList.h"
+#include "description/contactList/IContactList.h"
 #include "description/name/CitizenName.h"
 
 class CitizenNotFoundException final : public std::out_of_range
@@ -25,14 +25,14 @@ public:
 	virtual ~Citizen() = default;
 
 	[[nodiscard]] CitizenName GetName() const;
-	[[nodiscard]] ContactList& GetContactList() const;
+	[[nodiscard]] IContactList& GetContactList() const;
 
 private:
-	explicit Citizen(Bank& bank, Money cash, CitizenName name, ContactList& contacts);
+	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
 	virtual void Execute() = 0;
 
 	CitizenName m_name;
-	ContactList& m_contacts;
+	IContactList& m_contacts;
 };
 
 #endif // SCENARIO_H

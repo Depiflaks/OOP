@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-CitizenMarge::CitizenMarge(Bank& bank, ContactList& citizens, const Money cash)
+CitizenMarge::CitizenMarge(Bank& bank, IContactList& citizens, const Money cash)
 	: Actor(bank, cash)
 	, CitizenDescription(CitizenName::margeSimpson, citizens)
 {

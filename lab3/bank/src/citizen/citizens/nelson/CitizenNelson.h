@@ -8,7 +8,7 @@
 #include "../../../actor/Actor.h"
 #include "../../Citizen.h"
 #include "../../description/CitizenDescription.h"
-#include "../../description/contactList/ContactList.h"
+#include "../../description/contactList/IContactList.h"
 
 class CitizenNelson final : public Citizen
     , protected Actor

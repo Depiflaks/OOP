@@ -29,9 +29,9 @@ private:
 	Money m_startAmount{ 0 };
 	Bank m_bank;
 	CitizenRegistry m_registry;
+	std::vector<Citizen&> m_citizens;
 	const int k_citizenCount{ 8 };
 
-	static void ExecuteSimulationStep();
 	void CheckTotalAmount();
 };
 

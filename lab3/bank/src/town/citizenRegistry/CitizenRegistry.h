@@ -9,16 +9,12 @@
 class CitizenRegistry : public ContactList
 {
 public:
-	explicit CitizenRegistry() = default;
+	explicit CitizenRegistry(Bank bank);
 
-	using ContactList::SetHomer;
-	using ContactList::SetMarge;
-	using ContactList::SetBartAndLisa;
-	using ContactList::SetApu;
-	using ContactList::SetMrBurns;
-	using ContactList::SetNelson;
-	using ContactList::SetSnake;
-	using ContactList::SetSmithers;
+private:
+	std::map<CitizenName, Citizen&> m_citizens;
+
+	int k_citizenCount{9};
 };
 
 #endif // CITIZEN_REGISTRY_H

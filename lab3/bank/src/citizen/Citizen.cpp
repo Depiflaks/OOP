@@ -12,7 +12,7 @@
 
 void Citizen::PerformRandomActionWithErrorHandling()
 {
-	std::cout << "Executing " << ::GetName(m_name) << " scenario\n";
+	std::cout << "Executing " << ::ConvertToString(m_name) << " scenario\n";
 	try
 	{
 		PerformRandomAction();
@@ -36,6 +36,12 @@ Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactL
 	, m_name(name)
 	, m_contacts(contacts)
 {
+}
+
+void Citizen::LogAboutPerformingAction(std::string_view action)
+{
+	const std::string_view message = "";
+	std::cout << "Citizen " << ConvertToString(GetName()) << "performing";
 }
 
 std::function<void()> Citizen::ChooseRandomAction(std::vector<std::function<void()>>& actions)

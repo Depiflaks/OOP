@@ -13,7 +13,7 @@ CitizenRegistry::CitizenRegistry(Bank& bank)
 	const Money share{ allCash / k_citizenCount };
 	const Money reminder{ allCash % k_citizenCount };
 
-	m_citizens[CitizenName::apu] = std::make_unique<CitizenApu>(bank, *this, share);
+	m_citizens[CitizenName::apu] = std::make_unique<CitizenApu>{ bank, *this, share };
 }
 
 Citizen& CitizenRegistry::GetCitizen(const CitizenName name)

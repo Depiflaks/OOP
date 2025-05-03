@@ -31,6 +31,7 @@ public:
 private:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
 	virtual void PerformRandomAction() = 0;
+	void LogAboutPerformingAction(std::string_view action);
 	static std::function<void()> ChooseRandomAction(std::vector<std::function<void()>>& actions);
 
 	CitizenName m_name;

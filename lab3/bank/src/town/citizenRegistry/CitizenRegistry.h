@@ -12,17 +12,17 @@
 class ContactNotFoundException final : public std::runtime_error
 {
 public:
-       explicit ContactNotFoundException(const CitizenName name)
-               : std::runtime_error{ "Contact of citizen: " + GetName(name) + " not found" }
-       {
-       }
-       ~ContactNotFoundException() override = default;
+	explicit ContactNotFoundException(const CitizenName name)
+		: std::runtime_error{ "Contact of citizen: " + ConvertToString(name) + " not found" }
+	{
+	}
 };
 
 class CitizenRegistry final : public IContactList
 {
 public:
 	explicit CitizenRegistry(Bank& bank);
+
 	Citizen& GetCitizen(CitizenName name) override;
 	Citizen& GetRandomCitizen() override;
 

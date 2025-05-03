@@ -12,6 +12,7 @@
 #include "../citizen/citizens/nelson/CitizenNelson.h"
 #include "../citizen/citizens/smithers/CitizenSmithers.h"
 #include "../citizen/citizens/snake/CitizenSnake.h"
+#include "../random/random.h"
 
 #include <iostream>
 
@@ -29,6 +30,12 @@ void Town::ExecuteSimulation(const size_t stepCount)
 		Citizen& citizen = m_registry.GetRandomCitizen();
 		citizen.PerformRandomActionWithErrorHandling();
 	}
+}
+
+Money Town::GetRandomExpenseAmount()
+{
+	const Money amount = GetRandomNumber(k_minExpenseAmount, k_maxExpenseAmount);
+	return amount;
 }
 
 void Town::CheckTotalAmount()

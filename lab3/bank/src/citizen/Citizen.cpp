@@ -5,16 +5,17 @@
 
 #include "../actor/Actor.h"
 #include "../bank/Bank.h"
+#include "../random/random.h"
 #include "description/name/CitizenName.h"
 
 #include <iostream>
 
-void Citizen::PerformRandomActionWithErrorHandling()
+void Citizen::PerformRandomActionWithErrorHandling(Money minTransaction, Money maxTransaction)
 {
 	std::cout << "Executing " << ::GetName(m_name) << " scenario\n";
 	try
 	{
-		PerformRandomAction();
+		PerformRandomAction(minTransaction, maxTransaction);
 	}
 	catch (BankOperationException& exception)
 	{
@@ -35,6 +36,12 @@ Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactL
 	, m_name(name)
 	, m_contacts(contacts)
 {
+}
+
+std::function<void()> Citizen::ChooseRandomAction(std::vector<std::function<void()>>& actions)
+{
+	const auto actionIndex = GetRandomNumber(0, static_cast<int>(actions.size()) - 1);
+	return actions[actionIndex];
 }
 
 CitizenName Citizen::GetName() const

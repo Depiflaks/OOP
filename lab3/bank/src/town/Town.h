@@ -8,8 +8,6 @@
 #include "../bank/Bank.h"
 #include "citizenRegistry/CitizenRegistry.h"
 
-#include <vector>
-
 class EconomicIntegrityException final : public std::runtime_error
 {
 public:
@@ -24,6 +22,7 @@ class Town
 public:
 	explicit Town(Money startAmount);
 	void ExecuteSimulation(size_t stepCount);
+	static Money GetRandomExpenseAmount();
 
 private:
 	Money m_startAmount{ 0 };
@@ -31,6 +30,8 @@ private:
 	CitizenRegistry m_registry;
 
 	void CheckTotalAmount();
+	static constexpr Money k_minExpenseAmount{ 1 };
+	static constexpr Money k_maxExpenseAmount{ 1 };
 };
 
 #endif // TOWN_H

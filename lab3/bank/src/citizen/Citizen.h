@@ -10,6 +10,8 @@
 #include "description/contactList/IContactList.h"
 #include "description/name/CitizenName.h"
 
+#include <functional>
+
 class CitizenNotFoundException final : public std::out_of_range
 {
 public:
@@ -20,7 +22,7 @@ public:
 class Citizen : public Actor
 {
 public:
-	void PerformRandomActionWithErrorHandling();
+	void PerformRandomActionWithErrorHandling(Money minTransaction, Money maxTransaction);
 	virtual ~Citizen() = default;
 
 	[[nodiscard]] CitizenName GetName() const;
@@ -28,7 +30,9 @@ public:
 
 private:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
-	virtual void PerformRandomAction() = 0;
+	virtual void PerformRandomAction(Money minTransaction, Money maxTransaction) = 0;
+	static std::function<void()> ChooseRandomAction(std::vector<std::function<void()>>& actions);
+
 
 	CitizenName m_name;
 	IContactList& m_contacts;

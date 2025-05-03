@@ -32,10 +32,6 @@ void Town::ExecuteSimulation(const size_t stepCount)
 	}
 }
 
-Money Town::GetRandomExpenseAmount()
-{
-	return GetRandomNumber(k_minExpenseAmount, k_maxExpenseAmount);
-}
 
 void Town::CheckTotalAmount()
 {

@@ -4,6 +4,7 @@
 
 #include "CitizenApu.h"
 
+#include "../../../random/random.h"
 
 CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::apu, contacts)
@@ -20,7 +21,7 @@ void CitizenApu::PerformRandomAction()
 void CitizenApu::PayForElectricity() const
 {
 	IContactList& contactList = GetContactList();
-	const Money amountToElectricity = Town::GetRandomExpenseAmount();
+	const Money amountToElectricity = GetRandomExpenseAmount();
 	const auto mrBurns = contactList.GetCitizen(CitizenName::mrBurns);
 	TransferMoney(mrBurns, amountToElectricity);
 }

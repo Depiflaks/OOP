@@ -10,12 +10,12 @@
 
 #include <iostream>
 
-void Citizen::PerformRandomActionWithErrorHandling(Money minTransaction, Money maxTransaction)
+void Citizen::PerformRandomActionWithErrorHandling()
 {
 	std::cout << "Executing " << ::GetName(m_name) << " scenario\n";
 	try
 	{
-		PerformRandomAction(minTransaction, maxTransaction);
+		PerformRandomAction();
 	}
 	catch (BankOperationException& exception)
 	{

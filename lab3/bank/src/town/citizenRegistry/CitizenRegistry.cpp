@@ -37,6 +37,6 @@ std::map<CitizenName, std::unique_ptr<Citizen>>& CitizenRegistry::GetCitizens()
 
 void CitizenRegistry::CheckCitizenExist(const CitizenName name) const
 {
-	if (m_citizens.contains(name))
+	if (!m_citizens.contains(name))
 		throw ContactNotFoundException(name);
 }

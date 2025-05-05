@@ -8,21 +8,12 @@ add_executable(bank_app
         src/actor/Actor.cpp
         src/bank/Bank.cpp
         src/citizen/Citizen.cpp
-        src/citizen/citizens/apu/CitizenApu.cpp
-#        src/citizen/citizens/bart/CitizenBartAndLisa.cpp
-#        src/citizen/citizens/homer/CitizenHomer.cpp
-#        src/citizen/citizens/marge/CitizenMarge.cpp
-#        src/citizen/citizens/mrBurns/CitizenMrBurns.cpp
-#        src/citizen/citizens/nelson/CitizenNelson.cpp
-#        src/citizen/citizens/smithers/CitizenSmithers.cpp
-#        src/citizen/citizens/snake/CitizenSnake.cpp
         src/citizen/description/contactList/IContactList.cpp
         src/random/random.cpp
         src/town/Town.cpp
         src/town/citizenRegistry/CitizenRegistry.cpp
         src/citizen/citizens/citizens.h
-        src/citizen/citizens/homer.cpp
-        src/citizen/citizens/apu.cpp
+        src/citizen/citizens/citizenApu.cpp
 )
 
 target_include_directories(bank_app PRIVATE

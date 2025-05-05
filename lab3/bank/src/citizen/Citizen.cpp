@@ -8,6 +8,7 @@
 #include "../random/random.h"
 #include "description/name/CitizenName.h"
 
+#include <CitizenRegistry.h>
 #include <iostream>
 
 Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactList& contacts)
@@ -31,6 +32,10 @@ void Citizen::PerformRandomActionWithErrorHandling()
 	catch (ActorInteractionException& exception)
 	{
 		std::cout << "Error while executing actor operation: " << exception.what() << "\n";
+	}
+	catch (ContactNotFoundException& exception)
+	{
+		std::cout << exception.what() << "\n";
 	}
 	catch (std::exception& exception)
 	{

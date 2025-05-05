@@ -12,7 +12,7 @@ class ContactNotFoundException final : public std::runtime_error
 {
 public:
 	explicit ContactNotFoundException(const CitizenName name)
-		: std::runtime_error{ std::string("Contact of citizen: not found") + ConvertToString(name) }
+		: std::runtime_error{ std::string("Contact of citizen not found: ") + ConvertToString(name) }
 	{
 	}
 };

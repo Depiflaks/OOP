@@ -13,13 +13,6 @@
 
 class IContactList;
 
-class CitizenNotFoundException final : public std::out_of_range
-{
-public:
-	using std::out_of_range::out_of_range;
-	~CitizenNotFoundException() override = default;
-};
-
 class Citizen : public Actor
 {
 public:

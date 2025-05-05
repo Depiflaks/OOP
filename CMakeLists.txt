@@ -4,6 +4,7 @@ project(OOP)
 set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(lab3/bank)
+add_subdirectory(lab5/rational)
 
 add_executable(OOP
         lab1/replace/main.cpp

@@ -25,10 +25,15 @@ class Citizen : public ICitizen
 {
 public:
 	void PerformRandomActionWithErrorHandling() override;
-	void LogAboutPerformingAction(std::string_view actionName) const;
+	static void LogAboutPerformingAction(std::string_view actionDescription);
 
-	virtual void PerformRandomAction() = 0;
-	static ActionType& ChooseRandomAction(const std::vector<ActionType>& actions);
+	template <typename T>
+	void AddAction(T&& action)
+	{
+		m_actions.emplace_back(std::forward<T>(action));
+	}
+
+	void PerformRandomAction() const;
 
 	[[nodiscard]] CitizenName GetName() override;
 	[[nodiscard]] IContactList& GetContactList() const;
@@ -37,6 +42,7 @@ private:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
 
 	CitizenName m_name;
+	std::vector<ActionType> m_actions{};
 	IContactList& m_contacts;
 };
 

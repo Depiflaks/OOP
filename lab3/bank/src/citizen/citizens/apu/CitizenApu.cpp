@@ -12,18 +12,13 @@ CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 	OpenAccount();
 	DepositMoney(cash);
 
-	m_actions.emplace_back([this]() { PayForElectricity(); });
-	m_actions.emplace_back([this]() { DepositCashMoney(); });
-}
-
-void CitizenApu::PerformRandomAction()
-{
-	const auto action = ChooseRandomAction(m_actions);
-	action();
+	AddAction([this] { PayForElectricity(); });
 }
 
 void CitizenApu::PayForElectricity() const
 {
+	LogAboutPerformingAction("paying for electricity");
+
 	IContactList& contactList = GetContactList();
 	const Money amountToElectricity = GetRandomExpenseAmount();
 	const auto mrBurns = contactList.GetCitizen(CitizenName::mrBurns);
@@ -32,6 +27,7 @@ void CitizenApu::PayForElectricity() const
 
 void CitizenApu::DepositCashMoney()
 {
+	LogAboutPerformingAction("depositing cash money");
 	if (const Money cash = GetCashBalance(); cash > 0)
 		DepositMoney(cash);
 }

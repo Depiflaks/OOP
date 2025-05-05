@@ -11,8 +11,6 @@ class CitizenApu final : public Citizen
 {
 public:
 	CitizenApu(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void PayForElectricity() const;
 	void DepositCashMoney();
 };
@@ -22,8 +20,6 @@ class CitizenBart final : public Citizen
 {
 public:
 	CitizenBart(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void BuyCandyFromApu();
 };
 
@@ -32,8 +28,6 @@ class CitizenLisa final : public Citizen
 {
 public:
 	CitizenLisa(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void BuyCandyFromApu();
 };
 
@@ -42,8 +36,6 @@ class CitizenHomer final : public Citizen
 {
 public:
 	CitizenHomer(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void TransferMoneyToMarge() const;
 	void PayForElectricity() const;
 	void GiveMoneyToChildren();
@@ -54,8 +46,6 @@ class CitizenMarge final : public Citizen
 {
 public:
 	CitizenMarge(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void BuyGroceriesFromApu() const;
 };
 
@@ -64,8 +54,6 @@ class CitizenMrBurns final : public Citizen
 {
 public:
 	CitizenMrBurns(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void GiveSalaryToHomer() const;
 	void GiveSalaryToSmithers() const;
 };
@@ -75,8 +63,6 @@ class CitizenNelson final : public Citizen
 {
 public:
 	CitizenNelson(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void StealFromBart();
 	void BuyCigarettesFromApu();
 };
@@ -86,8 +72,6 @@ class CitizenSmithers final : public Citizen
 {
 public:
 	CitizenSmithers(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void BuyGroceries() const;
 	void ChangeAccount();
 };
@@ -97,8 +81,6 @@ class CitizenSnake final : public Citizen
 {
 public:
 	CitizenSnake(Bank& bank, IContactList& contacts, Money cash);
-
-private:
 	void HackHomerAccount() const;
 	void BuyGroceriesFromApu() const;
 };

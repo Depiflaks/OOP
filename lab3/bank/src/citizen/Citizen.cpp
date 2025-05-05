@@ -18,7 +18,7 @@ Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactL
 {
 }
 
-void Citizen::PerformRandomActionWithErrorHandling()
+void Citizen::PerformRandomActionWithErrorHandling() const
 {
 	std::cout << "Executing " << ::ConvertToString(m_name) << " scenario\n";
 	try

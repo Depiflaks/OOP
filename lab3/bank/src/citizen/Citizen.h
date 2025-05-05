@@ -18,7 +18,7 @@ class Citizen : public Actor
 public:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
 
-	void PerformRandomActionWithErrorHandling();
+	void PerformRandomActionWithErrorHandling() const;
 	static void LogAboutPerformingAction(std::string_view actionDescription);
 
 	template <typename T>

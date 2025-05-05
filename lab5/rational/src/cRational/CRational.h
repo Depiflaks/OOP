@@ -52,26 +52,30 @@ public:
 	// Возвращает отношение числителя и знаменателя в виде числа double
 	[[nodiscard]] double ToDouble() const;
 
-    CRational operator+(const CRational& other) const;
-    CRational& operator+=(const CRational& other);
-    CRational operator-(const CRational& other) const;
-    CRational& operator-=(const CRational& other);
+	CRational operator+() const;
+	CRational operator-() const;
+	CRational operator+(const CRational& other) const;
+	CRational& operator+=(const CRational& other);
+	CRational operator-(const CRational& other) const;
+	CRational& operator-=(const CRational& other);
 
-    bool operator>(const CRational& other) const;
-    bool operator<(const CRational& other) const;
-    bool operator<=(const CRational& other) const;
-    bool operator>=(const CRational& other) const;
+	bool operator>(const CRational& other) const;
+	bool operator<(const CRational& other) const;
+	bool operator<=(const CRational& other) const;
+	bool operator>=(const CRational& other) const;
 	bool operator==(const CRational& other) const;
 	bool operator!=(const CRational& other) const;
+
+	friend std::ostream& operator<<(std::ostream& os, const CRational& rational);
 
 private:
 	int m_numerator{ 0 };
 	int m_denominator{ 1 };
 
 	void CheckDenominator() const;
-	void Reduce();
+	void Normalize();
 
-	static std::pair<CRational, CRational> ToCommonDenominator(const CRational& a, const CRational& b);
+	static int GetCommonDenominator(const CRational& a, const CRational& b);
 };
 
 #endif // CRATIONAL_H

@@ -4,8 +4,8 @@
 
 #include "CitizenRegistry.h"
 
-#include "../../citizen/citizens/apu/CitizenApu.h"
 #include "../../random/random.h"
+#include "citizens.h"
 
 CitizenRegistry::CitizenRegistry(Bank& bank)
 {

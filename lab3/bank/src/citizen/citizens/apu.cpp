@@ -1,10 +1,8 @@
 //
-// Created by smmm on 27.03.2025.
+// Created by smmm on 05.05.2025.
 //
+#include "citizens.h"
 
-#include "CitizenApu.h"
-
-#include "../../../random/random.h"
 #include <Town.h>
 
 CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
@@ -33,3 +31,4 @@ void CitizenApu::DepositCashMoney()
 	if (const Money cash = GetCashBalance(); cash > 0)
 		DepositMoney(cash);
 }
+

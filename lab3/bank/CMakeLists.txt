@@ -21,6 +21,8 @@ add_executable(bank_app
         src/town/Town.cpp
         src/town/citizenRegistry/CitizenRegistry.cpp
         src/citizen/citizens/citizens.h
+        src/citizen/citizens/homer.cpp
+        src/citizen/citizens/apu.cpp
 )
 
 target_include_directories(bank_app PRIVATE

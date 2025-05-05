@@ -48,7 +48,7 @@ ActionType Citizen::ChooseRandomAction(const std::vector<ActionType>& actions)
 	return ChooseRandom<ActionType>(actions);
 }
 
-CitizenName Citizen::GetName() const
+CitizenName Citizen::GetName()
 {
 	return m_name;
 }

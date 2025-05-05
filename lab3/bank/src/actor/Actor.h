@@ -40,6 +40,7 @@ class Actor
 {
 public:
 	explicit Actor(Bank& bank, Money cash);
+	virtual ~Actor() = default;
 
 	// Публичные методы:
 	// Узнать баланс на счёте

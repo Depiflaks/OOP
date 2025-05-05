@@ -9,6 +9,7 @@
 #include "../town/Town.h"
 #include "description/contactList/IContactList.h"
 #include "description/name/CitizenName.h"
+#include "iCitizen/ICitizen.h"
 
 #include <functional>
 
@@ -19,18 +20,17 @@ public:
 	~CitizenNotFoundException() override = default;
 };
 
-class Citizen : public Actor
+class Citizen : public ICitizen
+	, public Actor
 {
 public:
-	virtual ~Citizen() = default;
-
-	void PerformRandomActionWithErrorHandling();
+	void PerformRandomActionWithErrorHandling() override;
 	void LogAboutPerformingAction(std::string_view actionName) const;
 
 	virtual void PerformRandomAction() = 0;
 	static ActionType ChooseRandomAction(const std::vector<ActionType>& actions);
 
-	[[nodiscard]] CitizenName GetName() const;
+	[[nodiscard]] CitizenName GetName() override;
 	[[nodiscard]] IContactList& GetContactList() const;
 
 private:

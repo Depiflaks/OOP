@@ -17,7 +17,7 @@ CRational::CRational(const int numerator, const int denominator)
 	: m_numerator(numerator)
 {
 	m_denominator = denominator;
-	CheckDenominator();
+	ProcessDenominator();
 	Normalize();
 }
 
@@ -49,7 +49,7 @@ CRational CRational::operator-() const
 CRational CRational::operator+(const CRational& other) const
 {
 	const int denominator = GetCommonDenominator(*this, other);
-	const int newNum = m_numerator * (denominator / m_denominator) + other.m_numerator * (denominator / other.m_denominator);
+	const int newNum = ToCommonDenominator(denominator) + other.ToCommonDenominator(denominator);
 	return { newNum, denominator };
 }
 
@@ -62,7 +62,7 @@ CRational& CRational::operator+=(const CRational& other)
 CRational CRational::operator-(const CRational& other) const
 {
 	const int denominator = GetCommonDenominator(*this, other);
-	const int newNum = m_numerator * (denominator / m_denominator) - other.m_numerator * (denominator / other.m_denominator);
+	const int newNum = ToCommonDenominator(denominator) - other.ToCommonDenominator(denominator);
 	return { newNum, denominator };
 }
 
@@ -75,25 +75,50 @@ CRational& CRational::operator-=(const CRational& other)
 bool CRational::operator==(const CRational& other) const
 {
 	const int denominator = GetCommonDenominator(*this, other);
-	return m_numerator * (denominator / m_denominator) == other.m_numerator * (denominator / other.m_denominator);
+	return ToCommonDenominator(denominator) == other.ToCommonDenominator(denominator);
 }
 
-bool CRational::operator!=(const CRational& other) const { return !(*this == other); }
+bool CRational::operator!=(const CRational& other) const
+{
+	return !(*this == other);
+}
 
 bool CRational::operator<(const CRational& other) const
 {
 	const int denominator = GetCommonDenominator(*this, other);
-	return m_numerator * (denominator / m_denominator) < other.m_numerator * (denominator / other.m_denominator);
+	return ToCommonDenominator(denominator) < other.ToCommonDenominator(denominator);
 }
 
 bool CRational::operator>(const CRational& other) const
 {
 	const int denominator = GetCommonDenominator(*this, other);
-	return m_numerator * (denominator / m_denominator) > other.m_numerator * (denominator / other.m_denominator);
+	return ToCommonDenominator(denominator) > other.ToCommonDenominator(denominator);
 }
 
 bool CRational::operator<=(const CRational& other) const { return !(*this > other); }
 bool CRational::operator>=(const CRational& other) const { return !(*this < other); }
+
+CRational CRational::operator*(const CRational& other) const
+{
+	return { m_numerator * other.m_numerator, m_denominator * other.m_denominator };
+}
+
+CRational& CRational::operator*=(const CRational& other)
+{
+	*this = *this * other;
+	return *this;
+}
+
+CRational CRational::operator/(const CRational& other) const
+{
+	return { m_numerator * other.m_denominator, m_denominator * other.m_numerator };
+}
+
+CRational& CRational::operator/=(const CRational& other)
+{
+	*this = *this / other;
+	return *this;
+}
 
 std::ostream& operator<<(std::ostream& os, const CRational& rational)
 {
@@ -101,7 +126,7 @@ std::ostream& operator<<(std::ostream& os, const CRational& rational)
 	return os;
 }
 
-void CRational::CheckDenominator()
+void CRational::ProcessDenominator()
 {
 	if (m_denominator == 0)
 	{
@@ -113,7 +138,11 @@ void CRational::CheckDenominator()
 		m_denominator *= -1;
 		m_numerator *= -1;
 	}
+}
 
+int CRational::ToCommonDenominator(const int commonDenominator) const
+{
+	return m_numerator * (commonDenominator / m_denominator);
 }
 
 void CRational::Normalize()

@@ -50,6 +50,11 @@ public:
 	CRational operator-(const CRational& other) const;
 	CRational& operator-=(const CRational& other);
 
+	CRational operator*(const CRational& other) const;
+	CRational& operator*=(const CRational& other);
+	CRational operator/(const CRational& other) const;
+	CRational& operator/=(const CRational& other);
+
 	bool operator>(const CRational& other) const;
 	bool operator<(const CRational& other) const;
 	bool operator<=(const CRational& other) const;
@@ -63,8 +68,9 @@ private:
 	int m_numerator{ 0 };
 	int m_denominator{ 1 };
 
-	void CheckDenominator();
+	void ProcessDenominator();
 	void Normalize();
+	[[nodiscard]] int ToCommonDenominator(int commonDenominator) const;
 
 	static int GetCommonDenominator(const CRational& a, const CRational& b);
 };

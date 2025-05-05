@@ -24,6 +24,12 @@ TEST(ConstructorTest, Normalization) {
     EXPECT_EQ(r.GetDenominator(), 2);
 }
 
+TEST(ConstructorTest, BigNormalization) {
+	const CRational r(13, 169);
+    EXPECT_EQ(r.GetNumerator(), 1);
+    EXPECT_EQ(r.GetDenominator(), 13);
+}
+
 // Unary operators
 TEST(OperatorOverloading, UnaryPlus) {
     CRational a(3, 4);
@@ -33,6 +39,11 @@ TEST(OperatorOverloading, UnaryPlus) {
 TEST(OperatorOverloading, UnaryMinus) {
     CRational a(3, 4);
     EXPECT_EQ(-a, CRational(-3, 4));
+}
+
+TEST(OperatorOverloading, BackUnaryMinus) {
+    CRational a(-3, 4);
+    EXPECT_EQ(-a, CRational(3, 4));
 }
 
 // Binary arithmetic
@@ -61,30 +72,30 @@ TEST(OperatorOverloading, MinusAssignment) {
     EXPECT_EQ(a, CRational(1, 6));
 }
 
-// // Multiplication and division
-// TEST(OperatorOverloading, Multiplication) {
-//     CRational a(1, 2);
-//     CRational b(2, 3);
-//     EXPECT_EQ(a * b, CRational(1, 3));
-// }
-//
-// TEST(OperatorOverloading, Division) {
-//     CRational a(1, 2);
-//     CRational b(2, 3);
-//     EXPECT_EQ(a / b, CRational(3, 4));
-// }
-//
-// TEST(OperatorOverloading, MultiplyAssignment) {
-//     CRational a(1, 2);
-//     a *= CRational(2, 3);
-//     EXPECT_EQ(a, CRational(1, 3));
-// }
-//
-// TEST(OperatorOverloading, DivideAssignment) {
-//     CRational a(1, 2);
-//     a /= CRational(2, 3);
-//     EXPECT_EQ(a, CRational(3, 4));
-// }
+// Multiplication and division
+TEST(OperatorOverloading, Multiplication) {
+    CRational a(1, 2);
+    CRational b(2, 3);
+    EXPECT_EQ(a * b, CRational(1, 3));
+}
+
+TEST(OperatorOverloading, Division) {
+    CRational a(1, 2);
+    CRational b(2, 3);
+    EXPECT_EQ(a / b, CRational(3, 4));
+}
+
+TEST(OperatorOverloading, MultiplyAssignment) {
+    CRational a(1, 2);
+    a *= CRational(2, 3);
+    EXPECT_EQ(a, CRational(1, 3));
+}
+
+TEST(OperatorOverloading, DivideAssignment) {
+    CRational a(1, 2);
+    a /= CRational(2, 3);
+    EXPECT_EQ(a, CRational(3, 4));
+}
 
 // Comparison operators
 TEST(OperatorOverloading, Equality) {

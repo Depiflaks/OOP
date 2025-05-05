@@ -7,3 +7,4 @@ Test*
 !Test*.*
 !test_*.*
 *.txt
+!CMakeLists.txt

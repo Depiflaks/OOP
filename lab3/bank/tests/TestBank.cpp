@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 #include <vector>
 
-Money calculateTotalMoney(const Bank& bank, const std::vector<AccountId>& accounts)
+Money CalculateTotalMoney(const Bank& bank, const std::vector<AccountId>& accounts)
 {
 	Money total = bank.GetCash();
 	for (const AccountId acc : accounts)
@@ -30,12 +30,12 @@ TEST_F(BankTest, DepositAndInvariantCheck)
 	AccountId acc1 = bank->OpenAccount();
 	AccountId acc2 = bank->OpenAccount();
 	std::vector<AccountId> accounts = { acc1, acc2 };
-	Money initialTotal = calculateTotalMoney(*bank, accounts);
+	Money initialTotal = CalculateTotalMoney(*bank, accounts);
 	Money depositAmount = 200;
 	bank->DepositMoney(acc1, depositAmount);
 	EXPECT_EQ(bank->GetAccountBalance(acc1), depositAmount);
 	EXPECT_EQ(bank->GetCash(), 1000 - depositAmount);
-	Money newTotal = calculateTotalMoney(*bank, accounts);
+	Money newTotal = CalculateTotalMoney(*bank, accounts);
 	EXPECT_EQ(newTotal, initialTotal);
 }
 
@@ -44,11 +44,11 @@ TEST_F(BankTest, WithdrawAndInvariantCheck)
 	AccountId acc = bank->OpenAccount();
 	bank->DepositMoney(acc, 300);
 	std::vector accounts = { acc };
-	Money initialTotal = calculateTotalMoney(*bank, accounts);
+	Money initialTotal = CalculateTotalMoney(*bank, accounts);
 	bank->WithdrawMoney(acc, 100);
 	EXPECT_EQ(bank->GetAccountBalance(acc), 300 - 100);
 	EXPECT_EQ(bank->GetCash(), (1000 - 300) + 100);
-	Money newTotal = calculateTotalMoney(*bank, accounts);
+	Money newTotal = CalculateTotalMoney(*bank, accounts);
 	EXPECT_EQ(newTotal, initialTotal);
 }
 
@@ -58,11 +58,11 @@ TEST_F(BankTest, SendMoneySuccessAndInvariantCheck)
 	AccountId accTo = bank->OpenAccount();
 	std::vector accounts = { accFrom, accTo };
 	bank->DepositMoney(accFrom, 400);
-	Money initialTotal = calculateTotalMoney(*bank, accounts);
+	Money initialTotal = CalculateTotalMoney(*bank, accounts);
 	bank->SendMoney(accFrom, accTo, 150);
 	EXPECT_EQ(bank->GetAccountBalance(accFrom), 400 - 150);
 	EXPECT_EQ(bank->GetAccountBalance(accTo), 150);
-	Money newTotal = calculateTotalMoney(*bank, accounts);
+	Money newTotal = CalculateTotalMoney(*bank, accounts);
 	EXPECT_EQ(newTotal, initialTotal);
 }
 
@@ -72,12 +72,12 @@ TEST_F(BankTest, TrySendMoneyInsufficientFunds)
 	AccountId accTo = bank->OpenAccount();
 	std::vector accounts = { accFrom, accTo };
 	bank->DepositMoney(accFrom, 50);
-	Money initialTotal = calculateTotalMoney(*bank, accounts);
+	Money initialTotal = CalculateTotalMoney(*bank, accounts);
 	bool result = bank->TrySendMoney(accFrom, accTo, 100);
 	EXPECT_FALSE(result);
 	EXPECT_EQ(bank->GetAccountBalance(accFrom), 50);
 	EXPECT_EQ(bank->GetAccountBalance(accTo), 0);
-	Money newTotal = calculateTotalMoney(*bank, accounts);
+	Money newTotal = CalculateTotalMoney(*bank, accounts);
 	EXPECT_EQ(newTotal, initialTotal);
 }
 
@@ -103,9 +103,9 @@ TEST_F(BankTest, WithdrawMoneyInsufficientFunds)
 	AccountId acc = bank->OpenAccount();
 	bank->DepositMoney(acc, 100);
 	std::vector accounts = { acc };
-	Money initialTotal = calculateTotalMoney(*bank, accounts);
+	Money initialTotal = CalculateTotalMoney(*bank, accounts);
 	EXPECT_THROW(bank->WithdrawMoney(acc, 200), NotEnoughMoneyException);
-	Money newTotal = calculateTotalMoney(*bank, accounts);
+	Money newTotal = CalculateTotalMoney(*bank, accounts);
 	EXPECT_EQ(newTotal, initialTotal);
 }
 
@@ -114,11 +114,11 @@ TEST_F(BankTest, TryWithdrawMoneyInsufficientFunds)
 	AccountId acc = bank->OpenAccount();
 	bank->DepositMoney(acc, 80);
 	std::vector accounts = { acc };
-	Money initialTotal = calculateTotalMoney(*bank, accounts);
+	Money initialTotal = CalculateTotalMoney(*bank, accounts);
 	bool result = bank->TryWithdrawMoney(acc, 150);
 	EXPECT_FALSE(result);
 	EXPECT_EQ(bank->GetAccountBalance(acc), 80);
-	Money newTotal = calculateTotalMoney(*bank, accounts);
+	Money newTotal = CalculateTotalMoney(*bank, accounts);
 	EXPECT_EQ(newTotal, initialTotal);
 }
 

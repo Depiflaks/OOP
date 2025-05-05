@@ -3,21 +3,50 @@ project(lab5_rational)
 
 set(CMAKE_CXX_STANDARD 20)
 
+file(GLOB_RECURSE SOURCES
+        "src/*.cpp"
+        "src/*/*.cpp"
+        "src/*/*/*.cpp"
+        "src/*/*/*/*.cpp"
+)
+
+list(REMOVE_ITEM SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
+)
+
+# Основное приложение
 add_executable(rational_app
         main.cpp
-        src/cRational/CRational.cpp
-        src/cRational/CRational.h
-
+        ${SOURCES}
+        tests/TestCRational.cpp
 )
 
 target_include_directories(rational_app PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-#if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/TestActor.cpp")
-#    add_executable(bank_tests
-#            tests/TestActor.cpp
-#            tests/TestBank.cpp
-#    )
-#    target_include_directories(bank_tests PRIVATE src)
-#    target_link_libraries(bank_tests PRIVATE bank_app)
-#endif()
+# Tests
+
+find_package(GTest REQUIRED)
+include(GoogleTest)
+
+
+file(GLOB TEST_SOURCES "tests/*.cpp")
+if (TEST_SOURCES)
+    add_executable(rational_tests ${TEST_SOURCES})
+    target_include_directories(rational_tests PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(rational_tests PRIVATE GTest::GTest GTest::Main)
+    enable_testing()
+    gtest_discover_tests(rational_tests)
+
+    target_link_libraries(rational_tests PRIVATE
+            gtest_main
+    )
+
+    enable_testing()
+    gtest_discover_tests(rational_tests)
+    #    target_link_libraries(rational_tests PRIVATE rational_app)
+endif ()

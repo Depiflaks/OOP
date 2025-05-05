@@ -3,6 +3,13 @@ project(OOP)
 
 set(CMAKE_CXX_STANDARD 20)
 
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+FetchContent_MakeAvailable(googletest)
+
 add_subdirectory(lab3/bank)
 add_subdirectory(lab5/rational)
 

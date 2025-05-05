@@ -46,67 +46,94 @@ TEST(OperatorOverloading, BackUnaryMinus) {
     EXPECT_EQ(-a, CRational(3, 4));
 }
 
-// Binary arithmetic
+// Binary addition
 TEST(OperatorOverloading, BinaryPlus) {
-    const CRational a(1, 2);
-    const CRational b(1, 3);
-    EXPECT_EQ(a + b, CRational(5, 6));
+    const CRational a(3, 7);
+    const CRational b(2, 5);
+    EXPECT_EQ(a + b, CRational(29, 35));
 }
 
 TEST(OperatorOverloading, BinaryPlusWithNormalize) {
-    const CRational a(1, 6);
-    const CRational b(1, 6);
-    EXPECT_EQ(a + b, CRational(1, 3));
+    const CRational a(2, 8);
+    const CRational b(1, 4);
+    EXPECT_EQ(a + b, CRational(1, 2));
 }
 
+// Binary subtraction
 TEST(OperatorOverloading, BinaryMinus) {
-    const CRational a(1, 2);
-    const CRational b(1, 3);
-    EXPECT_EQ(a - b, CRational(1, 6));
+    const CRational a(5, 6);
+    const CRational b(1, 4);
+    EXPECT_EQ(a - b, CRational(7, 12));
 }
 
 TEST(OperatorOverloading, BinaryMinusWithNormalize) {
-    const CRational a(2, 3);
-    const CRational b(1, 6);
-    EXPECT_EQ(a - b, CRational(1, 2));
-}
-
-// Compound assignment
-TEST(OperatorOverloading, PlusAssignment) {
-    CRational a(1, 2);
-    a += CRational(1, 3);
-    EXPECT_EQ(a, CRational(5, 6));
-}
-
-TEST(OperatorOverloading, MinusAssignment) {
-    CRational a(1, 2);
-    a -= CRational(1, 3);
-    EXPECT_EQ(a, CRational(1, 6));
+    const CRational a(10, 12);
+    const CRational b(1, 2);
+    EXPECT_EQ(a - b, CRational(1, 3));
 }
 
 // Multiplication and division
 TEST(OperatorOverloading, Multiplication) {
-    const CRational a(1, 2);
-    const CRational b(2, 3);
+    const CRational a(3, 4);
+    const CRational b(4, 9);
     EXPECT_EQ(a * b, CRational(1, 3));
 }
 
 TEST(OperatorOverloading, Division) {
-    const CRational a(1, 2);
+    const CRational a(5, 6);
     const CRational b(2, 3);
-    EXPECT_EQ(a / b, CRational(3, 4));
+    EXPECT_EQ(a / b, CRational(15, 12));
+}
+
+// Compound assignment
+TEST(OperatorOverloading, PlusAssignment) {
+    CRational a(7, 10);
+    a += CRational(3, 5);
+    EXPECT_EQ(a, CRational(13, 10));
+}
+
+TEST(OperatorOverloading, MinusAssignment) {
+    CRational a(9, 10);
+    a -= CRational(2, 5);
+    EXPECT_EQ(a, CRational(1, 2));
 }
 
 TEST(OperatorOverloading, MultiplyAssignment) {
-    CRational a(1, 2);
-    a *= CRational(2, 3);
-    EXPECT_EQ(a, CRational(1, 3));
+    CRational a(6, 7);
+    a *= CRational(7, 9);
+    EXPECT_EQ(a, CRational(2, 3));
 }
 
 TEST(OperatorOverloading, DivideAssignment) {
-    CRational a(1, 2);
-    a /= CRational(2, 3);
-    EXPECT_EQ(a, CRational(3, 4));
+    CRational a(5, 8);
+    a /= CRational(1, 2);
+    EXPECT_EQ(a, CRational(10, 8));
+}
+
+// Constructor with single argument
+TEST(OperatorOverloading, SingleArgumentConstructorPlus) {
+    const CRational a(5);  // 5/1
+    const CRational b(1, 2);
+    EXPECT_EQ(a + b, CRational(11, 2));
+}
+
+TEST(OperatorOverloading, SingleArgumentConstructorMultiply) {
+    const CRational a(4);  // 4/1
+    const CRational b(3, 8);
+    EXPECT_EQ(a * b, CRational(3, 2));
+}
+
+// Negative fractions
+TEST(OperatorOverloading, NegativeFractionAddition) {
+    const CRational a(-3, 4);
+    const CRational b(1, 2);
+    EXPECT_EQ(a + b, CRational(-1, 4));
+}
+
+TEST(OperatorOverloading, NegativeFractionSubtraction) {
+    const CRational a(-5, 6);
+    const CRational b(-1, 3);
+    EXPECT_EQ(a - b, CRational(-1, 2));
 }
 
 // Comparison operators

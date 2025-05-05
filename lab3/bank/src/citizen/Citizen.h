@@ -22,17 +22,19 @@ public:
 class Citizen : public Actor
 {
 public:
-	void PerformRandomActionWithErrorHandling();
 	virtual ~Citizen() = default;
 
+	void PerformRandomActionWithErrorHandling();
 	void LogAboutPerformingAction(std::string_view actionName) const;
+
+	virtual void PerformRandomAction() = 0;
+	static ActionType ChooseRandomAction(const std::vector<ActionType>& actions);
+
 	[[nodiscard]] CitizenName GetName() const;
 	[[nodiscard]] IContactList& GetContactList() const;
 
 private:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
-	virtual void PerformRandomAction() = 0;
-	static std::function<void()> ChooseRandomAction(const std::vector<std::function<void()>>& actions);
 
 	CitizenName m_name;
 	IContactList& m_contacts;

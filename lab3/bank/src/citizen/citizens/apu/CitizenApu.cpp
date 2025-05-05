@@ -15,6 +15,7 @@ CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 
 void CitizenApu::PerformRandomAction()
 {
+	auto randomAction = ChooseRandomAction({});
 	PayForElectricity();
 }
 

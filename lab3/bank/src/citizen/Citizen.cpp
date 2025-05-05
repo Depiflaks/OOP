@@ -41,12 +41,11 @@ void Citizen::PerformRandomActionWithErrorHandling()
 void Citizen::LogAboutPerformingAction(const std::string_view actionName) const
 {
 	std::cout << ConvertToString(m_name) << " performing " << actionName << ".\n";
-	;
 }
 
-std::function<void()> Citizen::ChooseRandomAction(const std::vector<std::function<void()>>& actions)
+ActionType Citizen::ChooseRandomAction(const std::vector<ActionType>& actions)
 {
-	return ChooseRandom<std::function<void()>>(actions);
+	return ChooseRandom<ActionType>(actions);
 }
 
 CitizenName Citizen::GetName() const

@@ -7,7 +7,10 @@
 
 #include "../bank/Bank.h"
 
+#include <functional>
 #include <optional>
+
+using ActionType = std::function<void()>;
 
 class ActorInteractionException : public std::runtime_error
 {

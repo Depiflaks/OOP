@@ -70,7 +70,7 @@ private:
 	int m_numerator{ 0 };
 	int m_denominator{ 1 };
 
-	void ProcessDenominator();
+	void CheckAndFormatDenominator();
 	void Normalize();
 	[[nodiscard]] int ToCommonDenominator(int commonDenominator) const;
 

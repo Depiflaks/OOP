@@ -17,7 +17,7 @@ CRational::CRational(const int numerator, const int denominator)
 	: m_numerator(numerator)
 {
 	m_denominator = denominator;
-	ProcessDenominator();
+	CheckAndFormatDenominator();
 	Normalize();
 }
 
@@ -152,7 +152,7 @@ std::istream& operator>>(std::istream& in, CRational& value)
 	return in;
 }
 
-void CRational::ProcessDenominator()
+void CRational::CheckAndFormatDenominator()
 {
 	if (m_denominator == 0)
 	{

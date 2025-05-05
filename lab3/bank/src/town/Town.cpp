@@ -4,7 +4,7 @@
 
 #include "Town.h"
 #include "../citizen/citizens/apu/CitizenApu.h"
-// #include "../citizen/citizens/bartAndLisa/CitizenBartAndLisa.h"
+// #include "../citizen/citizens/bart/CitizenBartAndLisa.h"
 // #include "../citizen/citizens/homer/CitizenHomer.h"
 // #include "../citizen/citizens/marge/CitizenMarge.h"
 // #include "../citizen/citizens/mrBurns/CitizenMrBurns.h"

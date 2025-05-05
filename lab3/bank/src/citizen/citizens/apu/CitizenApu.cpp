@@ -14,6 +14,7 @@ CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 	DepositMoney(cash);
 
 	AddAction([this] { PayForElectricity(); });
+	AddAction([this] { DepositCashMoney(); });
 }
 
 void CitizenApu::PayForElectricity() const

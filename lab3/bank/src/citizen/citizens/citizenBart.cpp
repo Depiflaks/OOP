@@ -3,6 +3,8 @@
 //
 #include "citizens.h"
 
+#include <Town.h>
+
 CitizenBart::CitizenBart(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::bartSimpson, contacts)
 {
@@ -15,5 +17,9 @@ CitizenBart::CitizenBart(Bank& bank, IContactList& contacts, const Money cash)
 void CitizenBart::BuyCandyFromApu()
 {
 	LogAboutPerformingAction("buying candy from Apu");
+
 	IContactList& contactList = GetContactList();
+	const Money amountToCandy = GetRandomExpenseAmount();
+	auto apu = contactList.GetCitizen(CitizenName::apu);
+	HandOverMoney(apu, amountToCandy);
 }

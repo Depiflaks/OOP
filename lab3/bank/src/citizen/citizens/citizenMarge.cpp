@@ -3,6 +3,8 @@
 //
 #include "citizens.h"
 
+#include <Town.h>
+
 CitizenMarge::CitizenMarge(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::margeSimpson, contacts)
 {
@@ -16,4 +18,8 @@ void CitizenMarge::BuyGroceriesFromApu() const
 {
 	LogAboutPerformingAction("buying groceries from Apu");
 	IContactList& contactList = GetContactList();
+	const auto apu = contactList.GetCitizen(CitizenName::apu);
+	const Money amountToGroceries = GetRandomExpenseAmount();
+
+	TransferMoney(apu, amountToGroceries);
 }

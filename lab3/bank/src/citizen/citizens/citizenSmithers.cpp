@@ -3,8 +3,10 @@
 //
 #include "citizens.h"
 
+#include <Town.h>
+
 CitizenSmithers::CitizenSmithers(Bank& bank, IContactList& contacts, const Money cash)
-	: Citizen(bank, cash, CitizenName::smithers, contacts)
+	: Citizen(bank, cash, CitizenName::waylonSmithers, contacts)
 {
 	OpenAccount();
 	DepositMoney(cash);
@@ -17,10 +19,16 @@ void CitizenSmithers::BuyGroceries() const
 {
 	LogAboutPerformingAction("buying groceries");
 	IContactList& contactList = GetContactList();
+
+	const auto apu = contactList.GetCitizen(CitizenName::apu);
+	const Money amountForGroceries = GetRandomExpenseAmount();
+
+	TransferMoney(apu, amountForGroceries);
 }
 
 void CitizenSmithers::ChangeAccount()
 {
 	LogAboutPerformingAction("changing account");
-	IContactList& contactList = GetContactList();
+	CloseAccount();
+	OpenAccount();
 }

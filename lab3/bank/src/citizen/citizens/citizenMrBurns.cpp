@@ -3,6 +3,8 @@
 //
 #include "citizens.h"
 
+#include <Town.h>
+
 CitizenMrBurns::CitizenMrBurns(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::mrBurns, contacts)
 {
@@ -10,7 +12,6 @@ CitizenMrBurns::CitizenMrBurns(Bank& bank, IContactList& contacts, const Money c
 	DepositMoney(cash);
 
 	AddAction([this] { GiveSalaryToHomer(); });
-	AddAction([this] { UpdateSmithersAccount(); });
 	AddAction([this] { GiveSalaryToSmithers(); });
 }
 
@@ -18,16 +19,18 @@ void CitizenMrBurns::GiveSalaryToHomer() const
 {
 	LogAboutPerformingAction("giving salary to Homer");
 	IContactList& contactList = GetContactList();
-}
+	const auto homer = contactList.GetCitizen(CitizenName::homerSimpson);
+	const Money amountToSalary = GetRandomExpenseAmount();
 
-void CitizenMrBurns::UpdateSmithersAccount()
-{
-	LogAboutPerformingAction("updating Smithers' account");
-	IContactList& contactList = GetContactList();
+	TransferMoney(homer, amountToSalary);
 }
 
 void CitizenMrBurns::GiveSalaryToSmithers() const
 {
 	LogAboutPerformingAction("giving salary to Smithers");
 	IContactList& contactList = GetContactList();
+	const auto smithers = contactList.GetCitizen(CitizenName::waylonSmithers);
+	const Money amountToSalary = GetRandomExpenseAmount();
+
+	TransferMoney(smithers, amountToSalary);
 }

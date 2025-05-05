@@ -18,7 +18,6 @@ list(REMOVE_ITEM SOURCES
 add_executable(rational_app
         main.cpp
         ${SOURCES}
-        tests/TestCRational.cpp
 )
 
 target_include_directories(rational_app PRIVATE
@@ -33,9 +32,11 @@ include(GoogleTest)
 
 file(GLOB TEST_SOURCES "tests/*.cpp")
 if (TEST_SOURCES)
-    add_executable(rational_tests ${TEST_SOURCES})
+    add_executable(rational_tests ${TEST_SOURCES} ${SOURCES})
     target_include_directories(rational_tests PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/src
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/*
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/*/*
     )
 
     target_link_libraries(rational_tests PRIVATE GTest::GTest GTest::Main)

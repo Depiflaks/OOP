@@ -4,6 +4,26 @@
 
 #ifndef CRATIONAL_H
 #define CRATIONAL_H
+#include <exception>
+#include <stdexcept>
+
+class ZeroDenominatorException final : public std::invalid_argument
+{
+public:
+	ZeroDenominatorException()
+		: std::invalid_argument("denominator cannot be zero")
+	{
+	}
+};
+
+class NegativeDenominatorException final : public std::invalid_argument
+{
+public:
+	NegativeDenominatorException()
+		: std::invalid_argument("denominator cannot be negative")
+	{
+	}
+};
 
 class CRational
 {
@@ -35,6 +55,10 @@ public:
 private:
 	int m_numerator{ 0 };
 	int m_denominator{ 1 };
+
+
+	void CheckDenominator() const;
+	void Reduce();
 };
 
 #endif // CRATIONAL_H

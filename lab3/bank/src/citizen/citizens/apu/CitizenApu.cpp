@@ -11,12 +11,15 @@ CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 {
 	OpenAccount();
 	DepositMoney(cash);
+
+	m_actions.emplace_back([this]() { PayForElectricity(); });
+	m_actions.emplace_back([this]() { DepositCashMoney(); });
 }
 
 void CitizenApu::PerformRandomAction()
 {
-	auto randomAction = ChooseRandomAction({});
-	PayForElectricity();
+	const auto action = ChooseRandomAction(m_actions);
+	action();
 }
 
 void CitizenApu::PayForElectricity() const

@@ -23,11 +23,11 @@ class CitizenRegistry final : public IContactList
 public:
 	explicit CitizenRegistry(Bank& bank);
 
-	Citizen& GetCitizen(CitizenName name) override;
-	Citizen& GetRandomCitizen() override;
+	ICitizen& GetCitizen(CitizenName name) override;
+	ICitizen& GetRandomCitizen() override;
 
 private:
-	std::map<CitizenName, std::unique_ptr<Citizen>> m_citizens;
+	std::map<CitizenName, std::unique_ptr<ICitizen>> m_citizens;
 
 	void CheckCitizenExist(CitizenName name) const;
 };

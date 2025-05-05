@@ -28,7 +28,7 @@ public:
 	void LogAboutPerformingAction(std::string_view actionName) const;
 
 	virtual void PerformRandomAction() = 0;
-	static ActionType ChooseRandomAction(const std::vector<ActionType>& actions);
+	static ActionType& ChooseRandomAction(const std::vector<ActionType>& actions);
 
 	[[nodiscard]] CitizenName GetName() override;
 	[[nodiscard]] IContactList& GetContactList() const;

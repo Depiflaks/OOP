@@ -16,13 +16,13 @@ CitizenRegistry::CitizenRegistry(Bank& bank)
 	m_citizens[CitizenName::apu] = std::make_unique<CitizenApu>{ bank, *this, share };
 }
 
-Citizen& CitizenRegistry::GetCitizen(const CitizenName name)
+ICitizen& CitizenRegistry::GetCitizen(const CitizenName name)
 {
 	CheckCitizenExist(name);
 	return *m_citizens.at(name);
 }
 
-Citizen& CitizenRegistry::GetRandomCitizen()
+ICitizen& CitizenRegistry::GetRandomCitizen()
 {
 	auto it = m_citizens.begin();
 	const int citizenIndex = GetRandomNumber(0, static_cast<int>(m_citizens.size()) - 1);

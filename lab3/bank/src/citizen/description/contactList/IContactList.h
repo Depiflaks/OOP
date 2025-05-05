@@ -13,8 +13,8 @@ public:
 	IContactList() = default;
 	virtual ~IContactList() = default;
 
-	virtual Citizen& GetRandomCitizen() = 0;
-	virtual Citizen& GetCitizen(CitizenName name) = 0;
+	virtual ICitizen& GetRandomCitizen() = 0;
+	virtual ICitizen& GetCitizen(CitizenName name) = 0;
 };
 
 #endif // CITIZENS_REGISTRY_H

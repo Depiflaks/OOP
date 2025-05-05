@@ -11,7 +11,8 @@
 #include <iostream>
 
 Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactList& contacts)
-	: Actor(bank, cash)
+	: ICitizen()
+	, Actor(bank, cash)
 	, m_name(name)
 	, m_contacts(contacts)
 {
@@ -43,7 +44,7 @@ void Citizen::LogAboutPerformingAction(const std::string_view actionName) const
 	std::cout << ConvertToString(m_name) << " performing " << actionName << ".\n";
 }
 
-ActionType Citizen::ChooseRandomAction(const std::vector<ActionType>& actions)
+ActionType& Citizen::ChooseRandomAction(const std::vector<ActionType>& actions)
 {
 	return ChooseRandom<ActionType>(actions);
 }

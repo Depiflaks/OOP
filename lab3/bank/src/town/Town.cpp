@@ -27,7 +27,7 @@ void Town::ExecuteSimulation(const size_t stepCount)
 {
 	for (size_t step = 0; step < stepCount; ++step)
 	{
-		Citizen& citizen = m_registry.GetRandomCitizen();
+		ICitizen& citizen = m_registry.GetRandomCitizen();
 		citizen.PerformRandomActionWithErrorHandling();
 	}
 }

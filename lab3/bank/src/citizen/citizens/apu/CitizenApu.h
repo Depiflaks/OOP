@@ -11,11 +11,13 @@ class CitizenApu final : public Citizen
 {
 public:
 	CitizenApu(Bank& bank, IContactList& contacts, Money cash);
+	void PerformRandomAction() override;
 
 private:
-	void PerformRandomAction() override;
 	void PayForElectricity() const;
 	void DepositCashMoney();
+
+	std::vector<ActionType> m_actions{};
 };
 
 #endif // CITIZEN_APU_H

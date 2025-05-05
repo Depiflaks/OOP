@@ -14,6 +14,14 @@ add_executable(bank_app
         src/town/citizenRegistry/CitizenRegistry.cpp
         src/citizen/citizens/citizens.h
         src/citizen/citizens/citizenApu.cpp
+        src/citizen/citizens/citizenLisa.cpp
+        src/citizen/citizens/citizenBart.cpp
+        src/citizen/citizens/citizenHomer.cpp
+        src/citizen/citizens/citizenMarge.cpp
+        src/citizen/citizens/citizenMrBurns.cpp
+        src/citizen/citizens/citizenNelson.cpp
+        src/citizen/citizens/citizenSmithers.cpp
+        src/citizen/citizens/citizenSnake.cpp
 )
 
 target_include_directories(bank_app PRIVATE

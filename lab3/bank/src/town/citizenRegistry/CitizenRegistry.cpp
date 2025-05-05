@@ -30,6 +30,11 @@ ICitizen& CitizenRegistry::GetRandomCitizen()
 	return *it->second;
 }
 
+std::map<CitizenName, std::unique_ptr<ICitizen>>& CitizenRegistry::GetCitizens()
+{
+	return m_citizens;
+}
+
 void CitizenRegistry::CheckCitizenExist(const CitizenName name) const
 {
 	if (m_citizens.contains(name))

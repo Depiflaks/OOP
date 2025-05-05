@@ -5,7 +5,6 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 
-#include "../bank/Bank.h"
 #include <random>
 
 int GetRandomNumber(int min, int max);

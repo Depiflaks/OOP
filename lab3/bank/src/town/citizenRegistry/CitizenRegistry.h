@@ -13,7 +13,7 @@ class ContactNotFoundException final : public std::runtime_error
 {
 public:
 	explicit ContactNotFoundException(const CitizenName name)
-		: std::runtime_error{ "Contact of citizen: " + ConvertToString(name) + " not found" }
+		: std::runtime_error{ std::string("Contact of citizen: not found") + ConvertToString(name)}
 	{
 	}
 };
@@ -25,6 +25,8 @@ public:
 
 	ICitizen& GetCitizen(CitizenName name) override;
 	ICitizen& GetRandomCitizen() override;
+
+	std::map<CitizenName, std::unique_ptr<ICitizen>>& GetCitizens();
 
 private:
 	std::map<CitizenName, std::unique_ptr<ICitizen>> m_citizens;

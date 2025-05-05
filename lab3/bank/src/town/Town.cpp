@@ -29,11 +29,24 @@ void Town::ExecuteSimulation(const size_t stepCount)
 	{
 		ICitizen& citizen = m_registry.GetRandomCitizen();
 		citizen.PerformRandomActionWithErrorHandling();
+		CheckTotalAmount();
 	}
 }
 
 void Town::CheckTotalAmount()
 {
-	Money cashAmount{ 0 };
-	Money accountAmount{ 0 };
+	const Money bankCashAmount{ m_bank.GetCash() };
+	Money citizensCashAmount{ 0 };
+	Money citizenAccountAmount{ 0 };
+
+	for (auto citizen : m_registry.GetCitizens())
+	{
+		citizensCashAmount += citizen.second->GetCashBalance();
+		if (citizen.second->GetAccountId() != std::nullopt)
+			citizenAccountAmount += citizen.second->GetAccountBalance();
+	}
+	if (bankCashAmount != citizensCashAmount)
+		throw EconomicIntegrityException();
+	if (m_startAmount - citizensCashAmount != citizenAccountAmount)
+		throw EconomicIntegrityException();
 }

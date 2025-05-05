@@ -59,3 +59,19 @@ IContactList& Citizen::GetContactList() const
 {
 	return m_contacts;
 }
+
+
+Money Citizen::GetAccountBalance()
+{
+	return Actor::GetAccountBalance();
+}
+
+Money Citizen::GetCashBalance()
+{
+	return Actor::GetCashBalance();
+}
+
+std::optional<AccountId> Citizen::GetAccountId()
+{
+	return Actor::GetAccountId();
+}

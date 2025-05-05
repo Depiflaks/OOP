@@ -41,6 +41,10 @@ public:
 private:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
 
+	[[nodiscard]] Money GetAccountBalance() override;
+	[[nodiscard]] Money GetCashBalance() override;
+	[[nodiscard]] std::optional<AccountId> GetAccountId() override;
+
 	CitizenName m_name;
 	std::vector<ActionType> m_actions{};
 	IContactList& m_contacts;

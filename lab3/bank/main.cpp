@@ -6,28 +6,34 @@
 
 #include <ostream>
 
-class I
+class Base
 {
 public:
-	virtual void foo()
+	void BaseFoo()
 	{
-		std::cout << "I foo" << std::endl;
-	};
+		std::cout << "BaseFoo" << std::endl;
+	}
 };
 
-class A : public I
+class IBase
 {
-private:
-	void foo() override
+public:
+	virtual void BaseFoo() = 0;
+};
+
+class Bar : public IBase
+	, public Base
+{
+public:
+	void BarFoo()
 	{
-		std::cout << "A foo" << std::endl;
+		std::cout << "BarFoo" << std::endl;
 	}
 };
 
 int main(int argc, char* argv[])
 {
-	A a{};
-	I* b = &a;
-	b->foo();
+	Bar bar{};
+
 	return 0;
 }

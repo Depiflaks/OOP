@@ -39,7 +39,7 @@ double CRational::ToDouble() const
 std::pair<int, CRational> CRational::ToCompoundFraction() const
 {
 	int wholePart = m_numerator / m_denominator;
-	const int remainder = std::abs(m_numerator % m_denominator);
+	const int remainder = m_numerator % m_denominator;
 	CRational fractionalPart(remainder, m_denominator);
 	return { wholePart, fractionalPart };
 }

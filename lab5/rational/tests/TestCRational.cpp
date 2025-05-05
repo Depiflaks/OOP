@@ -32,42 +32,42 @@ TEST(ConstructorTest, BigNormalization) {
 
 // Unary operators
 TEST(OperatorOverloading, UnaryPlus) {
-    CRational a(3, 4);
+    const CRational a(3, 4);
     EXPECT_EQ(+a, CRational(3, 4));
 }
 
 TEST(OperatorOverloading, UnaryMinus) {
-    CRational a(3, 4);
+    const CRational a(3, 4);
     EXPECT_EQ(-a, CRational(-3, 4));
 }
 
 TEST(OperatorOverloading, BackUnaryMinus) {
-    CRational a(-3, 4);
+    const CRational a(-3, 4);
     EXPECT_EQ(-a, CRational(3, 4));
 }
 
 // Binary arithmetic
 TEST(OperatorOverloading, BinaryPlus) {
-    CRational a(1, 2);
-    CRational b(1, 3);
+    const CRational a(1, 2);
+    const CRational b(1, 3);
     EXPECT_EQ(a + b, CRational(5, 6));
 }
 
 TEST(OperatorOverloading, BinaryPlusWithNormalize) {
-    CRational a(1, 6);
-    CRational b(1, 6);
+    const CRational a(1, 6);
+    const CRational b(1, 6);
     EXPECT_EQ(a + b, CRational(1, 3));
 }
 
 TEST(OperatorOverloading, BinaryMinus) {
-    CRational a(1, 2);
-    CRational b(1, 3);
+    const CRational a(1, 2);
+    const CRational b(1, 3);
     EXPECT_EQ(a - b, CRational(1, 6));
 }
 
 TEST(OperatorOverloading, BinaryMinusWithNormalize) {
-    CRational a(2, 3);
-    CRational b(1, 6);
+    const CRational a(2, 3);
+    const CRational b(1, 6);
     EXPECT_EQ(a - b, CRational(1, 2));
 }
 
@@ -86,14 +86,14 @@ TEST(OperatorOverloading, MinusAssignment) {
 
 // Multiplication and division
 TEST(OperatorOverloading, Multiplication) {
-    CRational a(1, 2);
-    CRational b(2, 3);
+    const CRational a(1, 2);
+    const CRational b(2, 3);
     EXPECT_EQ(a * b, CRational(1, 3));
 }
 
 TEST(OperatorOverloading, Division) {
-    CRational a(1, 2);
-    CRational b(2, 3);
+    const CRational a(1, 2);
+    const CRational b(2, 3);
     EXPECT_EQ(a / b, CRational(3, 4));
 }
 
@@ -111,50 +111,50 @@ TEST(OperatorOverloading, DivideAssignment) {
 
 // Comparison operators
 TEST(OperatorOverloading, Equality) {
-    CRational a(1, 2);
-    CRational b(2, 4);
-    CRational c(1, 3);
+    const CRational a(1, 2);
+    const CRational b(2, 4);
+    const CRational c(1, 3);
     EXPECT_TRUE(a == b);
     EXPECT_FALSE(a == c);
 }
 
 TEST(OperatorOverloading, Inequality) {
-    CRational a(1, 2);
-    CRational b(1, 3);
+    const CRational a(1, 2);
+    const CRational b(1, 3);
     EXPECT_TRUE(a != b);
 }
 
 TEST(OperatorOverloading, LessThan) {
-    CRational a(1, 2);
-    CRational b(1, 3);
+    const CRational a(1, 2);
+    const CRational b(1, 3);
     EXPECT_TRUE(b < a);
 }
 
 TEST(OperatorOverloading, GreaterThan) {
-    CRational a(1, 2);
-    CRational b(1, 3);
+    const CRational a(1, 2);
+    const CRational b(1, 3);
     EXPECT_TRUE(a > b);
 }
 
 TEST(OperatorOverloading, LessOrEqual) {
-    CRational a(1, 2);
-    CRational b(1, 2);
-    CRational c(1, 3);
+    const CRational a(1, 2);
+    const CRational b(1, 2);
+    const CRational c(1, 3);
     EXPECT_TRUE(c <= a);
     EXPECT_TRUE(a <= b);
 }
 
 TEST(OperatorOverloading, GreaterOrEqual) {
-    CRational a(1, 2);
-    CRational b(1, 2);
-    CRational c(1, 3);
+    const CRational a(1, 2);
+    const CRational b(1, 2);
+    const CRational c(1, 3);
     EXPECT_TRUE(a >= c);
     EXPECT_TRUE(a >= b);
 }
 
 // I/O operators
 TEST(OperatorOverloading, OutputStream) {
-    CRational a(3, 4);
+	const CRational a(3, 4);
     std::ostringstream oss;
     oss << a;
     EXPECT_EQ(oss.str(), "3/4");
@@ -165,6 +165,42 @@ TEST(OperatorOverloading, InputStream) {
     std::istringstream iss("5/6");
     iss >> a;
     EXPECT_EQ(a, CRational(5, 6));
+}
+
+TEST(ToCompoundFraction, ZeroWholePart)
+{
+	const CRational r(3, 4);
+    auto [whole, fraction] = r.ToCompoundFraction();
+
+    EXPECT_EQ(whole, 0);
+    EXPECT_EQ(fraction, CRational(3, 4));
+}
+
+TEST(ToCompoundFraction, PositiveMixed)
+{
+	const CRational r(9, 4);
+    auto [whole, fraction] = r.ToCompoundFraction();
+
+    EXPECT_EQ(whole, 2);
+    EXPECT_EQ(fraction, CRational(1, 4));
+}
+
+TEST(ToCompoundFraction, NegativeMixed)
+{
+	const CRational r(-7, 4);
+    auto [whole, fraction] = r.ToCompoundFraction();
+
+    EXPECT_EQ(whole, -1);
+    EXPECT_EQ(fraction, CRational(-3, 4));
+}
+
+TEST(ToCompoundFraction, ZeroFractionalPart)
+{
+	const CRational r(6, 3);
+    auto [whole, fraction] = r.ToCompoundFraction();
+
+    EXPECT_EQ(whole, 2);
+    EXPECT_EQ(fraction, CRational(0, 1));
 }
 
 int main(int argc, char** argv)

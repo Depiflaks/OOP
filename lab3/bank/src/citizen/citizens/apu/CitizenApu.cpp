@@ -5,6 +5,7 @@
 #include "CitizenApu.h"
 
 #include "../../../random/random.h"
+#include <Town.h>
 
 CitizenApu::CitizenApu(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::apu, contacts)

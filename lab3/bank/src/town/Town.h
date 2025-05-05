@@ -5,9 +5,11 @@
 #ifndef TOWN_H
 #define TOWN_H
 
+#include "citizenRegistry/CitizenRegistry.h"
 #include "../bank/Bank.h"
 #include "../random/random.h"
-#include "citizenRegistry/CitizenRegistry.h"
+
+class CitizenRegistry;
 
 static constexpr Money k_minExpenseAmount{ 1 };
 static constexpr Money k_maxExpenseAmount{ 100 };

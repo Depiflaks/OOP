@@ -2,16 +2,16 @@
 // Created by smmm on 19.03.2025.
 //
 
-#ifndef SCENARIO_H
-#define SCENARIO_H
+#ifndef CITIZEN_H
+#define CITIZEN_H
 
 #include "../actor/Actor.h"
-#include "../town/Town.h"
 #include "description/contactList/IContactList.h"
 #include "description/name/CitizenName.h"
-#include "iCitizen/ICitizen.h"
 
 #include <functional>
+
+class IContactList;
 
 class CitizenNotFoundException final : public std::out_of_range
 {
@@ -20,11 +20,12 @@ public:
 	~CitizenNotFoundException() override = default;
 };
 
-class Citizen : public ICitizen
-	, public Actor
+class Citizen : public Actor
 {
 public:
-	void PerformRandomActionWithErrorHandling() override;
+	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
+
+	void PerformRandomActionWithErrorHandling();
 	static void LogAboutPerformingAction(std::string_view actionDescription);
 
 	template <typename T>
@@ -35,19 +36,13 @@ public:
 
 	void PerformRandomAction() const;
 
-	[[nodiscard]] CitizenName GetName() override;
+	[[nodiscard]] CitizenName GetName() const;
 	[[nodiscard]] IContactList& GetContactList() const;
 
 private:
-	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
-
-	[[nodiscard]] Money GetAccountBalance() override;
-	[[nodiscard]] Money GetCashBalance() override;
-	[[nodiscard]] std::optional<AccountId> GetAccountId() override;
-
 	CitizenName m_name;
 	std::vector<ActionType> m_actions{};
 	IContactList& m_contacts;
 };
 
-#endif // SCENARIO_H
+#endif // CITIZEN_H

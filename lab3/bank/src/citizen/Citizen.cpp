@@ -11,8 +11,7 @@
 #include <iostream>
 
 Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactList& contacts)
-	: ICitizen()
-	, Actor(bank, cash)
+	: Actor(bank, cash)
 	, m_name(name)
 	, m_contacts(contacts)
 {
@@ -27,15 +26,15 @@ void Citizen::PerformRandomActionWithErrorHandling()
 	}
 	catch (BankOperationException& exception)
 	{
-		std::cout << "error while executing bank operation: " << exception.what();
+		std::cout << "Error while executing bank operation: " << exception.what() << "\n";
 	}
 	catch (ActorInteractionException& exception)
 	{
-		std::cout << "error while executing actor operation: " << exception.what();
+		std::cout << "Error while executing actor operation: " << exception.what() << "\n";
 	}
 	catch (std::exception& exception)
 	{
-		std::cout << "unexpected error: " << exception.what();
+		std::cout << "Unexpected error: " << exception.what() << "\n";
 	}
 }
 
@@ -50,7 +49,7 @@ void Citizen::PerformRandomAction() const
 	action();
 }
 
-CitizenName Citizen::GetName()
+CitizenName Citizen::GetName() const
 {
 	return m_name;
 }
@@ -58,20 +57,4 @@ CitizenName Citizen::GetName()
 IContactList& Citizen::GetContactList() const
 {
 	return m_contacts;
-}
-
-
-Money Citizen::GetAccountBalance()
-{
-	return Actor::GetAccountBalance();
-}
-
-Money Citizen::GetCashBalance()
-{
-	return Actor::GetCashBalance();
-}
-
-std::optional<AccountId> Citizen::GetAccountId()
-{
-	return Actor::GetAccountId();
 }

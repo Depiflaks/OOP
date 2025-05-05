@@ -3,18 +3,14 @@
 //
 
 #include "Town.h"
-
 #include "../citizen/citizens/apu/CitizenApu.h"
-#include "../citizen/citizens/bartAndLisa/CitizenBartAndLisa.h"
-#include "../citizen/citizens/homer/CitizenHomer.h"
-#include "../citizen/citizens/marge/CitizenMarge.h"
-#include "../citizen/citizens/mrBurns/CitizenMrBurns.h"
-#include "../citizen/citizens/nelson/CitizenNelson.h"
-#include "../citizen/citizens/smithers/CitizenSmithers.h"
-#include "../citizen/citizens/snake/CitizenSnake.h"
-#include "../random/random.h"
-
-#include <iostream>
+// #include "../citizen/citizens/bartAndLisa/CitizenBartAndLisa.h"
+// #include "../citizen/citizens/homer/CitizenHomer.h"
+// #include "../citizen/citizens/marge/CitizenMarge.h"
+// #include "../citizen/citizens/mrBurns/CitizenMrBurns.h"
+// #include "../citizen/citizens/nelson/CitizenNelson.h"
+// #include "../citizen/citizens/smithers/CitizenSmithers.h"
+// #include "../citizen/citizens/snake/CitizenSnake.h"
 
 Town::Town(const Money startAmount)
 	: m_startAmount(startAmount)
@@ -27,7 +23,7 @@ void Town::ExecuteSimulation(const size_t stepCount)
 {
 	for (size_t step = 0; step < stepCount; ++step)
 	{
-		ICitizen& citizen = m_registry.GetRandomCitizen();
+		Citizen& citizen = m_registry.GetRandomCitizen();
 		citizen.PerformRandomActionWithErrorHandling();
 		CheckTotalAmount();
 	}
@@ -39,11 +35,11 @@ void Town::CheckTotalAmount()
 	Money citizensCashAmount{ 0 };
 	Money citizenAccountAmount{ 0 };
 
-	for (auto citizen : m_registry.GetCitizens())
+	for (const auto& [name, citizen] : m_registry.GetCitizens())
 	{
-		citizensCashAmount += citizen.second->GetCashBalance();
-		if (citizen.second->GetAccountId() != std::nullopt)
-			citizenAccountAmount += citizen.second->GetAccountBalance();
+		citizensCashAmount += citizen->GetCashBalance();
+		if (citizen->GetAccountId() != std::nullopt)
+			citizenAccountAmount += citizen->GetAccountBalance();
 	}
 	if (bankCashAmount != citizensCashAmount)
 		throw EconomicIntegrityException();

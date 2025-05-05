@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <string>
 
-constexpr int k_citizenCount = 9;
+constexpr int k_citizenCount = 1;
 
 class CitizenNameException final : public std::runtime_error
 {

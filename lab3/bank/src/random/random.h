@@ -7,10 +7,16 @@
 
 #include <random>
 
-int GetRandomNumber(int min, int max);
+inline int GetRandomNumber(const int min, const int max)
+{
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distrib(min, max);
+	return distrib(gen);
+}
 
 template <typename T>
-T& ChooseRandom(const std::vector<T>& values)
+const T& ChooseRandom(const std::vector<T>& values)
 {
 	const auto randomIndex = GetRandomNumber(0, static_cast<int>(values.size()) - 1);
 	return values[randomIndex];

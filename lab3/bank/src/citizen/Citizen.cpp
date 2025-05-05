@@ -10,6 +10,13 @@
 
 #include <iostream>
 
+Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactList& contacts)
+	: Actor(bank, cash)
+	, m_name(name)
+	, m_contacts(contacts)
+{
+}
+
 void Citizen::PerformRandomActionWithErrorHandling()
 {
 	std::cout << "Executing " << ::ConvertToString(m_name) << " scenario\n";
@@ -31,23 +38,15 @@ void Citizen::PerformRandomActionWithErrorHandling()
 	}
 }
 
-Citizen::Citizen(Bank& bank, const Money cash, const CitizenName name, IContactList& contacts)
-	: Actor(bank, cash)
-	, m_name(name)
-	, m_contacts(contacts)
+void Citizen::LogAboutPerformingAction(const std::string_view actionName) const
 {
+	std::cout << ConvertToString(m_name) << " performing " << actionName << ".\n";
+	;
 }
 
-void Citizen::LogAboutPerformingAction(std::string_view action)
+std::function<void()> Citizen::ChooseRandomAction(const std::vector<std::function<void()>>& actions)
 {
-	const std::string_view message = "";
-	std::cout << "Citizen " << ConvertToString(GetName()) << "performing";
-}
-
-std::function<void()> Citizen::ChooseRandomAction(std::vector<std::function<void()>>& actions)
-{
-	const auto actionIndex = GetRandomNumber(0, static_cast<int>(actions.size()) - 1);
-	return actions[actionIndex];
+	return ChooseRandom<std::function<void()>>(actions);
 }
 
 CitizenName Citizen::GetName() const

@@ -25,14 +25,14 @@ public:
 	void PerformRandomActionWithErrorHandling();
 	virtual ~Citizen() = default;
 
+	void LogAboutPerformingAction(std::string_view actionName) const;
 	[[nodiscard]] CitizenName GetName() const;
 	[[nodiscard]] IContactList& GetContactList() const;
 
 private:
 	explicit Citizen(Bank& bank, Money cash, CitizenName name, IContactList& contacts);
 	virtual void PerformRandomAction() = 0;
-	void LogAboutPerformingAction(std::string_view action);
-	static std::function<void()> ChooseRandomAction(std::vector<std::function<void()>>& actions);
+	static std::function<void()> ChooseRandomAction(const std::vector<std::function<void()>>& actions);
 
 	CitizenName m_name;
 	IContactList& m_contacts;

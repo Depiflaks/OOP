@@ -10,4 +10,3 @@ inline int GetRandomNumber(const int min, const int max)
 	std::uniform_int_distribution<> distrib(min, max);
 	return distrib(gen);
 }
-

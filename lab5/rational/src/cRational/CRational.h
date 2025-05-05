@@ -5,6 +5,7 @@
 #ifndef CRATIONAL_H
 #define CRATIONAL_H
 #include <exception>
+#include <numeric>
 #include <stdexcept>
 
 class ZeroDenominatorException final : public std::invalid_argument
@@ -51,14 +52,26 @@ public:
 	// Возвращает отношение числителя и знаменателя в виде числа double
 	[[nodiscard]] double ToDouble() const;
 
-	// Прочие операторы согласно заданию
+    CRational operator+(const CRational& other) const;
+    CRational& operator+=(const CRational& other);
+    CRational operator-(const CRational& other) const;
+    CRational& operator-=(const CRational& other);
+
+    bool operator>(const CRational& other) const;
+    bool operator<(const CRational& other) const;
+    bool operator<=(const CRational& other) const;
+    bool operator>=(const CRational& other) const;
+	bool operator==(const CRational& other) const;
+	bool operator!=(const CRational& other) const;
+
 private:
 	int m_numerator{ 0 };
 	int m_denominator{ 1 };
 
-
 	void CheckDenominator() const;
 	void Reduce();
+
+	static std::pair<CRational, CRational> ToCommonDenominator(const CRational& a, const CRational& b);
 };
 
 #endif // CRATIONAL_H

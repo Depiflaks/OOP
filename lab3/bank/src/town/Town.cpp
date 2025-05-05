@@ -34,7 +34,7 @@ void Town::CheckTotalAmount()
 			citizenAccountAmount += citizen->GetAccountBalance();
 	}
 	if (bankCashAmount != citizensCashAmount)
-		throw EconomicIntegrityException();
+		throw CashImbalanceException(bankCashAmount, citizensCashAmount);
 	if (m_startAmount - citizensCashAmount != citizenAccountAmount)
-		throw EconomicIntegrityException();
+		throw AccountImbalanceException(m_startAmount - citizensCashAmount, citizenAccountAmount);
 }

@@ -14,6 +14,14 @@ CitizenRegistry::CitizenRegistry(Bank& bank)
 	const Money reminder{ allCash % k_citizenCount };
 
 	m_citizens[CitizenName::apu] = std::make_unique<CitizenApu>(bank, *this, share);
+	m_citizens[CitizenName::homerSimpson] = std::make_unique<CitizenHomer>(bank, *this, share);
+	m_citizens[CitizenName::margeSimpson] = std::make_unique<CitizenMarge>(bank, *this, share);
+	m_citizens[CitizenName::bartSimpson] = std::make_unique<CitizenBart>(bank, *this, share);
+	m_citizens[CitizenName::lisaSimpson] = std::make_unique<CitizenLisa>(bank, *this, share);
+	m_citizens[CitizenName::waylonSmithers] = std::make_unique<CitizenSmithers>(bank, *this, share);
+	m_citizens[CitizenName::nelson] = std::make_unique<CitizenNelson>(bank, *this, share);
+	m_citizens[CitizenName::snake] = std::make_unique<CitizenSnake>(bank, *this, share);
+	m_citizens[CitizenName::mrBurns] = std::make_unique<CitizenMrBurns>(bank, *this, share + reminder);
 }
 
 Citizen& CitizenRegistry::GetCitizen(const CitizenName name)

@@ -7,6 +7,6 @@
 int main(int argc, char* argv[])
 {
 	Town town{1000};
-	town.ExecuteSimulation(3);
+	town.ExecuteSimulation(20);
 	return 0;
 }

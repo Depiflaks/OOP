@@ -8,12 +8,10 @@
 CitizenLisa::CitizenLisa(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::lisaSimpson, contacts)
 {
-	OpenAccount();
-	DepositMoney(cash);
-
 	AddAction([this] { BuyCandyFromApu(); });
 }
-void CitizenBart::BuyCandyFromApu()
+
+void CitizenLisa::BuyCandyFromApu()
 {
 	LogAboutPerformingAction("buying candy from Apu");
 

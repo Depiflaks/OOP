@@ -5,9 +5,12 @@
 #ifndef TOWN_H
 #define TOWN_H
 
-#include "citizenRegistry/CitizenRegistry.h"
 #include "../bank/Bank.h"
 #include "../random/random.h"
+#include "citizenRegistry/CitizenRegistry.h"
+
+#include <format>
+#include <sstream>
 
 class CitizenRegistry;
 
@@ -19,11 +22,35 @@ inline Money GetRandomExpenseAmount()
 	return GetRandomNumber(k_minExpenseAmount, k_maxExpenseAmount);
 }
 
-class EconomicIntegrityException final : public std::runtime_error
+class EconomicIntegrityException : public std::runtime_error
 {
 public:
-	explicit EconomicIntegrityException()
-		: std::runtime_error{ "error: economic integrity is compromised" }
+	using runtime_error::runtime_error;
+	~EconomicIntegrityException() override = default;
+};
+
+class CashImbalanceException final : public EconomicIntegrityException
+{
+public:
+	explicit CashImbalanceException(const Money& expected, const Money& fact)
+		: EconomicIntegrityException([&] {
+			std::ostringstream oss;
+			oss << "Cash Imbalance: expected: " << expected << ", fact: " << fact;
+			return oss.str();
+		}())
+	{
+	}
+};
+
+class AccountImbalanceException final : public EconomicIntegrityException
+{
+public:
+	explicit AccountImbalanceException(const Money& expected, const Money& fact)
+		: EconomicIntegrityException([&] {
+			std::ostringstream oss;
+			oss << "Deposit Money Imbalance: expected: " << expected << ", fact: " << fact;
+			return oss.str();
+		}())
 	{
 	}
 };

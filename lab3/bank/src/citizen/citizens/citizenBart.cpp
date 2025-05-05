@@ -8,9 +8,6 @@
 CitizenBart::CitizenBart(Bank& bank, IContactList& contacts, const Money cash)
 	: Citizen(bank, cash, CitizenName::bartSimpson, contacts)
 {
-	OpenAccount();
-	DepositMoney(cash);
-
 	AddAction([this] { BuyCandyFromApu(); });
 }
 

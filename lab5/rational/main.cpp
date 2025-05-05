@@ -9,7 +9,5 @@
 
 int main()
 {
-	CRational a(1, 2);
-	CRational b(1, 3);
-	std::cout << a + b << std::endl;
+	CRational a(1, 0);
 }

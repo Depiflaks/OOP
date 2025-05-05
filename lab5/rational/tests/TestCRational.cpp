@@ -14,7 +14,8 @@ TEST(ConstructorTest, ZeroDenominator)
 
 TEST(ConstructorTest, NegativeDenominator)
 {
-	EXPECT_THROW(CRational(1, -1), NegativeDenominatorException);
+	EXPECT_EQ(CRational(1, -1), CRational(-1, 1));
+	EXPECT_EQ(CRational(-1, -1), CRational(1, 1));
 }
 
 TEST(ConstructorTest, Normalization) {
@@ -24,24 +25,21 @@ TEST(ConstructorTest, Normalization) {
 }
 
 // Unary operators
-// TEST(OperatorOverloading, UnaryPlus) {
-//     CRational a(3, 4);
-//     EXPECT_EQ(+a, CRational(3, 4));
-// }
-//
-// TEST(OperatorOverloading, UnaryMinus) {
-//     CRational a(3, 4);
-//     EXPECT_EQ(-a, CRational(-3, 4));
-// }
+TEST(OperatorOverloading, UnaryPlus) {
+    CRational a(3, 4);
+    EXPECT_EQ(+a, CRational(3, 4));
+}
+
+TEST(OperatorOverloading, UnaryMinus) {
+    CRational a(3, 4);
+    EXPECT_EQ(-a, CRational(-3, 4));
+}
 
 // Binary arithmetic
 TEST(OperatorOverloading, BinaryPlus) {
     CRational a(1, 2);
     CRational b(1, 3);
-	CRational c = a + b;
-	EXPECT_EQ(c.GetNumerator(), 5);
-	EXPECT_EQ(c.GetDenominator(), 6);
-    // EXPECT_EQ(a + b, CRational(5, 6));
+    EXPECT_EQ(a + b, CRational(5, 6));
 }
 
 TEST(OperatorOverloading, BinaryMinus) {
@@ -131,13 +129,13 @@ TEST(OperatorOverloading, GreaterOrEqual) {
     EXPECT_TRUE(a >= b);
 }
 
-// // I/O operators
-// TEST(OperatorOverloading, OutputStream) {
-//     CRational a(3, 4);
-//     std::ostringstream oss;
-//     oss << a;
-//     EXPECT_EQ(oss.str(), "3/4");
-// }
+// I/O operators
+TEST(OperatorOverloading, OutputStream) {
+    CRational a(3, 4);
+    std::ostringstream oss;
+    oss << a;
+    EXPECT_EQ(oss.str(), "3/4");
+}
 //
 // TEST(OperatorOverloading, InputStream) {
 //     CRational a;

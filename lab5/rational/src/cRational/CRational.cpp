@@ -16,8 +16,8 @@ CRational::CRational(const int value)
 CRational::CRational(const int numerator, const int denominator)
 	: m_numerator(numerator)
 {
-	CheckDenominator();
 	m_denominator = denominator;
+	CheckDenominator();
 	Normalize();
 }
 
@@ -101,12 +101,19 @@ std::ostream& operator<<(std::ostream& os, const CRational& rational)
 	return os;
 }
 
-void CRational::CheckDenominator() const
+void CRational::CheckDenominator()
 {
 	if (m_denominator == 0)
+	{
+		m_denominator = 1;
 		throw ZeroDenominatorException();
+	}
 	if (m_denominator < 0)
-		throw NegativeDenominatorException();
+	{
+		m_denominator *= -1;
+		m_numerator *= -1;
+	}
+
 }
 
 void CRational::Normalize()

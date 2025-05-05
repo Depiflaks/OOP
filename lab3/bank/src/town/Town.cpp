@@ -32,7 +32,6 @@ void Town::ExecuteSimulation(const size_t stepCount)
 	}
 }
 
-
 void Town::CheckTotalAmount()
 {
 	Money cashAmount{ 0 };

@@ -6,7 +6,16 @@
 #define TOWN_H
 
 #include "../bank/Bank.h"
+#include "../random/random.h"
 #include "citizenRegistry/CitizenRegistry.h"
+
+static constexpr Money k_minExpenseAmount{ 1 };
+static constexpr Money k_maxExpenseAmount{ 100 };
+
+inline Money GetRandomExpenseAmount()
+{
+	return GetRandomNumber(k_minExpenseAmount, k_maxExpenseAmount);
+}
 
 class EconomicIntegrityException final : public std::runtime_error
 {

@@ -53,10 +53,22 @@ TEST(OperatorOverloading, BinaryPlus) {
     EXPECT_EQ(a + b, CRational(5, 6));
 }
 
+TEST(OperatorOverloading, BinaryPlusWithNormalize) {
+    CRational a(1, 6);
+    CRational b(1, 6);
+    EXPECT_EQ(a + b, CRational(1, 3));
+}
+
 TEST(OperatorOverloading, BinaryMinus) {
     CRational a(1, 2);
     CRational b(1, 3);
     EXPECT_EQ(a - b, CRational(1, 6));
+}
+
+TEST(OperatorOverloading, BinaryMinusWithNormalize) {
+    CRational a(2, 3);
+    CRational b(1, 6);
+    EXPECT_EQ(a - b, CRational(1, 2));
 }
 
 // Compound assignment
@@ -147,13 +159,13 @@ TEST(OperatorOverloading, OutputStream) {
     oss << a;
     EXPECT_EQ(oss.str(), "3/4");
 }
-//
-// TEST(OperatorOverloading, InputStream) {
-//     CRational a;
-//     std::istringstream iss("5/6");
-//     iss >> a;
-//     EXPECT_EQ(a, CRational(5, 6));
-// }
+
+TEST(OperatorOverloading, InputStream) {
+    CRational a;
+    std::istringstream iss("5/6");
+    iss >> a;
+    EXPECT_EQ(a, CRational(5, 6));
+}
 
 int main(int argc, char** argv)
 {

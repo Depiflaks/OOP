@@ -36,6 +36,14 @@ double CRational::ToDouble() const
 	return static_cast<double>(m_numerator) / static_cast<double>(m_denominator);
 }
 
+std::pair<int, CRational> CRational::ToCompoundFraction() const
+{
+	int wholePart = m_numerator / m_denominator;
+	const int remainder = std::abs(m_numerator % m_denominator);
+	CRational fractionalPart(remainder, m_denominator);
+	return { wholePart, fractionalPart };
+}
+
 CRational CRational::operator+() const
 {
 	return *this;
@@ -124,6 +132,24 @@ std::ostream& operator<<(std::ostream& os, const CRational& rational)
 {
 	os << rational.m_numerator << "/" << rational.m_denominator;
 	return os;
+}
+
+std::istream& operator>>(std::istream& in, CRational& value)
+{
+	int numerator = 0;
+	int denominator = 1;
+	char slash = 0;
+
+	in >> std::ws >> numerator >> std::ws >> slash;
+
+	if (slash != '/')
+	{
+		in.setstate(std::ios::failbit);
+		return in;
+	}
+	in >> std::ws >> denominator;
+	value = CRational(numerator, denominator);
+	return in;
 }
 
 void CRational::ProcessDenominator()

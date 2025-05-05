@@ -42,6 +42,7 @@ public:
 
 	// Возвращает отношение числителя и знаменателя в виде числа double
 	[[nodiscard]] double ToDouble() const;
+	std::pair<int, CRational> ToCompoundFraction() const;
 
 	CRational operator+() const;
 	CRational operator-() const;
@@ -63,6 +64,7 @@ public:
 	bool operator!=(const CRational& other) const;
 
 	friend std::ostream& operator<<(std::ostream& os, const CRational& rational);
+	friend std::istream& operator>>(std::istream& in, CRational& value);
 
 private:
 	int m_numerator{ 0 };

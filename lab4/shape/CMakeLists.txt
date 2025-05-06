@@ -18,6 +18,8 @@ list(REMOVE_ITEM SOURCES
 add_executable(shape_app
         main.cpp
         ${SOURCES}
+        src/point/CPoint.cpp
+        src/point/CPoint.h
 )
 
 target_include_directories(shape_app PRIVATE

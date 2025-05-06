@@ -18,8 +18,14 @@ list(REMOVE_ITEM SOURCES
 add_executable(shape_app
         main.cpp
         ${SOURCES}
-        src/point/CPoint.cpp
-        src/point/CPoint.h
+        src/point/Point.cpp
+        src/point/Point.h
+        src/shape/IShape.cpp
+        src/shape/IShape.h
+        src/Canvas/ICanvas.cpp
+        src/Canvas/ICanvas.h
+        src/shape/ICanvasDrawable.cpp
+        src/shape/ICanvasDrawable.h
 )
 
 target_include_directories(shape_app PRIVATE

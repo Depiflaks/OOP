@@ -16,6 +16,8 @@ public:
 	double GetPerimeter() override;
 	std::string ToString() override;
 	ColorType GetOutlineColor() override;
+
+
 };
 
 #endif // TRIANGLE_H

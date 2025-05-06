@@ -32,6 +32,8 @@ add_executable(shape_app
         src/shape/solidShape/ISolidShape.h
         src/shape/solidShape/rectangle/Rectangle.cpp
         src/shape/solidShape/rectangle/Rectangle.h
+        src/shape/solidShape/triangle/Triangle.cpp
+        src/shape/solidShape/triangle/Triangle.h
 )
 
 target_include_directories(shape_app PRIVATE

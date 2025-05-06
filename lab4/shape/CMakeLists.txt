@@ -24,8 +24,14 @@ add_executable(shape_app
         src/shape/IShape.h
         src/Canvas/ICanvas.cpp
         src/Canvas/ICanvas.h
-        src/shape/ICanvasDrawable.cpp
-        src/shape/ICanvasDrawable.h
+        src/shape/drawable/ICanvasDrawable.cpp
+        src/shape/drawable/ICanvasDrawable.h
+        src/shape/lineSegment/LineSegment.cpp
+        src/shape/lineSegment/LineSegment.h
+        src/shape/solidShape/ISolidShape.cpp
+        src/shape/solidShape/ISolidShape.h
+        src/shape/solidShape/rectangle/Rectangle.cpp
+        src/shape/solidShape/rectangle/Rectangle.h
 )
 
 target_include_directories(shape_app PRIVATE

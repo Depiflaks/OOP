@@ -5,7 +5,7 @@
 #ifndef ISHAPE_H
 #define ISHAPE_H
 #include "Canvas/ICanvas.h"
-#include "ICanvasDrawable.h"
+#include "drawable/ICanvasDrawable.h"
 
 #include <string>
 

@@ -10,7 +10,10 @@
 class SolidShape : Shape
 {
 public:
-	explicit SolidShape(ColorType fillColor);
+	explicit SolidShape(ColorType outlineColor, ColorType fillColor);
+	explicit SolidShape(ColorType outlineColor);
+	explicit SolidShape();
+
 	[[nodiscard]] ColorType GetFillColor() const;
 	void SetFillColor(ColorType color);
 

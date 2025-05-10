@@ -5,7 +5,6 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "Canvas/ICanvas.h"
 #include "shape/solidShape/SolidShape.h"
 
 #include <string>
@@ -21,9 +20,9 @@ public:
 	double GetPerimeter() override;
 	std::string ToString() override;
 
-	Point GetVertex1();
-	Point GetVertex2();
-	Point GetVertex3();
+	Point GetVertex1() const;
+	Point GetVertex2() const;
+	Point GetVertex3() const;
 
 private:
 	Point m_vertex1;

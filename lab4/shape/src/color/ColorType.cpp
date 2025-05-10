@@ -9,6 +9,12 @@ ColorType::ColorType()
 {
 }
 
+ColorType::ColorType(const uint8_t r, const uint8_t g, const uint8_t b)
+	: m_color(0)
+{
+	SetARGB(0xff, r, g, b);
+}
+
 ColorType::ColorType(const uint8_t a, const uint8_t r, const uint8_t g, const uint8_t b)
 	: m_color(0)
 {

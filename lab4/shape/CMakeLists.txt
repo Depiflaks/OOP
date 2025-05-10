@@ -14,31 +14,9 @@ list(REMOVE_ITEM SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
 )
 
-# Основное приложение
 add_executable(shape_app
         main.cpp
         ${SOURCES}
-        src/point/Point.cpp
-        src/point/Point.h
-        src/shape/Shape.cpp
-        src/shape/Shape.h
-        src/canvas/ICanvas.cpp
-        src/canvas/ICanvas.h
-        src/shape/drawable/ICanvasDrawable.cpp
-        src/shape/drawable/ICanvasDrawable.h
-        src/shape/lineSegment/LineSegment.cpp
-        src/shape/lineSegment/LineSegment.h
-        src/shape/solidShape/SolidShape.cpp
-        src/shape/solidShape/SolidShape.h
-        src/shape/solidShape/rectangle/Rectangle.cpp
-        src/shape/solidShape/rectangle/Rectangle.h
-        src/shape/solidShape/triangle/Triangle.cpp
-        src/shape/solidShape/triangle/Triangle.h
-        src/shape/solidShape/circle/Circle.cpp
-        src/shape/solidShape/circle/Circle.h
-        src/color/Color.cpp
-        src/color/Color.h
-        src/point/Point.cpp
 )
 
 target_include_directories(shape_app PRIVATE

@@ -15,6 +15,7 @@ public:
 	virtual ~ICanvas() = default;
 
 	virtual void DrawLine(Point from, Point to, Color lineColor) = 0;
+	virtual void DrawPolygon(std::vector<Point> points, Color lineColor) = 0;
 	virtual void FillPolygon(std::vector<Point> points, Color fillColor) = 0;
 	virtual void DrawCircle(Point center, double radius, Color lineColor) = 0;
 	virtual void FillCircle(Point center, double radius, Color fillColor) = 0;

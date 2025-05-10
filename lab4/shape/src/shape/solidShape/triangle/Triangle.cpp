@@ -28,6 +28,8 @@ Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3
 
 void Triangle::Draw(ICanvas& canvas)
 {
+	canvas.DrawPolygon({ m_vertex1, m_vertex2, m_vertex3 }, GetOutlineColor());
+	canvas.FillPolygon({ m_vertex1, m_vertex2, m_vertex3 }, GetFillColor());
 }
 
 double Triangle::GetArea()
@@ -43,6 +45,7 @@ double Triangle::GetPerimeter()
 
 std::string Triangle::ToString()
 {
+	return "triangle";
 }
 
 std::ostream& operator<<(std::ostream& os, const Triangle& triangle)

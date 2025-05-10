@@ -18,10 +18,15 @@ public:
 
 	void Draw(ICanvas& canvas) override;
 
-	Point GetLeftTop();
-	Point GetRightBottom();
-	Point GetWidth();
-	Point GetHeight();
+	[[nodiscard]] Point GetLeftTop() const;
+	[[nodiscard]] Point GetRightBottom() const;
+	[[nodiscard]] double GetWidth() const;
+	[[nodiscard]] double GetHeight() const;
+
+private:
+	Point m_leftTop{};
+	double m_width{};
+	double m_height{};
 };
 
 #endif // RECTANGLE_H

@@ -4,7 +4,7 @@
 
 #ifndef I_CANVAS_DRAWABLE_H
 #define I_CANVAS_DRAWABLE_H
-#include "Canvas/ICanvas.h"
+#include "canvas/ICanvas.h"
 
 class ICanvasDrawable
 {

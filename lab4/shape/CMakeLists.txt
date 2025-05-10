@@ -22,8 +22,8 @@ add_executable(shape_app
         src/point/Point.h
         src/shape/Shape.cpp
         src/shape/Shape.h
-        src/Canvas/ICanvas.cpp
-        src/Canvas/ICanvas.h
+        src/canvas/ICanvas.cpp
+        src/canvas/ICanvas.h
         src/shape/drawable/ICanvasDrawable.cpp
         src/shape/drawable/ICanvasDrawable.h
         src/shape/lineSegment/LineSegment.cpp
@@ -36,6 +36,8 @@ add_executable(shape_app
         src/shape/solidShape/triangle/Triangle.h
         src/shape/solidShape/circle/Circle.cpp
         src/shape/solidShape/circle/Circle.h
+        src/color/ColorType.cpp
+        src/color/ColorType.h
 )
 
 target_include_directories(shape_app PRIVATE

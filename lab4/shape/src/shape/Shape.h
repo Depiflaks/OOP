@@ -4,7 +4,7 @@
 
 #ifndef SHAPE_H
 #define SHAPE_H
-#include "Canvas/ICanvas.h"
+#include "canvas/ICanvas.h"
 #include "drawable/ICanvasDrawable.h"
 
 #include <string>

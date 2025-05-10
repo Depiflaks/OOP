@@ -4,7 +4,7 @@
 
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
-#include "Canvas/ICanvas.h"
+#include "canvas/ICanvas.h"
 #include "shape/solidShape/SolidShape.h"
 
 #include <string>

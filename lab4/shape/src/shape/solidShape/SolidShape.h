@@ -4,7 +4,7 @@
 
 #ifndef SOLID_SHAPE_H
 #define SOLID_SHAPE_H
-#include "Canvas/ICanvas.h"
+#include "canvas/ICanvas.h"
 #include "shape/Shape.h"
 
 class SolidShape : Shape

@@ -12,6 +12,9 @@
 
 using ColorType = uint32_t;
 
+constexpr ColorType k_black = 0xff000000;
+constexpr ColorType k_white = 0xffffff;
+
 class ICanvas {
 public:
 	virtual ~ICanvas() = default;

@@ -5,8 +5,7 @@
 #include "Rectangle.h"
 
 Rectangle::Rectangle(const Point leftTop, const double width, const double height)
-	: SolidShape(k_black)
-	, m_leftTop(leftTop)
+	: m_leftTop(leftTop)
 	, m_width(width)
 	, m_height(height)
 {

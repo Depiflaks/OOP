@@ -6,14 +6,21 @@
 #define CIRCLE_H
 #include "shape/solidShape/SolidShape.h"
 
-class Circle final : SolidShape
+class Circle final : public SolidShape
 {
 public:
+	Circle(Point center, double radius);
+	Circle(Point center, double radius, Color outlineColor);
+	Circle(Point center, double radius, Color outlineColor, Color fillColor);
+
 	double GetArea() override;
 	double GetPerimeter() override;
 	std::string ToString() override;
 
 	void Draw(ICanvas& canvas) override;
+
+	friend std::ostream& operator<<(std::ostream& os, const Circle& circle);
+    friend std::istream& operator>>(std::istream& is, Circle& circle);
 
 	[[nodiscard]] Point GetCenter() const;
 	[[nodiscard]] double GetRadius() const;

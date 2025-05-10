@@ -5,9 +5,9 @@
 #ifndef SOLID_SHAPE_H
 #define SOLID_SHAPE_H
 #include "Canvas/ICanvas.h"
-#include "shape/IShape.h"
+#include "shape/Shape.h"
 
-class SolidShape : IShape
+class SolidShape : Shape
 {
 public:
 	explicit SolidShape(ColorType fillColor);

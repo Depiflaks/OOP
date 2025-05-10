@@ -20,8 +20,8 @@ add_executable(shape_app
         ${SOURCES}
         src/point/Point.cpp
         src/point/Point.h
-        src/shape/IShape.cpp
-        src/shape/IShape.h
+        src/shape/Shape.cpp
+        src/shape/Shape.h
         src/Canvas/ICanvas.cpp
         src/Canvas/ICanvas.h
         src/shape/drawable/ICanvasDrawable.cpp

@@ -4,9 +4,9 @@
 
 #ifndef LINE_SEGMENT_H
 #define LINE_SEGMENT_H
-#include "shape/IShape.h"
+#include "shape/Shape.h"
 
-class LineSegment final : public IShape
+class LineSegment final : public Shape
 {
 public:
 	double GetArea() override;

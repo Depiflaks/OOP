@@ -9,14 +9,17 @@
 
 #include <string>
 
-class Rectangle : public ISolidShape
+class Rectangle final : public ISolidShape
 {
 public:
 	double GetArea() override;
 	double GetPerimeter() override;
 	std::string ToString() override;
+
 	ColorType GetOutlineColor() override;
 	ColorType GetFillColor() override;
+
+	void Draw(ICanvas& canvas) override;
 
 	Point GetLeftTop();
 	Point GetRightBottom();

@@ -17,7 +17,9 @@ public:
 	std::string ToString() override;
 	ColorType GetOutlineColor() override;
 
-
+	Point GetVertex1();
+	Point GetVertex2();
+	Point GetVertex3();
 };
 
 #endif // TRIANGLE_H

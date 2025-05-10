@@ -4,6 +4,8 @@
 
 #include "ColorType.h"
 
+#include <iomanip>
+
 ColorType::ColorType()
 	: m_color(0xFF000000)
 {
@@ -45,4 +47,26 @@ void ColorType::SetARGB(const uint8_t a, const uint8_t r, const uint8_t g, const
 void ColorType::SetARGB(const uint32_t argb)
 {
 	m_color = argb;
+}
+
+std::ostream& operator<<(std::ostream& os, const ColorType& color) {
+	const std::ios_base::fmtflags f(os.flags());
+    os << std::hex << std::setfill('0') << std::setw(8) << color.m_color;
+    os.flags(f);
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, ColorType& color) {
+    std::string hexStr;
+    is >> hexStr;
+
+    if (hexStr.length() != 8) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+
+    uint32_t value;
+    std::istringstream(hexStr) >> std::hex >> value;
+    color.SetARGB(value);
+    return is;
 }

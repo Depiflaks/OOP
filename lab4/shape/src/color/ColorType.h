@@ -6,6 +6,7 @@
 #define COLOR_TYPE_H
 
 #include <cstdint>
+#include <ostream>
 
 class ColorType
 {
@@ -27,6 +28,9 @@ public:
 	void SetBlue(uint8_t b);
 	void SetARGB(uint8_t a, uint8_t r, uint8_t g, uint8_t b);
 	void SetARGB(uint32_t argb);
+
+	friend std::ostream& operator<<(std::ostream& os, const ColorType& color);
+	friend std::istream& operator>>(std::istream& is, ColorType& color);
 
 private:
 	uint32_t m_color;

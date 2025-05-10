@@ -42,10 +42,6 @@ std::string Triangle::ToString()
 	return "triangle " + std::to_string(GetVertex1()) + " ";
 }
 
-ColorType Triangle::GetOutlineColor()
-{
-}
-
 Point Triangle::GetVertex1() const
 {
 	return m_vertex1;

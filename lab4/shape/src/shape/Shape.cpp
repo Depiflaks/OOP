@@ -4,6 +4,11 @@
 
 #include "Shape.h"
 
+Shape::Shape()
+	: m_outlineColor(k_black)
+{
+}
+
 Shape::Shape(const Color outlineColor)
 	: m_outlineColor(outlineColor)
 {

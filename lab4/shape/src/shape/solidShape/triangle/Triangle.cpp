@@ -32,28 +32,38 @@ void Triangle::Draw(ICanvas& canvas)
 	canvas.FillPolygon({ m_vertex1, m_vertex2, m_vertex3 }, GetFillColor());
 }
 
-double Triangle::GetArea()
+double Triangle::GetArea() const
 {
 	return std::abs(
 		(m_vertex1.x * (m_vertex2.y - m_vertex3.y) + m_vertex2.x * (m_vertex3.y - m_vertex1.y) + m_vertex3.x * (m_vertex1.y - m_vertex2.y)) * 0.5);
 }
 
-double Triangle::GetPerimeter()
+double Triangle::GetPerimeter() const
 {
 	return Point::Distance(m_vertex1, m_vertex2) + Point::Distance(m_vertex2, m_vertex3) + Point::Distance(m_vertex3, m_vertex1);
 }
 
-std::string Triangle::ToString()
+std::string Triangle::ToString() const
 {
 	return "triangle";
 }
 
 std::ostream& operator<<(std::ostream& os, const Triangle& triangle)
 {
-	os << "triangle " << triangle.GetVertex1() << ' '
-	   << triangle.GetVertex2() << ' ' << triangle.GetVertex3() << ' '
-	   << triangle.GetOutlineColor() << ' ' << triangle.GetFillColor();
-	return os;
+    os << "Shape: " << triangle.ToString() << '\n';
+    os << "Vertex 1: " << triangle.GetVertex1() << '\n';
+    os << "Vertex 2: " << triangle.GetVertex2() << '\n';
+    os << "Vertex 3: " << triangle.GetVertex3() << '\n';
+
+    if (triangle.GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
+        os << "Outline Color: " << triangle.GetOutlineColor() << '\n';
+
+    if (triangle.GetFillColor().GetRGBA() != k_empty.GetRGBA())
+        os << "Fill Color: " << triangle.GetFillColor() << '\n';
+
+    os << "Perimeter: " << triangle.GetPerimeter() << '\n';
+    os << "Area: " << triangle.GetArea() << '\n';
+    return os;
 }
 
 std::istream& operator>>(std::istream& is, Triangle& triangle)

@@ -27,17 +27,17 @@ Rectangle::Rectangle(const Point leftTop, const double width, const double heigh
 {
 }
 
-double Rectangle::GetArea()
+double Rectangle::GetArea() const
 {
 	return m_width * m_height;
 }
 
-double Rectangle::GetPerimeter()
+double Rectangle::GetPerimeter() const
 {
 	return 2 * (m_width + m_height);
 }
 
-std::string Rectangle::ToString()
+std::string Rectangle::ToString() const
 {
 	return "rectangle";
 }
@@ -62,10 +62,21 @@ void Rectangle::Draw(ICanvas& canvas)
 
 std::ostream& operator<<(std::ostream& os, const Rectangle& rectangle)
 {
-	os << "rectangle " << rectangle.m_leftTop << ' '
-	   << rectangle.m_width << ' ' << rectangle.m_height << ' '
-	   << rectangle.GetOutlineColor() << ' ' << rectangle.GetFillColor();
-	return os;
+    os << "Shape: " << rectangle.ToString() << '\n';
+    os << "Left Top: " << rectangle.GetLeftTop() << '\n';
+    os << "Right Bottom: " << rectangle.GetRightBottom() << '\n';
+    os << "Width: " << rectangle.GetWidth() << '\n';
+    os << "Height: " << rectangle.GetHeight() << '\n';
+
+    if (rectangle.GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
+        os << "Outline Color: " << rectangle.GetOutlineColor() << '\n';
+
+    if (rectangle.GetFillColor().GetRGBA() != k_empty.GetRGBA())
+        os << "Fill Color: " << rectangle.GetFillColor() << '\n';
+
+    os << "Perimeter: " << rectangle.GetPerimeter() << '\n';
+    os << "Area: " << rectangle.GetArea() << '\n';
+    return os;
 }
 
 std::istream& operator>>(std::istream& is, Rectangle& rectangle)

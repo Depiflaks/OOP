@@ -6,7 +6,7 @@
 
 SolidShape::SolidShape()
 	: Shape(k_black)
-	, m_fillColor(k_black)
+	, m_fillColor(k_empty)
 {
 }
 
@@ -18,7 +18,7 @@ SolidShape::SolidShape(const Color outlineColor, const Color fillColor)
 
 SolidShape::SolidShape(const Color outlineColor)
 	: Shape(outlineColor)
-	, m_fillColor(k_black)
+	, m_fillColor(k_empty)
 {
 }
 

@@ -39,5 +39,6 @@ private:
 
 const Color k_black{};
 const Color k_white{ 0xff, 0xff, 0xff, 0xff };
+const Color k_empty{ 0xff, 0xff, 0xff, 0x00 };
 
 #endif // COLOR_TYPE_H

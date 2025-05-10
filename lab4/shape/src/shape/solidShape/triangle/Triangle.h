@@ -18,9 +18,9 @@ public:
 
 	void Draw(ICanvas& canvas) override;
 
-	double GetArea() override;
-	double GetPerimeter() override;
-	std::string ToString() override;
+	[[nodiscard]] double GetArea() const override;
+	[[nodiscard]] double GetPerimeter() const override;
+	[[nodiscard]] std::string ToString() const override;
 
 	friend std::ostream& operator<<(std::ostream& os, const Triangle& triangle);
     friend std::istream& operator>>(std::istream& is, Triangle& triangle);

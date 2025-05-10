@@ -12,11 +12,12 @@
 class Shape : public ICanvasDrawable
 {
 public:
+	explicit Shape();
 	explicit Shape(Color outlineColor);
 
-	virtual double GetArea() = 0;
-	virtual double GetPerimeter() = 0;
-	virtual std::string ToString() = 0;
+	[[nodiscard]] virtual double GetArea() const = 0;
+	[[nodiscard]] virtual double GetPerimeter() const = 0;
+	[[nodiscard]] virtual std::string ToString() const = 0;
 
 	[[nodiscard]] Color GetOutlineColor() const;
 	void SetOutlineColor(Color color);

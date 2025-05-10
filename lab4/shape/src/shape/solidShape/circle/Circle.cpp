@@ -24,17 +24,17 @@ Circle::Circle(const Point center, const double radius, const Color outlineColor
 {
 }
 
-double Circle::GetArea()
+double Circle::GetArea() const
 {
 	return m_radius * m_radius * std::numbers::pi;
 }
 
-double Circle::GetPerimeter()
+double Circle::GetPerimeter() const
 {
 	return 2 * m_radius * std::numbers::pi;
 }
 
-std::string Circle::ToString()
+std::string Circle::ToString() const
 {
 	return "circle";
 }
@@ -47,9 +47,19 @@ void Circle::Draw(ICanvas& canvas)
 
 std::ostream& operator<<(std::ostream& os, const Circle& circle)
 {
-	os << "circle " << circle.m_center << ' '
-	   << circle.m_radius << ' ' << circle.GetOutlineColor() << ' ' << circle.GetFillColor();
-	return os;
+    os << "Shape: " << circle.ToString() << '\n';
+    os << "Center: " << circle.GetCenter() << '\n';
+    os << "Radius: " << circle.GetRadius() << '\n';
+
+    if (circle.GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
+        os << "Outline Color: " << circle.GetOutlineColor() << '\n';
+
+    if (circle.GetFillColor().GetRGBA() != k_empty.GetRGBA())
+        os << "Fill Color: " << circle.GetFillColor() << '\n';
+
+    os << "Perimeter: " << circle.GetPerimeter() << '\n';
+    os << "Area: " << circle.GetArea() << '\n';
+    return os;
 }
 
 std::istream& operator>>(std::istream& is, Circle& circle)

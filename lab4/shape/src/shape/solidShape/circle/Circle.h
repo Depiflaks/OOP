@@ -13,9 +13,9 @@ public:
 	Circle(Point center, double radius, Color outlineColor);
 	Circle(Point center, double radius, Color outlineColor, Color fillColor);
 
-	double GetArea() override;
-	double GetPerimeter() override;
-	std::string ToString() override;
+	[[nodiscard]] double GetArea() const override;
+	[[nodiscard]] double GetPerimeter() const override;
+	[[nodiscard]] std::string ToString() const override;
 
 	void Draw(ICanvas& canvas) override;
 

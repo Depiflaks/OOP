@@ -15,8 +15,12 @@ public:
 
 	void Draw(ICanvas& canvas) override;
 
-	Point GetCenter();
-	Point GetRadius();
+	[[nodiscard]] Point GetCenter() const;
+	[[nodiscard]] double GetRadius() const;
+
+private:
+	Point m_center{};
+	double m_radius{};
 };
 
 #endif // CIRCLE_H

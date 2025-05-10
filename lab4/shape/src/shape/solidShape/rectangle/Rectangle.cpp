@@ -4,6 +4,30 @@
 
 #include "Rectangle.h"
 
+Rectangle::Rectangle(const Point leftTop, const double width, const double height)
+	: SolidShape(k_black)
+	, m_leftTop(leftTop)
+	, m_width(width)
+	, m_height(height)
+{
+}
+
+Rectangle::Rectangle(const Point leftTop, const double width, const double height, const Color outlineColor)
+	: SolidShape(outlineColor)
+	, m_leftTop(leftTop)
+	, m_width(width)
+	, m_height(height)
+{
+}
+
+Rectangle::Rectangle(const Point leftTop, const double width, const double height, const Color outlineColor, const Color fillColor)
+	: SolidShape(outlineColor, fillColor)
+	, m_leftTop(leftTop)
+	, m_width(width)
+	, m_height(height)
+{
+}
+
 double Rectangle::GetArea()
 {
 	return m_width * m_height;
@@ -35,6 +59,23 @@ void Rectangle::Draw(ICanvas& canvas)
 						   { m_leftTop.x, m_leftTop.y + m_height },
 					   },
 		GetFillColor());
+}
+
+std::ostream& operator<<(std::ostream& os, const Rectangle& rectangle)
+{
+	os << "rectangle " << rectangle.m_leftTop << ' '
+	   << rectangle.m_width << ' ' << rectangle.m_height << ' '
+	   << rectangle.GetOutlineColor() << ' ' << rectangle.GetFillColor();
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Rectangle& rectangle)
+{
+	Color outlineColor, fillColor;
+	is >> rectangle.m_leftTop >> rectangle.m_width >> rectangle.m_height >> outlineColor >> fillColor;
+	rectangle.SetOutlineColor(outlineColor);
+	rectangle.SetFillColor(fillColor);
+	return is;
 }
 
 Point Rectangle::GetLeftTop() const

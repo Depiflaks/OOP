@@ -12,11 +12,18 @@
 class Rectangle final : public SolidShape
 {
 public:
+	Rectangle(Point leftTop, double width, double height);
+	Rectangle(Point leftTop, double width, double height, Color outlineColor);
+	Rectangle(Point leftTop, double width, double height, Color outlineColor, Color fillColor);
+
 	double GetArea() override;
 	double GetPerimeter() override;
 	std::string ToString() override;
 
 	void Draw(ICanvas& canvas) override;
+
+	friend std::ostream& operator<<(std::ostream& os, const Rectangle& rectangle);
+    friend std::istream& operator>>(std::istream& is, Rectangle& rectangle);
 
 	[[nodiscard]] Point GetLeftTop() const;
 	[[nodiscard]] Point GetRightBottom() const;

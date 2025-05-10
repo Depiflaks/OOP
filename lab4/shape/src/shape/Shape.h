@@ -12,17 +12,17 @@
 class Shape : public ICanvasDrawable
 {
 public:
-	explicit Shape(ColorType outlineColor);
+	explicit Shape(Color outlineColor);
 
 	virtual double GetArea() = 0;
 	virtual double GetPerimeter() = 0;
 	virtual std::string ToString() = 0;
 
-	[[nodiscard]] ColorType GetOutlineColor() const;
-	void SetOutlineColor(ColorType color);
+	[[nodiscard]] Color GetOutlineColor() const;
+	void SetOutlineColor(Color color);
 
 private:
-	ColorType m_outlineColor;
+	Color m_outlineColor;
 };
 
 #endif // SHAPE_H

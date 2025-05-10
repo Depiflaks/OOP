@@ -8,6 +8,6 @@ int main()
 {
 	Triangle t{ { 0, 0 }, { 0, 0 }, { 0, 0 } };
 	std::cin >> t;
-	std::cout << t;
+	std::cout << t << std::endl;
 	return 0;
 }

@@ -36,8 +36,8 @@ add_executable(shape_app
         src/shape/solidShape/triangle/Triangle.h
         src/shape/solidShape/circle/Circle.cpp
         src/shape/solidShape/circle/Circle.h
-        src/color/ColorType.cpp
-        src/color/ColorType.h
+        src/color/Color.cpp
+        src/color/Color.h
         src/point/Point.cpp
 )
 

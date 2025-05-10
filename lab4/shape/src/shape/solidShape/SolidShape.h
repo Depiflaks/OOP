@@ -10,15 +10,15 @@
 class SolidShape : public Shape
 {
 public:
-	explicit SolidShape(ColorType outlineColor, ColorType fillColor);
-	explicit SolidShape(ColorType outlineColor);
+	explicit SolidShape(Color outlineColor, Color fillColor);
+	explicit SolidShape(Color outlineColor);
 	explicit SolidShape();
 
-	[[nodiscard]] ColorType GetFillColor() const;
-	void SetFillColor(ColorType color);
+	[[nodiscard]] Color GetFillColor() const;
+	void SetFillColor(Color color);
 
 private:
-	ColorType m_fillColor;
+	Color m_fillColor;
 };
 
 #endif // SOLID_SHAPE_H

@@ -13,8 +13,8 @@ class Triangle final : public SolidShape
 {
 public:
 	explicit Triangle(Point vertex1, Point vertex2, Point vertex3);
-	explicit Triangle(Point vertex1, Point vertex2, Point vertex3, ColorType outlineColor);
-	explicit Triangle(Point vertex1, Point vertex2, Point vertex3, ColorType outlineColor, ColorType fillColor);
+	explicit Triangle(Point vertex1, Point vertex2, Point vertex3, Color outlineColor);
+	explicit Triangle(Point vertex1, Point vertex2, Point vertex3, Color outlineColor, Color fillColor);
 
 	void Draw(ICanvas& canvas) override;
 

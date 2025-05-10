@@ -10,24 +10,24 @@ SolidShape::SolidShape()
 {
 }
 
-SolidShape::SolidShape(const ColorType outlineColor, const ColorType fillColor)
+SolidShape::SolidShape(const Color outlineColor, const Color fillColor)
 	: Shape(outlineColor)
 	, m_fillColor(fillColor)
 {
 }
 
-SolidShape::SolidShape(const ColorType outlineColor)
+SolidShape::SolidShape(const Color outlineColor)
 	: Shape(outlineColor)
 	, m_fillColor(k_black)
 {
 }
 
-ColorType SolidShape::GetFillColor() const
+Color SolidShape::GetFillColor() const
 {
 	return m_fillColor;
 }
 
-void SolidShape::SetFillColor(const ColorType color)
+void SolidShape::SetFillColor(const Color color)
 {
 	m_fillColor = color;
 }

@@ -10,7 +10,7 @@ Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3
 {
 }
 
-Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3, const ColorType outlineColor)
+Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3, const Color outlineColor)
 	: SolidShape(outlineColor)
 	, m_vertex1(vertex1)
 	, m_vertex2(vertex2)
@@ -18,7 +18,7 @@ Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3
 {
 }
 
-Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3, const ColorType outlineColor, const ColorType fillColor)
+Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3, const Color outlineColor, const Color fillColor)
 	: SolidShape(outlineColor, fillColor)
 	, m_vertex1(vertex1)
 	, m_vertex2(vertex2)
@@ -55,11 +55,10 @@ std::ostream& operator<<(std::ostream& os, const Triangle& triangle)
 
 std::istream& operator>>(std::istream& is, Triangle& triangle)
 {
-	Point vertex1{};
-	Point vertex2{};
-	Point vertex3{};
-	ColorType outlineColor, fillColor;
-	is >> vertex1 >> vertex2 >> vertex3 >> outlineColor >> fillColor;
+	Color outlineColor, fillColor;
+	is >> triangle.m_vertex1 >> triangle.m_vertex2 >> triangle.m_vertex3 >> outlineColor >> fillColor;
+	triangle.SetOutlineColor(outlineColor);
+	triangle.SetFillColor(fillColor);
 	return is;
 }
 

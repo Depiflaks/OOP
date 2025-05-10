@@ -4,17 +4,17 @@
 
 #include "Shape.h"
 
-Shape::Shape(const ColorType outlineColor)
+Shape::Shape(const Color outlineColor)
 	: m_outlineColor(outlineColor)
 {
 }
 
-ColorType Shape::GetOutlineColor() const
+Color Shape::GetOutlineColor() const
 {
 	return m_outlineColor;
 }
 
-void Shape::SetOutlineColor(const ColorType color)
+void Shape::SetOutlineColor(const Color color)
 {
 	m_outlineColor = color;
 }

@@ -5,11 +5,11 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 #include "Canvas/ICanvas.h"
-#include "shape/solidShape/ISolidShape.h"
+#include "shape/solidShape/SolidShape.h"
 
 #include <string>
 
-class Triangle : ISolidShape
+class Triangle : SolidShape
 {
 public:
 	double GetArea() override;

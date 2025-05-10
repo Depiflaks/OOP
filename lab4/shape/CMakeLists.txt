@@ -28,8 +28,8 @@ add_executable(shape_app
         src/shape/drawable/ICanvasDrawable.h
         src/shape/lineSegment/LineSegment.cpp
         src/shape/lineSegment/LineSegment.h
-        src/shape/solidShape/ISolidShape.cpp
-        src/shape/solidShape/ISolidShape.h
+        src/shape/solidShape/SolidShape.cpp
+        src/shape/solidShape/SolidShape.h
         src/shape/solidShape/rectangle/Rectangle.cpp
         src/shape/solidShape/rectangle/Rectangle.h
         src/shape/solidShape/triangle/Triangle.cpp

@@ -2,12 +2,13 @@
 // Created by smmm on 06.05.2025.
 //
 
-#ifndef LINESEGMENT_H
-#define LINESEGMENT_H
+#ifndef LINE_SEGMENT_H
+#define LINE_SEGMENT_H
 #include "shape/IShape.h"
 
-class LineSegment : public IShape
+class LineSegment final : public IShape
 {
+public:
 	double GetArea() override;
 	double GetPerimeter() override;
 	std::string ToString() override;
@@ -19,4 +20,4 @@ class LineSegment : public IShape
 	Point GetEndPoint();
 };
 
-#endif // LINESEGMENT_H
+#endif // LINE_SEGMENT_H

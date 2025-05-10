@@ -4,10 +4,11 @@
 
 #ifndef CIRCLE_H
 #define CIRCLE_H
-#include "shape/solidShape/ISolidShape.h"
+#include "shape/solidShape/SolidShape.h"
 
-class Circle final : ISolidShape
+class Circle final : SolidShape
 {
+public:
 	double GetArea() override;
 	double GetPerimeter() override;
 	std::string ToString() override;

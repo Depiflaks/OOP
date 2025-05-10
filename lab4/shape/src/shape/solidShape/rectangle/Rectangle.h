@@ -5,11 +5,11 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 #include "Canvas/ICanvas.h"
-#include "shape/solidShape/ISolidShape.h"
+#include "shape/solidShape/SolidShape.h"
 
 #include <string>
 
-class Rectangle final : public ISolidShape
+class Rectangle final : public SolidShape
 {
 public:
 	double GetArea() override;

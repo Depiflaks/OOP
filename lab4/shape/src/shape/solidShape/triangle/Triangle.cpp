@@ -26,6 +26,10 @@ Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3
 {
 }
 
+void Triangle::Draw(ICanvas& canvas)
+{
+}
+
 double Triangle::GetArea()
 {
 	return std::abs(
@@ -39,7 +43,24 @@ double Triangle::GetPerimeter()
 
 std::string Triangle::ToString()
 {
-	return "triangle " + std::to_string(GetVertex1()) + " ";
+}
+
+std::ostream& operator<<(std::ostream& os, const Triangle& triangle)
+{
+	os << "triangle " << triangle.GetVertex1() << ' '
+	   << triangle.GetVertex2() << ' ' << triangle.GetVertex3() << ' '
+	   << triangle.GetOutlineColor() << ' ' << triangle.GetFillColor();
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Triangle& triangle)
+{
+	Point vertex1{};
+	Point vertex2{};
+	Point vertex3{};
+	ColorType outlineColor, fillColor;
+	is >> vertex1 >> vertex2 >> vertex3 >> outlineColor >> fillColor;
+	return is;
 }
 
 Point Triangle::GetVertex1() const

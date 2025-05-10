@@ -36,7 +36,7 @@ private:
 	uint32_t m_color;
 };
 
-constexpr auto k_black = ColorType();
-constexpr auto k_white = ColorType(0xff, 0xff, 0xff);
+const ColorType k_black{};
+const ColorType k_white{ 0xff, 0xff, 0xff };
 
 #endif // COLOR_TYPE_H

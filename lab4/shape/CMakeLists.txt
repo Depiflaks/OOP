@@ -38,6 +38,7 @@ add_executable(shape_app
         src/shape/solidShape/circle/Circle.h
         src/color/ColorType.cpp
         src/color/ColorType.h
+        src/point/Point.cpp
 )
 
 target_include_directories(shape_app PRIVATE

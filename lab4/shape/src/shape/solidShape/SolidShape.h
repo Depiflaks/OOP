@@ -7,7 +7,7 @@
 #include "canvas/ICanvas.h"
 #include "shape/Shape.h"
 
-class SolidShape : Shape
+class SolidShape : public Shape
 {
 public:
 	explicit SolidShape(ColorType outlineColor, ColorType fillColor);

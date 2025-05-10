@@ -13,9 +13,6 @@ public:
 	double GetPerimeter() override;
 	std::string ToString() override;
 
-	ColorType GetOutlineColor() override;
-	ColorType GetFillColor() override;
-
 	void Draw(ICanvas& canvas) override;
 
 	Point GetCenter();

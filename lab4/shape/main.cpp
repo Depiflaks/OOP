@@ -1,3 +1,4 @@
+#include "shape/shapeReader/ShapeReader.h"
 #include "shape/solidShape/triangle/Triangle.h"
 
 #include <iostream>
@@ -6,8 +7,7 @@
 //
 int main()
 {
-	Triangle t{ { 0, 0 }, { 0, 0 }, { 0, 0 } };
-	std::cin >> t;
-	std::cout << t << std::endl;
+	const std::shared_ptr<Shape> shape = ShapeReader::ReadShape(std::cin);
+	std::cout << shape;
 	return 0;
 }

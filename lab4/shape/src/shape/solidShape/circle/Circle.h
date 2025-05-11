@@ -9,6 +9,7 @@
 class Circle final : public SolidShape
 {
 public:
+	Circle();
 	Circle(Point center, double radius);
 	Circle(Point center, double radius, Color outlineColor);
 	Circle(Point center, double radius, Color outlineColor, Color fillColor);

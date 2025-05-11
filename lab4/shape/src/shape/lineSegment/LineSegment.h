@@ -9,6 +9,7 @@
 class LineSegment final : public Shape
 {
 public:
+	LineSegment() = default;
 	LineSegment(Point start, Point end);
 	LineSegment(Point start, Point end, Color outlineColor);
 

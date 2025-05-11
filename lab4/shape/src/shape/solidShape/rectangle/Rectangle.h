@@ -12,6 +12,7 @@
 class Rectangle final : public SolidShape
 {
 public:
+	Rectangle() = default;
 	Rectangle(Point leftTop, double width, double height);
 	Rectangle(Point leftTop, double width, double height, Color outlineColor);
 	Rectangle(Point leftTop, double width, double height, Color outlineColor, Color fillColor);

@@ -3,6 +3,7 @@
 //
 
 #include "Triangle.h"
+
 Triangle::Triangle(const Point vertex1, const Point vertex2, const Point vertex3)
 	: m_vertex1(vertex1)
 	, m_vertex2(vertex2)
@@ -50,20 +51,20 @@ std::string Triangle::ToString() const
 
 std::ostream& operator<<(std::ostream& os, const Triangle& triangle)
 {
-    os << "Shape: " << triangle.ToString() << '\n';
-    os << "Vertex 1: " << triangle.GetVertex1() << '\n';
-    os << "Vertex 2: " << triangle.GetVertex2() << '\n';
-    os << "Vertex 3: " << triangle.GetVertex3() << '\n';
+	os << "Shape: " << triangle.ToString() << '\n';
+	os << "Vertex 1: " << triangle.GetVertex1() << '\n';
+	os << "Vertex 2: " << triangle.GetVertex2() << '\n';
+	os << "Vertex 3: " << triangle.GetVertex3() << '\n';
 
-    if (triangle.GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
-        os << "Outline Color: " << triangle.GetOutlineColor() << '\n';
+	if (triangle.GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
+		os << "Outline Color: " << triangle.GetOutlineColor() << '\n';
 
-    if (triangle.GetFillColor().GetRGBA() != k_empty.GetRGBA())
-        os << "Fill Color: " << triangle.GetFillColor() << '\n';
+	if (triangle.GetFillColor().GetRGBA() != k_empty.GetRGBA())
+		os << "Fill Color: " << triangle.GetFillColor() << '\n';
 
-    os << "Perimeter: " << triangle.GetPerimeter() << '\n';
-    os << "Area: " << triangle.GetArea() << '\n';
-    return os;
+	os << "Perimeter: " << triangle.GetPerimeter() << '\n';
+	os << "Area: " << triangle.GetArea() << '\n';
+	return os;
 }
 
 std::istream& operator>>(std::istream& is, Triangle& triangle)

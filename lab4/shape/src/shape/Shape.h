@@ -11,10 +11,11 @@
 
 enum class ShapeType
 {
-	triangle,
-	rectangle,
-	circle,
-	lineSegment,
+	Triangle,
+	Rectangle,
+	Circle,
+	LineSegment,
+	Unknown
 };
 
 class Shape : public ICanvasDrawable

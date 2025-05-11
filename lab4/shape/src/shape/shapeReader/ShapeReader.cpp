@@ -53,6 +53,20 @@ std::shared_ptr<Shape> ShapeReader::ReadShape(std::istream& is)
 
 std::vector<std::shared_ptr<Shape>> ShapeReader::ReadShapes(std::istream& is)
 {
+	std::vector<std::shared_ptr<Shape>> shapes;
+	while (is)
+	{
+		try
+		{
+			auto shape = ReadShape(is);
+			shapes.push_back(shape);
+		}
+		catch (ShapeReadException &message)
+		{
+			std::cout << message.what() << '\n';
+		}
+	}
+	return shapes;
 }
 
 void ShapeReader::CheckShapeReadCorrect(const std::istream& is, const std::string& name)

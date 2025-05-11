@@ -19,7 +19,7 @@ public:
 
 	void Draw(ICanvas& canvas) override;
 
-	friend std::ostream& operator<<(std::ostream& os, const LineSegment& lineSegment);
+	void Print(std::ostream &os) const override;
 	friend std::istream& operator>>(std::istream& is, LineSegment& lineSegment);
 
 	[[nodiscard]] Point GetStartPoint() const;

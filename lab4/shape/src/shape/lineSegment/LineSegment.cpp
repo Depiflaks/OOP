@@ -37,14 +37,13 @@ void LineSegment::Draw(ICanvas& canvas)
 	canvas.DrawLine(m_startPoint, m_endPoint, GetOutlineColor());
 }
 
-std::ostream& operator<<(std::ostream& os, const LineSegment& lineSegment)
+void LineSegment::Print(std::ostream& os) const
 {
-	os << "Shape: " << lineSegment.ToString() << '\n';
-	os << "Start Point: " << lineSegment.GetStartPoint() << '\n';
-	os << "End Point: " << lineSegment.GetEndPoint() << '\n';
-	os << "Outline Color: " << lineSegment.GetOutlineColor() << '\n';
-	os << "Perimeter: " << lineSegment.GetPerimeter() << '\n';
-	return os;
+    os << "Shape: " << ToString() << '\n';
+    os << "Start Point: " << GetStartPoint() << '\n';
+    os << "End Point: " << GetEndPoint() << '\n';
+    os << "Outline Color: " << GetOutlineColor() << '\n';
+    os << "Perimeter: " << GetPerimeter() << '\n';
 }
 
 std::istream& operator>>(std::istream& is, LineSegment& lineSegment)

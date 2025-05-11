@@ -9,6 +9,5 @@ int main()
 {
 	const std::shared_ptr<Shape> shape = ShapeReader::ReadShape(std::cin);
 	shape->Print(std::cout);
-	// std::cout << shape;
 	return 0;
 }

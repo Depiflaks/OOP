@@ -6,7 +6,6 @@
 #define SHAPEREADER_H
 #include <memory>
 #include <shape/Shape.h>
-#include <shape/solidShape/triangle/Triangle.h>
 
 class ShapeReadException final : public std::runtime_error
 {
@@ -21,7 +20,7 @@ class ShapeReader
 {
 public:
 	static std::shared_ptr<Shape> ReadShape(std::istream& is);
-	std::vector<std::shared_ptr<Shape>> ReadShapes(std::istream& is);
+	static std::vector<std::shared_ptr<Shape>> ReadShapes(std::istream& is);
 
 private:
 	[[nodiscard]] static ShapeType ParseShapeType(const std::string& typeStr);

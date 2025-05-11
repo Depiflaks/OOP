@@ -20,7 +20,7 @@ public:
 
 	void Draw(ICanvas& canvas) override;
 
-	friend std::ostream& operator<<(std::ostream& os, const Circle& circle);
+	void Print(std::ostream &os) const override;
     friend std::istream& operator>>(std::istream& is, Circle& circle);
 
 	[[nodiscard]] Point GetCenter() const;

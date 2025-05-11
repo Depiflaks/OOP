@@ -23,7 +23,7 @@ public:
 
 	void Draw(ICanvas& canvas) override;
 
-	friend std::ostream& operator<<(std::ostream& os, const Rectangle& rectangle);
+	void Print(std::ostream &os) const override;
     friend std::istream& operator>>(std::istream& is, Rectangle& rectangle);
 
 	[[nodiscard]] Point GetLeftTop() const;

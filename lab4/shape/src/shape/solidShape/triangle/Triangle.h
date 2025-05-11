@@ -23,7 +23,7 @@ public:
 	[[nodiscard]] double GetPerimeter() const override;
 	[[nodiscard]] std::string ToString() const override;
 
-	friend std::ostream& operator<<(std::ostream& os, const Triangle& triangle);
+	void Print(std::ostream &os) const override;
     friend std::istream& operator>>(std::istream& is, Triangle& triangle);
 
 	[[nodiscard]] Point GetVertex1() const;

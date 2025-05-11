@@ -5,6 +5,7 @@
 #include "ShapeReader.h"
 
 #include <cassert>
+#include <iostream>
 #include <shape/lineSegment/LineSegment.h>
 #include <shape/solidShape/circle/Circle.h>
 #include <shape/solidShape/rectangle/Rectangle.h>
@@ -19,35 +20,35 @@ std::shared_ptr<Shape> ShapeReader::ReadShape(std::istream& is)
 
 	switch (ParseShapeType(typeStr))
 	{
-	case ShapeType::Triangle:
+	case ShapeType::Triangle: {
 		Triangle triangle;
 		is >> triangle;
 		CheckShapeReadCorrect(is, triangle.ToString());
 		return std::make_unique<Triangle>(triangle);
-
-	case ShapeType::Rectangle:
+	}
+	case ShapeType::Rectangle: {
 		Rectangle rectangle;
 		is >> rectangle;
 		CheckShapeReadCorrect(is, rectangle.ToString());
 		return std::make_unique<Rectangle>(rectangle);
-
-	case ShapeType::Circle:
+	}
+	case ShapeType::Circle: {
 		Circle circle;
 		is >> circle;
 		CheckShapeReadCorrect(is, circle.ToString());
 		return std::make_unique<Circle>(circle);
-
-	case ShapeType::LineSegment:
+	}
+	case ShapeType::LineSegment: {
 		LineSegment line;
 		is >> line;
 		CheckShapeReadCorrect(is, line.ToString());
 		return std::make_unique<LineSegment>(line);
-
+	}
 	case ShapeType::Unknown:
 		throw ShapeReadException("Unknown shape type: " + typeStr);
 	default:
+		assert(false);
 	}
-	assert(false);
 }
 
 std::vector<std::shared_ptr<Shape>> ShapeReader::ReadShapes(std::istream& is)

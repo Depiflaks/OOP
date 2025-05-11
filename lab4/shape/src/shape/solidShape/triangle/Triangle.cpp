@@ -49,22 +49,21 @@ std::string Triangle::ToString() const
 	return "Triangle";
 }
 
-std::ostream& operator<<(std::ostream& os, const Triangle& triangle)
+void Triangle::Print(std::ostream& os) const
 {
-	os << "Shape: " << triangle.ToString() << '\n';
-	os << "Vertex 1: " << triangle.GetVertex1() << '\n';
-	os << "Vertex 2: " << triangle.GetVertex2() << '\n';
-	os << "Vertex 3: " << triangle.GetVertex3() << '\n';
+	os << "Shape: " << ToString() << '\n';
+	os << "Vertex 1: " << GetVertex1() << '\n';
+	os << "Vertex 2: " << GetVertex2() << '\n';
+	os << "Vertex 3: " << GetVertex3() << '\n';
 
-	if (triangle.GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
-		os << "Outline Color: " << triangle.GetOutlineColor() << '\n';
+	if (GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
+		os << "Outline Color: " << GetOutlineColor() << '\n';
 
-	if (triangle.GetFillColor().GetRGBA() != k_empty.GetRGBA())
-		os << "Fill Color: " << triangle.GetFillColor() << '\n';
+	if (GetFillColor().GetRGBA() != k_empty.GetRGBA())
+		os << "Fill Color: " << GetFillColor() << '\n';
 
-	os << "Perimeter: " << triangle.GetPerimeter() << '\n';
-	os << "Area: " << triangle.GetArea() << '\n';
-	return os;
+	os << "Perimeter: " << GetPerimeter() << '\n';
+	os << "Area: " << GetArea() << '\n';
 }
 
 std::istream& operator>>(std::istream& is, Triangle& triangle)

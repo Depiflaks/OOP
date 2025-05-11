@@ -8,6 +8,7 @@
 int main()
 {
 	const std::shared_ptr<Shape> shape = ShapeReader::ReadShape(std::cin);
-	std::cout << shape;
+	shape->Print(std::cout);
+	// std::cout << shape;
 	return 0;
 }

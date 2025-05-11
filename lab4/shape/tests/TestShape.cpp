@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <shape/lineSegment/LineSegment.h>
 #include <shape/solidShape/circle/Circle.h>
 #include <shape/solidShape/rectangle/Rectangle.h>
 #include <shape/solidShape/triangle/Triangle.h>
@@ -12,12 +13,9 @@ TEST(TriangleTest, DefaultConstructor)
 {
     Triangle t;
 
-    EXPECT_DOUBLE_EQ(t.GetVertex1().x, 0.0);
-    EXPECT_DOUBLE_EQ(t.GetVertex1().y, 0.0);
-    EXPECT_DOUBLE_EQ(t.GetVertex2().x, 0.0);
-    EXPECT_DOUBLE_EQ(t.GetVertex2().y, 0.0);
-    EXPECT_DOUBLE_EQ(t.GetVertex3().x, 0.0);
-    EXPECT_DOUBLE_EQ(t.GetVertex3().y, 0.0);
+    EXPECT_EQ(t.GetVertex1(), Point{});
+    EXPECT_EQ(t.GetVertex2(), Point{});
+    EXPECT_EQ(t.GetVertex3(), Point{});
 
     EXPECT_EQ(t.GetOutlineColor(), k_black);
     EXPECT_EQ(t.GetFillColor(), k_empty);
@@ -31,12 +29,9 @@ TEST(TriangleTest, PointConstructor)
     Point a{0, 0}, b{3, 0}, c{0, 4};
     Triangle t(a, b, c);
 
-    EXPECT_EQ(t.GetVertex1().x, 0.0);
-    EXPECT_EQ(t.GetVertex1().y, 0.0);
-    EXPECT_EQ(t.GetVertex2().x, 3.0);
-    EXPECT_EQ(t.GetVertex2().y, 0.0);
-    EXPECT_EQ(t.GetVertex3().x, 0.0);
-    EXPECT_EQ(t.GetVertex3().y, 4.0);
+    EXPECT_EQ(t.GetVertex1(), a);
+    EXPECT_EQ(t.GetVertex2(), b);
+    EXPECT_EQ(t.GetVertex3(), c);
 
     EXPECT_EQ(t.GetOutlineColor(), k_black);
     EXPECT_EQ(t.GetFillColor(), k_empty);
@@ -51,12 +46,9 @@ TEST(TriangleTest, OutlineColorConstructor)
     Color outline(0x112233FF);
     Triangle t(a, b, c, outline);
 
-    EXPECT_EQ(t.GetVertex1().x, 1.0);
-    EXPECT_EQ(t.GetVertex1().y, 1.0);
-    EXPECT_EQ(t.GetVertex2().x, 4.0);
-    EXPECT_EQ(t.GetVertex2().y, 1.0);
-    EXPECT_EQ(t.GetVertex3().x, 1.0);
-    EXPECT_EQ(t.GetVertex3().y, 5.0);
+    EXPECT_EQ(t.GetVertex1(), a);
+    EXPECT_EQ(t.GetVertex2(), b);
+    EXPECT_EQ(t.GetVertex3(), c);
 
     EXPECT_EQ(t.GetOutlineColor(), outline);
     EXPECT_EQ(t.GetFillColor(), k_empty);
@@ -67,17 +59,14 @@ TEST(TriangleTest, OutlineColorConstructor)
 
 TEST(TriangleTest, OutlineAndFillColorConstructor)
 {
-	constexpr Point a{2, 2}, b{5, 2}, c{2, 6};
+    constexpr Point a{2, 2}, b{5, 2}, c{2, 6};
     Color outline(0xAABBCCDD);
     Color fill(0xEEFF0011);
     Triangle t(a, b, c, outline, fill);
 
-    EXPECT_EQ(t.GetVertex1().x, 2.0);
-    EXPECT_EQ(t.GetVertex1().y, 2.0);
-    EXPECT_EQ(t.GetVertex2().x, 5.0);
-    EXPECT_EQ(t.GetVertex2().y, 2.0);
-    EXPECT_EQ(t.GetVertex3().x, 2.0);
-    EXPECT_EQ(t.GetVertex3().y, 6.0);
+    EXPECT_EQ(t.GetVertex1(), a);
+    EXPECT_EQ(t.GetVertex2(), b);
+    EXPECT_EQ(t.GetVertex3(), c);
 
     EXPECT_EQ(t.GetOutlineColor(), outline);
     EXPECT_EQ(t.GetFillColor(), fill);
@@ -97,18 +86,15 @@ TEST(TriangleTest, FloatingPointPrecision)
     EXPECT_NEAR(t.GetPerimeter(), 3.414213562, 1e-9);
 }
 
-// Rectangle
 TEST(RectangleTest, DefaultConstructor)
 {
     Rectangle r;
 
-    EXPECT_DOUBLE_EQ(r.GetLeftTop().x, 0.0);
-    EXPECT_DOUBLE_EQ(r.GetLeftTop().y, 0.0);
+    EXPECT_EQ(r.GetLeftTop(), Point{});
     EXPECT_DOUBLE_EQ(r.GetWidth(), 0.0);
     EXPECT_DOUBLE_EQ(r.GetHeight(), 0.0);
 
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().x, 0.0);
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().y, 0.0);
+    EXPECT_EQ(r.GetRightBottom(), Point{});
 
     EXPECT_EQ(r.GetOutlineColor(), k_black);
     EXPECT_EQ(r.GetFillColor(), k_empty);
@@ -122,13 +108,11 @@ TEST(RectangleTest, ConstructorWithParams)
     Point lt{1, 2};
     Rectangle r(lt, 3, 4);
 
-    EXPECT_EQ(r.GetLeftTop().x, 1.0);
-    EXPECT_EQ(r.GetLeftTop().y, 2.0);
+    EXPECT_EQ(r.GetLeftTop(), lt);
     EXPECT_DOUBLE_EQ(r.GetWidth(), 3.0);
     EXPECT_DOUBLE_EQ(r.GetHeight(), 4.0);
 
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().x, 4.0);
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().y, 6.0);
+    EXPECT_EQ(r.GetRightBottom(), Point(4.0, 6.0));
 
     EXPECT_EQ(r.GetOutlineColor(), k_black);
     EXPECT_EQ(r.GetFillColor(), k_empty);
@@ -143,13 +127,11 @@ TEST(RectangleTest, ConstructorWithOutlineColor)
     Color outline(0x12345678);
     Rectangle r(lt, 2, 3, outline);
 
-    EXPECT_EQ(r.GetLeftTop().x, 5.0);
-    EXPECT_EQ(r.GetLeftTop().y, 5.0);
+    EXPECT_EQ(r.GetLeftTop(), lt);
     EXPECT_DOUBLE_EQ(r.GetWidth(), 2.0);
     EXPECT_DOUBLE_EQ(r.GetHeight(), 3.0);
 
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().x, 7.0);
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().y, 8.0);
+    EXPECT_EQ(r.GetRightBottom(), Point(7.0, 8.0));
 
     EXPECT_EQ(r.GetOutlineColor(), outline);
     EXPECT_EQ(r.GetFillColor(), k_empty);
@@ -165,13 +147,11 @@ TEST(RectangleTest, ConstructorWithOutlineAndFillColor)
     Color fill(0x11223344);
     Rectangle r(lt, 4, 5, outline, fill);
 
-    EXPECT_EQ(r.GetLeftTop().x, 0.0);
-    EXPECT_EQ(r.GetLeftTop().y, 0.0);
+    EXPECT_EQ(r.GetLeftTop(), lt);
     EXPECT_DOUBLE_EQ(r.GetWidth(), 4.0);
     EXPECT_DOUBLE_EQ(r.GetHeight(), 5.0);
 
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().x, 4.0);
-    EXPECT_DOUBLE_EQ(r.GetRightBottom().y, 5.0);
+    EXPECT_EQ(r.GetRightBottom(), Point(4.0, 5.0));
 
     EXPECT_EQ(r.GetOutlineColor(), outline);
     EXPECT_EQ(r.GetFillColor(), fill);
@@ -243,4 +223,46 @@ TEST(CircleTest, FloatingPointPrecision)
 
     EXPECT_NEAR(c.GetArea(), expectedArea, 1e-9);
     EXPECT_NEAR(c.GetPerimeter(), expectedPerimeter, 1e-9);
+}
+
+// Line
+TEST(LineSegmentTest, DefaultConstructor)
+{
+    LineSegment line;
+    EXPECT_EQ(line.GetStartPoint(), Point{});
+    EXPECT_EQ(line.GetEndPoint(), Point{});
+}
+
+TEST(LineSegmentTest, ConstructorWithPoints)
+{
+    Point start{1.0, 1.0};
+    Point end{4.0, 5.0};
+    LineSegment line(start, end);
+    EXPECT_EQ(line.GetStartPoint(), start);
+    EXPECT_EQ(line.GetEndPoint(), end);
+}
+
+TEST(LineSegmentTest, ConstructorWithOutlineColor)
+{
+    Point start{1.0, 1.0};
+    Point end{4.0, 5.0};
+    Color outline{0xAABBCCDD};
+    LineSegment line(start, end, outline);
+    EXPECT_EQ(line.GetStartPoint(), start);
+    EXPECT_EQ(line.GetEndPoint(), end);
+    EXPECT_EQ(line.GetOutlineColor(), outline);
+}
+
+TEST(LineSegmentTest, FloatingPointPrecision)
+{
+    Point start{0.1, 0.1};
+    Point end{3.2, 4.5};
+    LineSegment line(start, end);
+
+    double dx = end.x - start.x;
+    double dy = end.y - start.y;
+    double expectedLength = std::sqrt(dx * dx + dy * dy);
+
+    EXPECT_DOUBLE_EQ(line.GetArea(), 0.0);
+    EXPECT_NEAR(line.GetPerimeter(), expectedLength, 1e-9);
 }

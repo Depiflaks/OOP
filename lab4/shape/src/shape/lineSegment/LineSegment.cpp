@@ -42,7 +42,7 @@ void LineSegment::Print(std::ostream& os) const
     os << "Shape: " << ToString() << '\n';
     os << "Start Point: " << GetStartPoint() << '\n';
     os << "End Point: " << GetEndPoint() << '\n';
-    os << "Outline Color: " << GetOutlineColor() << '\n';
+    os << "Outline Color(RGBA): #" << GetOutlineColor() << '\n';
     os << "Perimeter: " << GetPerimeter() << '\n';
 }
 

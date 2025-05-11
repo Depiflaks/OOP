@@ -69,10 +69,10 @@ void Rectangle::Print(std::ostream& os) const
     os << "Height: " << GetHeight() << '\n';
 
     if (GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
-        os << "Outline Color: " << GetOutlineColor() << '\n';
+        os << "Outline Color(RGBA): #" << GetOutlineColor() << '\n';
 
     if (GetFillColor().GetRGBA() != k_empty.GetRGBA())
-        os << "Fill Color: " << GetFillColor() << '\n';
+        os << "Fill Color(RGBA): #" << GetFillColor() << '\n';
 
     os << "Perimeter: " << GetPerimeter() << '\n';
     os << "Area: " << GetArea() << '\n';

@@ -17,6 +17,8 @@ list(REMOVE_ITEM SOURCES
 add_executable(shape_app
         main.cpp
         ${SOURCES}
+        src/shape/shapeReader/ShapeReader.cpp
+        src/shape/shapeReader/ShapeReader.h
 )
 
 target_include_directories(shape_app PRIVATE

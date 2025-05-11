@@ -9,6 +9,14 @@
 
 #include <string>
 
+enum class ShapeType
+{
+	triangle,
+	rectangle,
+	circle,
+	lineSegment,
+};
+
 class Shape : public ICanvasDrawable
 {
 public:

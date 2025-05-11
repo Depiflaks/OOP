@@ -55,10 +55,10 @@ void Circle::Print(std::ostream& os) const
     os << "Center: " << GetCenter() << '\n';
     os << "Radius: " << GetRadius() << '\n';
 
-    if (GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
+    if (GetOutlineColor() != k_empty)
         os << "Outline Color(RGBA): #" << GetOutlineColor() << '\n';
 
-    if (GetFillColor().GetRGBA() != k_empty.GetRGBA())
+    if (GetFillColor() != k_empty)
         os << "Fill Color(RGBA): #" << GetFillColor() << '\n';
 
     os << "Perimeter: " << GetPerimeter() << '\n';

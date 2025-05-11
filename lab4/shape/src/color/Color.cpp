@@ -46,6 +46,11 @@ void Color::SetRGBA(const uint32_t rgba)
 	m_color = rgba;
 }
 
+bool Color::operator==(const Color& other) const
+{
+	return GetRGBA() == other.GetRGBA();
+}
+
 std::ostream& operator<<(std::ostream& os, const Color& color)
 {
 	const auto f = os.flags();

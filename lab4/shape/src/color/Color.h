@@ -32,6 +32,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const Color& color);
 	friend std::istream& operator>>(std::istream& is, Color& color);
+	bool operator==(const Color& other) const;
 
 private:
 	uint32_t m_color{};

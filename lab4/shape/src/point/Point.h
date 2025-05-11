@@ -20,6 +20,7 @@ struct Point
 
 	friend std::ostream& operator<<(std::ostream& os, const Point& point);
 	friend std::istream& operator>>(std::istream& in, Point& point);
+	bool operator==(const Point& other) const;
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Point& point)

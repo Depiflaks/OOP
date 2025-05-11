@@ -56,10 +56,10 @@ void Triangle::Print(std::ostream& os) const
 	os << "Vertex 2: " << GetVertex2() << '\n';
 	os << "Vertex 3: " << GetVertex3() << '\n';
 
-    if (GetOutlineColor().GetRGBA() != k_empty.GetRGBA())
+    if (GetOutlineColor() != k_empty)
         os << "Outline Color: " << GetOutlineColor() << '\n';
 
-    if (GetFillColor().GetRGBA() != k_empty.GetRGBA())
+    if (GetFillColor() != k_empty)
         os << "Fill Color: " << GetFillColor() << '\n';
 
 	os << "Perimeter: " << GetPerimeter() << '\n';

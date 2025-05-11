@@ -19,6 +19,7 @@ add_executable(shape_app
         ${SOURCES}
         src/shape/shapeReader/ShapeReader.cpp
         src/shape/shapeReader/ShapeReader.h
+        tests/TestShape.cpp
 )
 
 target_include_directories(shape_app PRIVATE

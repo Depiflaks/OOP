@@ -36,7 +36,7 @@ double Circle::GetPerimeter() const
 
 std::string Circle::ToString() const
 {
-	return "circle";
+	return "Circle";
 }
 
 void Circle::Draw(ICanvas& canvas)

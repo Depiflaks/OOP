@@ -49,7 +49,7 @@ std::ostream& operator<<(std::ostream& os, const LineSegment& lineSegment)
 
 std::istream& operator>>(std::istream& is, LineSegment& lineSegment)
 {
-	Color outlineColor, fillColor;
+	Color outlineColor;
 	is >> lineSegment.m_startPoint >> lineSegment.m_endPoint >> outlineColor;
 	lineSegment.SetOutlineColor(outlineColor);
 	return is;

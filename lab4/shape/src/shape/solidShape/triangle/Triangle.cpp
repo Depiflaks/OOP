@@ -45,7 +45,7 @@ double Triangle::GetPerimeter() const
 
 std::string Triangle::ToString() const
 {
-	return "triangle";
+	return "Triangle";
 }
 
 std::ostream& operator<<(std::ostream& os, const Triangle& triangle)

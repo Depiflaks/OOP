@@ -39,7 +39,7 @@ double Rectangle::GetPerimeter() const
 
 std::string Rectangle::ToString() const
 {
-	return "rectangle";
+	return "Rectangle";
 }
 
 void Rectangle::Draw(ICanvas& canvas)

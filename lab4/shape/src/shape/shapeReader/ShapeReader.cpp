@@ -60,7 +60,6 @@ std::vector<std::shared_ptr<Shape>> ShapeReader::ReadShapes(std::istream& is)
 		{
 			auto shape = ReadShape(is);
 			shapes.push_back(shape);
-			shape->Print(std::cout);
 		}
 		catch (ShapeReadException &message)
 		{

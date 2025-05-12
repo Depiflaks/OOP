@@ -3,6 +3,15 @@ project(lab4_shape)
 
 set(CMAKE_CXX_STANDARD 20)
 
+find_package(OpenGL REQUIRED)
+find_package(glfw3 3.3 REQUIRED)
+
+target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+        OpenGL::GL
+        glfw
+)
+
 file(GLOB_RECURSE SOURCES
         "src/*.cpp"
         "src/*/*.cpp"
@@ -20,6 +29,8 @@ add_executable(shape_app
         src/shape/shapeReader/ShapeReader.cpp
         src/shape/shapeReader/ShapeReader.h
         tests/TestShape.cpp
+        src/canvas/Canvas.cpp
+        src/canvas/Canvas.h
 )
 
 target_include_directories(shape_app PRIVATE

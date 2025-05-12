@@ -4,7 +4,7 @@
 
 #ifndef CANVAS_H
 #define CANVAS_H
-#include "ICanvas.h"
+#include "../ICanvas.h"
 
 #include <GL/gl.h>
 #include <vector>

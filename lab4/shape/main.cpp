@@ -5,7 +5,7 @@
 #include "shape/shapeReader/ShapeReader.h"
 #include "shape/solidShape/triangle/Triangle.h"
 #include <GLFW/glfw3.h>
-#include <canvas/GlCanvas.h>
+#include <canvas/openGL/GlCanvas.h>
 #include <iostream>
 
 void PrintShape(const std::shared_ptr<Shape>& shape)

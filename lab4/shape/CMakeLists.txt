@@ -1,8 +1,8 @@
+
 cmake_minimum_required(VERSION 3.10)
 project(lab4_shape)
 
 set(CMAKE_CXX_STANDARD 20)
-
 
 if (POLICY CMP0072)
     cmake_policy(SET CMP0072 NEW)
@@ -11,43 +11,48 @@ set(OpenGL_GL_PREFERENCE GLVND)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
+find_package(GTest REQUIRED)
 
-file(GLOB_RECURSE SOURCES
-        "src/*.cpp"
-        "src/*/*.cpp"
-        "src/*/*/*.cpp"
-        "src/*/*/*/*.cpp"
+# ==== SOURCES ====
+
+file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
+    "src/*.cpp"
+    "src/*/*.cpp"
+    "src/*/*/*.cpp"
+    "src/*/*/*/*.cpp"
 )
 
-list(REMOVE_ITEM SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
-)
+# Удаляем тесты и OpenGL-зависимый файл
+list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
+list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/GlCanvas\\.cpp$")
+
+# ==== SHAPE_APP ====
 
 add_executable(shape_app
-        main.cpp
-        ${SOURCES}
-        src/openGl/OpenGlController.cpp
-        src/openGl/OpenGlController.h
+    main.cpp
+    ${ALL_SOURCES}
+    src/openGl/OpenGlController.cpp
 )
 
 target_link_libraries(shape_app
-        PRIVATE
-        OpenGL::GL
-        glfw
+    PRIVATE
+    OpenGL::GL
+    glfw
 )
 
 target_include_directories(shape_app PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-# Tests
+# ==== TESTS ====
 
-find_package(GTest REQUIRED)
-
-file(GLOB TEST_SOURCES "tests/*.cpp")
+file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "tests/*.cpp")
 
 if (TEST_SOURCES)
-    add_executable(shape_tests ${TEST_SOURCES} ${SOURCES})
+    add_executable(shape_tests
+        ${TEST_SOURCES}
+        ${ALL_SOURCES}
+    )
 
     target_include_directories(shape_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -55,8 +60,8 @@ if (TEST_SOURCES)
 
     target_link_libraries(shape_tests
         PRIVATE
-        GTest::gmock
         GTest::gtest
+        GTest::gmock
         GTest::gtest_main
     )
 

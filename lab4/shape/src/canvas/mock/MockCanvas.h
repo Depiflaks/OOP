@@ -8,7 +8,7 @@
 #include "../ICanvas.h"
 #include <gmock/gmock.h>
 
-class MockCanvas : public ICanvas {
+class MockCanvas final : public ICanvas {
 public:
     MOCK_METHOD(void, DrawLine, (Point from, Point to, Color lineColor), (override));
     MOCK_METHOD(void, DrawPolygon, (std::vector<Point> points, Color lineColor), (override));

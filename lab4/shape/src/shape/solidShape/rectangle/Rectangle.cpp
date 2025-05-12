@@ -27,21 +27,6 @@ Rectangle::Rectangle(const Point leftTop, const double width, const double heigh
 {
 }
 
-double Rectangle::GetArea() const
-{
-	return m_width * m_height;
-}
-
-double Rectangle::GetPerimeter() const
-{
-	return 2 * (m_width + m_height);
-}
-
-std::string Rectangle::ToString() const
-{
-	return "Rectangle";
-}
-
 void Rectangle::Draw(ICanvas& canvas)
 {
 	canvas.DrawPolygon({
@@ -58,6 +43,21 @@ void Rectangle::Draw(ICanvas& canvas)
 						   { m_leftTop.x, m_leftTop.y + m_height },
 					   },
 		GetFillColor());
+}
+
+double Rectangle::GetArea() const
+{
+	return m_width * m_height;
+}
+
+double Rectangle::GetPerimeter() const
+{
+	return 2 * (m_width + m_height);
+}
+
+std::string Rectangle::ToString() const
+{
+	return "Rectangle";
 }
 
 void Rectangle::Print(std::ostream& os) const

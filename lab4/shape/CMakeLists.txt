@@ -4,9 +4,9 @@ project(lab4_shape)
 set(CMAKE_CXX_STANDARD 20)
 
 
-if(POLICY CMP0072)
+if (POLICY CMP0072)
     cmake_policy(SET CMP0072 NEW)
-endif()
+endif ()
 set(OpenGL_GL_PREFERENCE GLVND)
 
 find_package(OpenGL REQUIRED)
@@ -43,25 +43,24 @@ target_include_directories(shape_app PRIVATE
 # Tests
 
 find_package(GTest REQUIRED)
-include(GoogleTest)
 
 file(GLOB TEST_SOURCES "tests/*.cpp")
+
 if (TEST_SOURCES)
     add_executable(shape_tests ${TEST_SOURCES} ${SOURCES})
+
     target_include_directories(shape_tests PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/src
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/*
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/*/*
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
 
-    target_link_libraries(shape_tests PRIVATE GTest::GTest GTest::Main)
-    enable_testing()
-    gtest_discover_tests(shape_tests)
-
-    target_link_libraries(shape_tests PRIVATE
-            gtest_main
+    target_link_libraries(shape_tests
+        PRIVATE
+        GTest::gmock
+        GTest::gtest
+        GTest::gtest_main
     )
 
     enable_testing()
+    include(GoogleTest)
     gtest_discover_tests(shape_tests)
 endif ()

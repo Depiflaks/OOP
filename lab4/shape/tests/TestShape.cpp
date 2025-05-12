@@ -266,3 +266,29 @@ TEST(LineSegmentTest, FloatingPointPrecision)
     EXPECT_DOUBLE_EQ(line.GetArea(), 0.0);
     EXPECT_NEAR(line.GetPerimeter(), expectedLength, 1e-9);
 }
+
+TEST(ShapeUtilsTest, GetShapeWithMaxArea)
+{
+    std::vector<std::shared_ptr<Shape>> shapes;
+
+    shapes.push_back(std::make_shared<Rectangle>(Point{0, 0}, 2.0, 3.0));
+    shapes.push_back(std::make_shared<Triangle>(Point{0, 0}, Point{1, 0}, Point{0, 2}));
+    shapes.push_back(std::make_shared<Circle>(Point{0, 0}, 1.5));
+
+    auto maxAreaShape = GetShapeWithMaxArea(shapes);
+    ASSERT_NE(maxAreaShape, nullptr);
+    EXPECT_NEAR(maxAreaShape->GetArea(), 7.06858, 1e-5);
+}
+
+TEST(ShapeUtilsTest, GetShapeWithMaxPerimeter)
+{
+    std::vector<std::shared_ptr<Shape>> shapes;
+
+    shapes.push_back(std::make_shared<Rectangle>(Point{0, 0}, 2.0, 3.0));
+    shapes.push_back(std::make_shared<Triangle>(Point{0, 0}, Point{3, 0}, Point{0, 4}));
+    shapes.push_back(std::make_shared<Circle>(Point{0, 0}, 1.5));
+
+    auto maxPerimeterShape = GetShapeWithMaxPerimeter(shapes);
+    ASSERT_NE(maxPerimeterShape, nullptr);
+    EXPECT_NEAR(maxPerimeterShape->GetPerimeter(), 12.0, 1e-5);
+}

@@ -45,7 +45,6 @@ target_include_directories(shape_app PRIVATE
 find_package(GTest REQUIRED)
 include(GoogleTest)
 
-
 file(GLOB TEST_SOURCES "tests/*.cpp")
 if (TEST_SOURCES)
     add_executable(shape_tests ${TEST_SOURCES} ${SOURCES})
@@ -65,5 +64,4 @@ if (TEST_SOURCES)
 
     enable_testing()
     gtest_discover_tests(shape_tests)
-    #    target_link_libraries(shape_tests PRIVATE shape_app)
 endif ()

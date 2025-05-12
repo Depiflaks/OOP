@@ -3,14 +3,14 @@ project(lab4_shape)
 
 set(CMAKE_CXX_STANDARD 20)
 
+
+if(POLICY CMP0072)
+    cmake_policy(SET CMP0072 NEW)
+endif()
+set(OpenGL_GL_PREFERENCE GLVND)
+
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
-
-target_link_libraries(${PROJECT_NAME}
-        PRIVATE
-        OpenGL::GL
-        glfw
-)
 
 file(GLOB_RECURSE SOURCES
         "src/*.cpp"
@@ -26,11 +26,14 @@ list(REMOVE_ITEM SOURCES
 add_executable(shape_app
         main.cpp
         ${SOURCES}
-        src/shape/shapeReader/ShapeReader.cpp
-        src/shape/shapeReader/ShapeReader.h
-        tests/TestShape.cpp
-        src/canvas/Canvas.cpp
-        src/canvas/Canvas.h
+        src/openGl/OpenGlController.cpp
+        src/openGl/OpenGlController.h
+)
+
+target_link_libraries(shape_app
+        PRIVATE
+        OpenGL::GL
+        glfw
 )
 
 target_include_directories(shape_app PRIVATE

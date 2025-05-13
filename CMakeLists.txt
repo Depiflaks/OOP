@@ -13,6 +13,7 @@ FetchContent_MakeAvailable(googletest)
 add_subdirectory(lab3/bank)
 add_subdirectory(lab5/rational)
 add_subdirectory(lab4/shape)
+add_subdirectory(lab7/myArray)
 
 add_executable(OOP
         lab1/replace/main.cpp

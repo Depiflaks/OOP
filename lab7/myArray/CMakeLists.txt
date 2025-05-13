@@ -20,7 +20,6 @@ file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
     "src/*/*/*/*.cpp"
 )
 
-# Удаляем тесты и OpenGL-зависимый файл
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 
 # ==== SHAPE_APP ====
@@ -28,6 +27,8 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 add_executable(my_array_app
     main.cpp
     ${ALL_SOURCES}
+        src/myArray/MyArray.cpp
+        src/myArray/MyArray.h
 )
 
 target_link_libraries(my_array_app

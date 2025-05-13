@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.10)
 project(lab4_shape)
 
@@ -22,7 +21,6 @@ file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
     "src/*/*/*/*.cpp"
 )
 
-# Удаляем тесты и OpenGL-зависимый файл
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 
 # ==== SHAPE_APP ====

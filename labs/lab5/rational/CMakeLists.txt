@@ -21,7 +21,7 @@ add_executable(rational_app
 )
 
 target_include_directories(rational_app PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        src
 )
 
 # Tests
@@ -34,7 +34,7 @@ file(GLOB TEST_SOURCES "tests/*.cpp")
 if (TEST_SOURCES)
     add_executable(rational_tests ${TEST_SOURCES} ${SOURCES})
     target_include_directories(rational_tests PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/src
+            src
             ${CMAKE_CURRENT_SOURCE_DIR}/src/*
             ${CMAKE_CURRENT_SOURCE_DIR}/src/*/*
     )

@@ -10,23 +10,22 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-add_subdirectory(lab3/bank)
-add_subdirectory(lab5/rational)
-add_subdirectory(lab4/shape)
+add_subdirectory(labs/lab3/bank)
+add_subdirectory(labs/lab5/rational)
+add_subdirectory(labs/lab4/shape)
 
 add_executable(OOP
-        lab1/replace/main.cpp
-        lab1/replace/main.cpp
-        lab2/html_decode/main.cpp
-        lab2/html_decode/src/HtmlDecode.cpp
-        lab2/html_decode/tests/TestHtmlDecode.cpp
-        lab2/dictionary/main.cpp
-        lab2/dictionary/src/dictionaryReader/DictionaryReader.cpp
-        lab2/dictionary/src/dictionaryReader/DictionaryReader.h
-        lab2/dictionary/src/dialogHandler/DialogHandler.cpp
-        lab2/dictionary/src/dialogHandler/DialogHandler.h
-        lab2/dictionary/src/dictionary/Dictionary.cpp
-        lab2/dictionary/src/dictionary/Dictionary.h
-        lab2/dictionary/src/translationSet/TranslationSet.cpp
-        lab2/dictionary/src/translationSet/TranslationSet.h
-        lab2/dictionary/tests/TestDictionary.cpp)
+        labs/lab1/replace/main.cpp
+        labs/lab2/html_decode/main.cpp
+        labs/lab2/html_decode/src/HtmlDecode.cpp
+        labs/lab2/html_decode/tests/TestHtmlDecode.cpp
+        labs/lab2/dictionary/main.cpp
+        labs/lab2/dictionary/src/dictionaryReader/DictionaryReader.cpp
+        labs/lab2/dictionary/src/dictionaryReader/DictionaryReader.h
+        labs/lab2/dictionary/src/dialogHandler/DialogHandler.cpp
+        labs/lab2/dictionary/src/dialogHandler/DialogHandler.h
+        labs/lab2/dictionary/src/dictionary/Dictionary.cpp
+        labs/lab2/dictionary/src/dictionary/Dictionary.h
+        labs/lab2/dictionary/src/translationSet/TranslationSet.cpp
+        labs/lab2/dictionary/src/translationSet/TranslationSet.h
+        labs/lab2/dictionary/tests/TestDictionary.cpp)

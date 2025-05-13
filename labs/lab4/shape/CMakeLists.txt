@@ -28,10 +28,10 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 # ==== SHAPE_APP ====
 
 add_executable(shape_app
-    main.cpp
+        main.cpp
     ${ALL_SOURCES}
-        ./src/openGl/openGl.h
-        ./src/openGl/openGl.cpp
+        src/openGl/openGl.h
+        src/openGl/openGl.cpp
 )
 
 target_link_libraries(shape_app
@@ -41,7 +41,7 @@ target_link_libraries(shape_app
 )
 
 target_include_directories(shape_app PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+        src
 )
 
 # ==== TESTS ====
@@ -56,7 +56,7 @@ if (TEST_SOURCES)
     )
 
     target_include_directories(shape_tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+            src
     )
 
     target_link_libraries(shape_tests

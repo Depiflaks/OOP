@@ -8,7 +8,7 @@
 
 int main()
 {
-	CMyArray<std::string> strings;
+	MyArray<std::string> strings;
 	strings.PushBack("Hello");
 	strings.PushBack("World");
 	std::cout << "Strings:";
@@ -16,7 +16,7 @@ int main()
 		std::cout << " " << s;
 	std::cout << std::endl;
 
-	CMyArray<double> numbers;
+	MyArray<double> numbers;
 	numbers.PushBack(3.14);
 	numbers.PushBack(2.71);
 	numbers.Resize(5);

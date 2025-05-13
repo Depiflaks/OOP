@@ -14,7 +14,7 @@
 #include <string>
 
 template <typename T>
-class CMyArray
+class MyArray
 {
 public:
 	using value_type = T;
@@ -25,7 +25,7 @@ public:
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 	// Конструктор по умолчанию
-	CMyArray() noexcept
+	MyArray() noexcept
 		: m_data(nullptr)
 		, m_size(0)
 		, m_capacity(0)
@@ -33,7 +33,7 @@ public:
 	}
 
 	// Конструктор копирования
-	CMyArray(const CMyArray& other)
+	MyArray(const MyArray& other)
 		: m_data(nullptr)
 		, m_size(0)
 		, m_capacity(0)
@@ -47,7 +47,7 @@ public:
 	}
 
 	// Конструктор перемещения
-	CMyArray(CMyArray&& other) noexcept
+	MyArray(MyArray&& other) noexcept
 		: m_data(other.m_data)
 		, m_size(other.m_size)
 		, m_capacity(other.m_capacity)
@@ -56,15 +56,14 @@ public:
 		other.m_size = other.m_capacity = 0;
 	}
 
-	// Деструктор
-	~CMyArray() noexcept
+	~MyArray() noexcept
 	{
 		Clear();
 		operator delete[](m_data);
 	}
 
 	// Оператор присваивания (copy-and-swap)
-	CMyArray& operator=(CMyArray other)
+	MyArray& operator=(MyArray other)
 	{
 		swap(other);
 		return *this;
@@ -137,14 +136,14 @@ public:
 	const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
 
 private:
-	T* m_data;
+	iterator m_data;
 	size_type m_size;
 	size_type m_capacity;
 
 	// Резервирование памяти
-	void reserve(size_type newCapacity)
+	void reserve(const size_type newCapacity)
 	{
-		T* newData = static_cast<T*>(operator new[](newCapacity * sizeof(T)));
+		auto newData = static_cast<iterator>(operator new[](newCapacity * sizeof(T)));
 		uninitialized_move(m_data, m_data + m_size, newData);
 		Clear();
 		operator delete[](m_data);
@@ -155,12 +154,12 @@ private:
 	// Увеличение емкости (удваивает)
 	void grow()
 	{
-		size_type newCap = m_capacity > 0 ? m_capacity * 2 : 1;
+		const size_type newCap = m_capacity > 0 ? m_capacity * 2 : 1;
 		reserve(newCap);
 	}
 
 	// Обмен содержимым
-	void swap(CMyArray& other) noexcept
+	void swap(MyArray& other) noexcept
 	{
 		std::swap(m_data, other.m_data);
 		std::swap(m_size, other.m_size);
@@ -168,14 +167,14 @@ private:
 	}
 
 	// Вспомогательные методы для копирования и перемещения элементов без исключений
-	static void uninitialized_copy(T* srcBegin, T* srcEnd, T* dst)
+	static void uninitialized_copy(iterator srcBegin, iterator srcEnd, iterator dst)
 	{
-		T* cur = dst;
+		iterator cur = dst;
 		for (; srcBegin != srcEnd; ++srcBegin, ++cur)
 			new (cur) T(*srcBegin);
 	}
 
-	static void uninitialized_move(T* srcBegin, T* srcEnd, T* dst)
+	static void uninitialized_move(iterator srcBegin, iterator srcEnd, iterator dst)
 	{
 		T* cur = dst;
 		for (; srcBegin != srcEnd; ++srcBegin, ++cur)

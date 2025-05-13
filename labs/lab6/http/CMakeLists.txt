@@ -20,8 +20,8 @@ add_executable(http_app
         ${SOURCES}
         src/httpUrl/HttpUrl.cpp
         src/httpUrl/HttpUrl.h
-        src/exception/urlParsingError.cpp
-        src/exception/urlParsingError.h
+        src/exception/UrlParsingError.cpp
+        src/exception/UrlParsingError.h
 )
 
 target_include_directories(http_app PRIVATE

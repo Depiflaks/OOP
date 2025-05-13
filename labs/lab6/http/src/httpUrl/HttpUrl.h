@@ -2,8 +2,8 @@
 // Created by smmm on 13.05.2025.
 //
 
-#ifndef HTTPURL_H
-#define HTTPURL_H
+#ifndef HTTP_URL_H
+#define HTTP_URL_H
 #include <string>
 
 enum class Protocol
@@ -63,4 +63,4 @@ public:
 	unsigned short GetPort() const;
 };
 
-#endif // HTTPURL_H
+#endif // HTTP_URL_H

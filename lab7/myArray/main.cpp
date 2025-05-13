@@ -19,6 +19,7 @@ int main()
 	MyArray<double> numbers;
 	numbers.PushBack(3.14);
 	numbers.PushBack(2.71);
+	std::cout << numbers[0] << numbers[1] << '\n';
 	numbers.Resize(5);
 	std::cout << "Numbers:";
 	for (const double& number : std::ranges::reverse_view(numbers))

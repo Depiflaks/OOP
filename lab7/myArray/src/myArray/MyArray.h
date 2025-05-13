@@ -70,7 +70,7 @@ public:
 	}
 
 	// Добавление элемента в конец
-	void PushBack(const T& value)
+	void PushBack(const value_type& value)
 	{
 		if (m_size == m_capacity)
 			grow();
@@ -78,18 +78,16 @@ public:
 		++m_size;
 	}
 
-	// Размер массива
-	size_type Size() const noexcept { return m_size; }
+	[[nodiscard]] size_type Size() const noexcept { return m_size; }
 
-	// Оператор доступа с проверкой границ
-	T& operator[](size_type index)
+	value_type& operator[](size_type index)
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range");
 		return m_data[index];
 	}
 
-	const T& operator[](size_type index) const
+	const value_type& operator[](size_type index) const
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range");
@@ -97,19 +95,17 @@ public:
 	}
 
 	// Изменение длины массива
-	void Resize(size_type newSize)
+	void Resize(const size_type newSize)
 	{
 		if (newSize > m_capacity)
 			reserve(newSize);
 		if (newSize > m_size)
 		{
-			// Инициализируем новые элементы значением по умолчанию
 			for (size_type i = m_size; i < newSize; ++i)
-				new (m_data + i) T();
+				new (m_data + i) value_type();
 		}
 		else
 		{
-			// Удаляем избыточные
 			for (size_type i = newSize; i < m_size; ++i)
 				(m_data + i)->~T();
 		}

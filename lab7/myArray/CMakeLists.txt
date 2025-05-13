@@ -22,7 +22,7 @@ file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
 
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 
-# ==== SHAPE_APP ====
+# ==== APP ====
 
 add_executable(my_array_app
     main.cpp

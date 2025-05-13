@@ -24,7 +24,6 @@ file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
 
 # Удаляем тесты и OpenGL-зависимый файл
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
-list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/GlCanvas\\.cpp$")
 
 # ==== SHAPE_APP ====
 
@@ -46,6 +45,7 @@ target_include_directories(shape_app PRIVATE
 
 # ==== TESTS ====
 
+list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/GlCanvas\\.cpp$")
 file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "tests/*.cpp")
 
 if (TEST_SOURCES)

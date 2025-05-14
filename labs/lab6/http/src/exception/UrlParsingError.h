@@ -6,11 +6,32 @@
 #define URL_PARSING_ERROR_H
 #include <stdexcept>
 
-class UrlParsingError final : public std::invalid_argument
+class UrlParsingError : public std::invalid_argument
 {
 public:
-	UrlParsingError()
-		: std::invalid_argument("UrlParsingError") {};
+	using std::invalid_argument::invalid_argument;
+	~UrlParsingError() override = default;
+};
+
+class HttpPatternMissmatchError final : public UrlParsingError
+{
+public:
+	explicit HttpPatternMissmatchError(std::string const& url)
+		: UrlParsingError("Given url: \"" + url + "\" does not match HTTP pattern") {};
+};
+
+class PortOutOfRangeError final : public UrlParsingError
+{
+public:
+	explicit PortOutOfRangeError(const int port)
+		: UrlParsingError("Port " + std::to_string(port) + " is out of range [1, 65535]") {};
+};
+
+class UnknownProtocolError final : public UrlParsingError
+{
+public:
+	explicit UnknownProtocolError(std::string const& protocol)
+		: UrlParsingError("Protocol: \"" + protocol + "\" is unknown") {};
 };
 
 #endif // URL_PARSING_ERROR_H

@@ -18,15 +18,15 @@ HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protoc
 {
 	CollectUrl();
 	SetStandardPort();
-	m_url = m_domain + "/" + m_document;
 }
 
-HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protocol, const unsigned short port)
+HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protocol, const int port)
 	: m_domain(std::move(domain))
 	, m_document(std::move(document))
 	, m_protocol(protocol)
 	, m_port(port)
 {
+	CollectUrl();
 }
 
 std::string HttpUrl::GetURL() const

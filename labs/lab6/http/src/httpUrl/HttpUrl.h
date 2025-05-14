@@ -52,7 +52,7 @@ public:
 		std::string domain,
 		std::string document,
 		Protocol protocol,
-		unsigned short port);
+		int port);
 
 	// возвращает строковое представление URL-а. Порт, являющийся стандартным для
 	// выбранного протокола (80 для http и 443 для https) в эту строку
@@ -86,7 +86,7 @@ private:
 	const unsigned short k_httpPort{ 80 };
 	const unsigned short k_httpsPort{ 443 };
 
-	const auto k_schemeSeparator = "://";
+	const char* k_schemeSeparator = "://";
 
 	const unsigned short k_minPort{ 1 };
 	const unsigned short k_maxPort{ 65535 };

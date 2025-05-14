@@ -16,7 +16,7 @@ enum class SourceType
 
 constexpr int helpParametersCount = 2;
 
-const char helpFlag[]{ "-h" };
+constexpr char helpFlag[]{ "-h" };
 
 struct ReplaceConfig
 {

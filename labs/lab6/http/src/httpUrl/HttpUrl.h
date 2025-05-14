@@ -19,6 +19,9 @@ enum class Protocol
 constexpr std::string k_http = "http";
 constexpr std::string k_https = "https";
 
+constexpr unsigned short k_httpPort{ 80 };
+constexpr unsigned short k_httpsPort{ 443 };
+
 inline std::string ProtocolToString(const Protocol protocol)
 {
 	switch (protocol)
@@ -46,7 +49,6 @@ public:
 	// выполняет парсинг строкового представления URL-а, в случае ошибки парсинга
 	// выбрасывает исключение CUrlParsingError, содержащее текстовое описание ошибки
 	explicit HttpUrl(std::string const& url);
-	void CheckDomainNotEmpty() const;
 
 	/* инициализирует URL на основе переданных параметров.
 		При недопустимости входных параметров выбрасывает исключение
@@ -54,8 +56,8 @@ public:
 		Если имя документа не начинается с символа /, то добавляет / к имени документа
 	*/
 	HttpUrl(
-		std::string domain,
-		std::string document,
+		const std::string& domain,
+		const std::string& document,
 		Protocol protocol = Protocol::HTTP);
 
 	/* инициализирует URL на основе переданных параметров.
@@ -64,8 +66,8 @@ public:
 		Если имя документа не начинается с символа /, то добавляет / к имени документа
 	*/
 	HttpUrl(
-		std::string domain,
-		std::string document,
+		const std::string& domain,
+		const std::string& document,
 		Protocol protocol,
 		int port);
 
@@ -92,14 +94,11 @@ public:
 	[[nodiscard]] unsigned short GetPort() const;
 
 private:
-	std::string m_url;
-	std::string m_domain;
-	std::string m_document;
-	Protocol m_protocol;
-	unsigned short m_port;
-
-	const unsigned short k_httpPort{ 80 };
-	const unsigned short k_httpsPort{ 443 };
+	std::string m_url{};
+	std::string m_domain{ "localhost" };
+	std::string m_document{ "/" };
+	Protocol m_protocol{ Protocol::HTTP };
+	unsigned short m_port{ k_httpPort };
 
 	const char* k_schemeSeparator = "://";
 
@@ -109,13 +108,17 @@ private:
 	const std::regex k_urlRegex{ R"(^(\w+)://([^/:?#]+)(?::(\d+))?([^?#]*)$)",
 		std::regex::icase };
 
-	void SetStandardPort();
-	static std::string FormatDocument(std::string document);
-
-	void CollectUrl();
 	void CheckPort(int port) const;
+	static void CheckDomainNotEmpty(const std::string& domain);
 
 	static std::string ToLower(std::string str);
+
+	void SetProtocol(const std::string& newProtocol);
+	void SetPort(int newPort);
+	void SetStandardPort();
+	void SetDomain(const std::string& newDomain);
+	void SetDocument(const std::string& newDocument);
+	void CollectUrl();
 };
 
 #endif // HTTP_URL_H

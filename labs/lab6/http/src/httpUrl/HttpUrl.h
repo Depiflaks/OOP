@@ -5,6 +5,8 @@
 #ifndef HTTP_URL_H
 #define HTTP_URL_H
 
+#include "exception/UrlParsingError.h"
+
 #include <regex>
 #include <string>
 
@@ -14,15 +16,31 @@ enum class Protocol
 	HTTPS
 };
 
+constexpr std::string k_http = "http";
+constexpr std::string k_https = "https";
+
 inline std::string ProtocolToString(const Protocol protocol)
 {
 	switch (protocol)
 	{
 	case Protocol::HTTP:
-		return "http";
+		return k_http;
 	case Protocol::HTTPS:
 	default:
-		return "https";
+		return k_https;
+	}
+}
+
+inline Protocol StringToProtocol(const std::string& protocol)
+{
+	switch (protocol)
+	{
+	case k_http:
+		return Protocol::HTTP;
+	case k_https:
+		return Protocol::HTTPS;
+	default:
+		throw UnknownProtocolError(protocol);
 	}
 }
 
@@ -96,6 +114,9 @@ private:
 
 	void SetStandardPort();
 	void CollectUrl();
+	void CheckPort(int port) const;
+
+	static std::string ToLower(std::string const& str);
 };
 
 #endif // HTTP_URL_H

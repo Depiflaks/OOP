@@ -4,10 +4,26 @@
 
 #include "HttpUrl.h"
 
+#include "exception/UrlParsingError.h"
+
 #include <utility>
 
 HttpUrl::HttpUrl(std::string const& url)
 {
+	std::smatch match;
+	if (!std::regex_match(url, match, k_urlRegex))
+		throw HttpPatternMissmatchError(url);
+
+	m_protocol =
+	result.protocol = ToLower(match[1]);
+	result.domain = ToLower(match[2]);
+	result.document = match[4].str().empty() ? '/' : match[4];
+
+	const int port = std::stoi(match[3]);
+	CheckPort(port);
+	m_port = static_cast<unsigned short>(port);
+
+	CollectUrl();
 }
 
 HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protocol)
@@ -16,16 +32,18 @@ HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protoc
 	, m_protocol(protocol)
 	, m_port(80)
 {
-	CollectUrl();
 	SetStandardPort();
+	CollectUrl();
 }
 
 HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protocol, const int port)
 	: m_domain(std::move(domain))
 	, m_document(std::move(document))
 	, m_protocol(protocol)
-	, m_port(port)
+	, m_port()
 {
+	CheckPort(port);
+	m_port = port;
 	CollectUrl();
 }
 
@@ -83,4 +101,17 @@ void HttpUrl::CollectUrl()
 		oss << m_document;
 
 	m_url = oss.str();
+}
+
+void HttpUrl::CheckPort(const int port) const
+{
+	if (port < k_minPort || port > k_maxPort)
+		throw PortOutOfRangeError(m_port);
+}
+
+std::string HttpUrl::ToLower(std::string const& str)
+{
+	std::transform(str.begin(), str.end(), str.begin(),
+		[](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
+	return str;
 }

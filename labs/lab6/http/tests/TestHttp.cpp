@@ -43,7 +43,7 @@ TEST(HttpUrl_StringConstructor, ParsesUrlWithCustomPort) {
 // --- Проверки конструкторов по параметрам ---
 
 TEST(HttpUrl_ParamsConstructor, DefaultHttpPortInserted) {
-    HttpUrl url("myhost.local", "doc/page.html", Protocol::HTTP);
+    HttpUrl url("myhost.local", "/doc/page.html", Protocol::HTTP);
     EXPECT_EQ(url.GetProtocol(), Protocol::HTTP);
     EXPECT_EQ(url.GetDomain(), "myhost.local");
     EXPECT_EQ(url.GetDocument(), "/doc/page.html");

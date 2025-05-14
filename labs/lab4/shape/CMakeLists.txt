@@ -47,6 +47,7 @@ target_include_directories(shape_app PRIVATE
 # ==== TESTS ====
 
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/GlCanvas\\.cpp$")
+list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/openGl\\.cpp$")
 file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "tests/*.cpp")
 
 if (TEST_SOURCES)

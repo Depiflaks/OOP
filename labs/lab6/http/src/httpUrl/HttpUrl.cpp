@@ -6,7 +6,27 @@
 
 #include "exception/UrlParsingError.h"
 
+#include <optional>
 #include <utility>
+
+struct UrlParameters
+{
+	explicit UrlParameters(std::smatch& match)
+	{
+		m_protocol = match[1].str();
+		m_domain = match[2].str();
+		if (match[3].matched)
+			m_port = std::stoi(match[3]);
+		else
+			m_port = std::nullopt;
+		m_document = match[4].str();
+	}
+
+	std::string m_domain;
+	std::string m_document;
+	std::string m_protocol;
+	std::optional<int> m_port;
+};
 
 HttpUrl::HttpUrl(std::string const& url)
 {
@@ -14,34 +34,41 @@ HttpUrl::HttpUrl(std::string const& url)
 	if (!std::regex_match(url, match, k_urlRegex))
 		throw HttpPatternMissmatchError(url);
 
-	m_protocol = StringToProtocol(ToLower(match[1].str()));
-	m_domain = ToLower(match[2].str());
+	const UrlParameters params(match);
+	m_protocol = StringToProtocol(ToLower(params.m_protocol));
+	m_domain = ToLower(params.m_domain);
 
-	const int port = std::stoi(match[3]);
-	CheckPort(port);
-	m_port = static_cast<unsigned short>(port);
+	if (params.m_port.has_value())
+	{
+		CheckPort(*params.m_port);
+		m_port = static_cast<unsigned short>(*params.m_port);
+	}
+	else
+		SetStandardPort();
 
-	m_document = FormatDocument(match[4].str());
+	m_document = FormatDocument(params.m_document);
 
 	CollectUrl();
 }
 
 HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protocol)
-	: m_domain(std::move(domain))
-	, m_document(std::move(document))
+	: m_domain(ToLower(std::move(domain)))
+	, m_document(FormatDocument(std::move(document)))
 	, m_protocol(protocol)
 	, m_port(80)
 {
+	CheckDomainNotEmpty();
 	SetStandardPort();
 	CollectUrl();
 }
 
 HttpUrl::HttpUrl(std::string domain, std::string document, const Protocol protocol, const int port)
-	: m_domain(std::move(domain))
-	, m_document(std::move(document))
+	: m_domain(ToLower(std::move(domain)))
+	, m_document(FormatDocument(std::move(document)))
 	, m_protocol(protocol)
 	, m_port()
 {
+	CheckDomainNotEmpty();
 	CheckPort(port);
 	m_port = port;
 	CollectUrl();
@@ -114,6 +141,12 @@ void HttpUrl::CheckPort(const int port) const
 {
 	if (port < k_minPort || port > k_maxPort)
 		throw PortOutOfRangeError(m_port);
+}
+
+void HttpUrl::CheckDomainNotEmpty() const
+{
+	if (m_domain.empty())
+		throw EmptyDomainError();
 }
 
 std::string HttpUrl::ToLower(std::string str)

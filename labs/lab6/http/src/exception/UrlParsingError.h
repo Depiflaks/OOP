@@ -27,6 +27,13 @@ public:
 		: UrlParsingError("Port " + std::to_string(port) + " is out of range [1, 65535]") {};
 };
 
+class EmptyDomainError final : public UrlParsingError
+{
+public:
+	explicit EmptyDomainError()
+		: UrlParsingError("Domain name cannot be empty") {};
+};
+
 class UnknownProtocolError final : public UrlParsingError
 {
 public:

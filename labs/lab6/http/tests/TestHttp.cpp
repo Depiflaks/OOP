@@ -91,13 +91,13 @@ TEST(HttpUrl_StringConstructor, ThrowsOnPortOutOfRange) {
 TEST(HttpUrl_ParamsConstructor, ThrowsOnEmptyDomain) {
     EXPECT_THROW({
         HttpUrl url("", "/doc", Protocol::HTTP);
-    }, std::invalid_argument);
+    }, EmptyDomainError);
 }
 
 TEST(HttpUrl_ParamsWithPortConstructor, ThrowsOnZeroPort) {
     EXPECT_THROW({
         HttpUrl url("example.com", "/doc", Protocol::HTTP, 0);
-    }, std::invalid_argument);
+    }, PortOutOfRangeError);
 }
 
 TEST(HttpUrl_ParamsWithPortConstructor, ThrowsOnPortTooLarge) {

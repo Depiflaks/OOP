@@ -4,6 +4,8 @@
 
 #ifndef HTTP_URL_H
 #define HTTP_URL_H
+
+#include <regex>
 #include <string>
 
 enum class Protocol
@@ -25,8 +27,8 @@ public:
 		Если имя документа не начинается с символа /, то добавляет / к имени документа
 	*/
 	HttpUrl(
-		std::string const& domain,
-		std::string const& document,
+		std::string domain,
+		std::string document,
 		Protocol protocol = Protocol::HTTP);
 
 	/* инициализирует URL на основе переданных параметров.
@@ -35,8 +37,8 @@ public:
 		Если имя документа не начинается с символа /, то добавляет / к имени документа
 	*/
 	HttpUrl(
-		std::string const& domain,
-		std::string const& document,
+		std::string domain,
+		std::string document,
 		Protocol protocol,
 		unsigned short port);
 
@@ -61,6 +63,24 @@ public:
 
 	// возвращает номер порта
 	unsigned short GetPort() const;
+
+private:
+	std::string m_url;
+	std::string m_domain;
+	std::string m_document;
+	Protocol m_protocol;
+	unsigned short m_port;
+
+	const unsigned short k_httpPort{ 80 };
+	const unsigned short k_httpsPort{ 443 };
+
+	const unsigned short k_minPort{ 1 };
+	const unsigned short k_maxPort{ 65535 };
+
+	const std::regex k_urlRegex{ R"(^(\w+)://([^/:?#]+)(?::(\d+))?([^?#]*)$)",
+		std::regex::icase };
+
+	void SetStandardPort();
 };
 
 #endif // HTTP_URL_H

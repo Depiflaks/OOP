@@ -22,7 +22,6 @@ add_executable(http_app
         src/httpUrl/HttpUrl.h
         src/exception/UrlParsingError.cpp
         src/exception/UrlParsingError.h
-        tests/TestHttp.cpp
 )
 
 target_include_directories(http_app PRIVATE

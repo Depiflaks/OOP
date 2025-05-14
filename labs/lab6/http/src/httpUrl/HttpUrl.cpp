@@ -14,14 +14,14 @@ HttpUrl::HttpUrl(std::string const& url)
 	if (!std::regex_match(url, match, k_urlRegex))
 		throw HttpPatternMissmatchError(url);
 
-	m_protocol =
-	result.protocol = ToLower(match[1]);
-	result.domain = ToLower(match[2]);
-	result.document = match[4].str().empty() ? '/' : match[4];
+	m_protocol = StringToProtocol(ToLower(match[1].str()));
+	m_domain = ToLower(match[2].str());
 
 	const int port = std::stoi(match[3]);
 	CheckPort(port);
 	m_port = static_cast<unsigned short>(port);
+
+	m_document = FormatDocument(match[4].str());
 
 	CollectUrl();
 }
@@ -103,13 +103,20 @@ void HttpUrl::CollectUrl()
 	m_url = oss.str();
 }
 
+std::string HttpUrl::FormatDocument(std::string document)
+{
+	if (document.empty() || document[0] != '/')
+		document = "/" + document;
+	return document;
+}
+
 void HttpUrl::CheckPort(const int port) const
 {
 	if (port < k_minPort || port > k_maxPort)
 		throw PortOutOfRangeError(m_port);
 }
 
-std::string HttpUrl::ToLower(std::string const& str)
+std::string HttpUrl::ToLower(std::string str)
 {
 	std::transform(str.begin(), str.end(), str.begin(),
 		[](const unsigned char c) { return static_cast<char>(std::tolower(c)); });

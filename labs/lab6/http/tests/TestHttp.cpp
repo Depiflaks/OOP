@@ -23,7 +23,6 @@ TEST(HttpUrl_StringConstructor, ParsesSimpleHttpUrl) {
 
 TEST(HttpUrl_StringConstructor, ParsesHttpsUrlWithDefaultPort) {
     HttpUrl url("https://Example.COM/path");
-    // протокол и домен в нижнем регистре
     EXPECT_EQ(url.GetProtocol(), Protocol::HTTPS);
     EXPECT_EQ(url.GetDomain(), "example.com");
     EXPECT_EQ(url.GetDocument(), "/path");

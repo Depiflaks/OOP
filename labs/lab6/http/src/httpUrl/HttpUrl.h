@@ -33,15 +33,11 @@ inline std::string ProtocolToString(const Protocol protocol)
 
 inline Protocol StringToProtocol(const std::string& protocol)
 {
-	switch (protocol)
-	{
-	case k_http:
+	if (protocol == k_http)
 		return Protocol::HTTP;
-	case k_https:
+	if (protocol == k_https)
 		return Protocol::HTTPS;
-	default:
-		throw UnknownProtocolError(protocol);
-	}
+	throw UnknownProtocolError(protocol);
 }
 
 class HttpUrl
@@ -49,7 +45,7 @@ class HttpUrl
 public:
 	// выполняет парсинг строкового представления URL-а, в случае ошибки парсинга
 	// выбрасывает исключение CUrlParsingError, содержащее текстовое описание ошибки
-	HttpUrl(std::string const& url);
+	explicit HttpUrl(std::string const& url);
 
 	/* инициализирует URL на основе переданных параметров.
 		При недопустимости входных параметров выбрасывает исключение
@@ -113,10 +109,12 @@ private:
 		std::regex::icase };
 
 	void SetStandardPort();
+	static std::string FormatDocument(std::string document);
+
 	void CollectUrl();
 	void CheckPort(int port) const;
 
-	static std::string ToLower(std::string const& str);
+	static std::string ToLower(std::string str);
 };
 
 #endif // HTTP_URL_H

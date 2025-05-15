@@ -8,7 +8,7 @@
 #include <iostream>
 #include <sstream>
 
-void ParseAndExecuteCommand(TVSet tv, const std::string& line)
+void ParseAndExecuteCommand(TVSet& tv, const std::string& line)
 {
 	std::istringstream iss(line);
 	std::string command;
@@ -37,11 +37,11 @@ void ProcessTvCommands()
 {
 	std::string line;
 
+	TVSet tv;
 	while (std::getline(std::cin, line))
 	{
 		try
 		{
-			TVSet tv;
 			ParseAndExecuteCommand(tv, line);
 		}
 		catch (const TVSetError& e)

@@ -7,6 +7,10 @@
 #include "exception/TVSetError.h"
 
 #include <iostream>
+
+constexpr int k_minChannel = 1;
+constexpr int k_maxChannel = 99;
+
 void TVSet::TurnOn()
 {
 	m_isTurnedOn = true;
@@ -28,9 +32,7 @@ void TVSet::SelectChannel(const int channel)
 		PrintChannelChange();
 	}
 	else
-	{
 		PrintPowerStatus();
-	}
 }
 
 void TVSet::Info() const

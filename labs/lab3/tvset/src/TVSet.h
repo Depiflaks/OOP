@@ -19,7 +19,7 @@ public:
 
 private:
 	bool m_isTurnedOn{false};
-	bool m_channel{ 0 };
+	int m_channel{ 0 };
 
 	static void CheckChannelInExpectedRange(int channel);
 

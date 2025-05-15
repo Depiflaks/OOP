@@ -17,7 +17,7 @@ list(REMOVE_ITEM SOURCES
 # Основное приложение
 add_executable(tv_set_app
         main.cpp
-        ${SOURCES}
+#        ${SOURCES}
         src/TVSet.cpp
         src/TVSet.h
         src/exception/TVSetError.cpp
@@ -32,7 +32,6 @@ target_include_directories(tv_set_app PRIVATE
 
 find_package(GTest REQUIRED)
 include(GoogleTest)
-
 
 file(GLOB TEST_SOURCES "tests/*.cpp")
 if (TEST_SOURCES)

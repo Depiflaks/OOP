@@ -10,11 +10,13 @@
 void TVSet::TurnOn()
 {
 	m_isTurnedOn = true;
+	PrintPowerStatus();
 }
 
 void TVSet::TurnOff()
 {
 	m_isTurnedOn = false;
+	PrintPowerStatus();
 }
 
 void TVSet::SelectChannel(const int channel)
@@ -23,6 +25,11 @@ void TVSet::SelectChannel(const int channel)
 	{
 		CheckChannelInExpectedRange(channel);
 		m_channel = channel;
+		PrintChannelChange();
+	}
+	else
+	{
+		PrintPowerStatus();
 	}
 }
 
@@ -51,5 +58,5 @@ void TVSet::PrintChannelStatus() const
 
 void TVSet::PrintPowerStatus() const
 {
-	std::cout << "TV is turned" << (m_isTurnedOn ? "on" : "off") << '\n';
+	std::cout << "TV is turned " << (m_isTurnedOn ? "on" : "off") << '\n';
 }

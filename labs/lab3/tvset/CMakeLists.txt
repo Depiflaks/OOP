@@ -17,11 +17,7 @@ list(REMOVE_ITEM SOURCES
 # Основное приложение
 add_executable(tv_set_app
         main.cpp
-#        ${SOURCES}
-        src/TVSet.cpp
-        src/TVSet.h
-        src/exception/TVSetError.cpp
-        src/exception/TVSetError.h
+        ${SOURCES}
 )
 
 target_include_directories(tv_set_app PRIVATE

@@ -35,7 +35,7 @@ void TVSet::SelectChannel(const int channel)
 
 void TVSet::Info() const
 {
-	PrintChannelStatus();
+	PrintPowerStatus();
 	if (m_isTurnedOn)
 		PrintChannelStatus();
 }

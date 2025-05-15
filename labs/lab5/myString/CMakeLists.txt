@@ -18,6 +18,8 @@ list(REMOVE_ITEM SOURCES
 add_executable(my_string_app
         main.cpp
         ${SOURCES}
+        src/MyString.cpp
+        src/MyString.h
 )
 
 target_include_directories(my_string_app PRIVATE

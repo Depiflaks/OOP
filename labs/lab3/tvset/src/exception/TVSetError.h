@@ -8,7 +8,16 @@
 
 class TVSetError : public std::runtime_error
 {
+public:
+	using std::runtime_error::runtime_error;
+	~TVSetError() override = default;
+};
 
+class ChannelOutOfRangeError final : public TVSetError
+{
+public:
+	ChannelOutOfRangeError()
+		: TVSetError("ERROR") {};
 };
 
 #endif // TVSETERROR_H

@@ -11,14 +11,21 @@ constexpr int k_maxChannel = 99;
 class TVSet
 {
 public:
+	TVSet() = default;
 	void TurnOn();
 	void TurnOff();
 	void SelectChannel(int channel);
-	void Info();
+	void Info() const;
 
 private:
 	bool m_isTurnedOn{false};
-	bool m_channel{};
+	bool m_channel{ 0 };
+
+	static void CheckChannelInExpectedRange(int channel);
+
+	void PrintChannelChange() const;
+	void PrintChannelStatus() const;
+	void PrintPowerStatus() const;
 };
 
 #endif // TVSET_H

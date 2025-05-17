@@ -25,7 +25,7 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 # ==== APP ====
 
 add_executable(my_array_app
-    main.cpp
+        main.cpp
     ${ALL_SOURCES}
         src/myArray/MyArray.cpp
         src/myArray/MyArray.h
@@ -36,7 +36,7 @@ target_link_libraries(my_array_app
 )
 
 target_include_directories(my_array_app PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+        src
 )
 
 # ==== TESTS ====
@@ -50,7 +50,7 @@ if (TEST_SOURCES)
     )
 
     target_include_directories(my_array_tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+            src
     )
 
     target_link_libraries(my_array_tests

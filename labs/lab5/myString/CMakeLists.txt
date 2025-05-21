@@ -20,6 +20,7 @@ add_executable(my_string_app
         ${SOURCES}
         src/MyString.cpp
         src/MyString.h
+        src/exception/MyStringException.h
 )
 
 target_include_directories(my_string_app PRIVATE

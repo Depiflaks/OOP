@@ -4,6 +4,8 @@
 
 #include "MyString.h"
 
+#include "exception/MyStringException.h"
+
 #include <cstring>
 
 static char k_stringEnd[] = { '\0' };
@@ -89,6 +91,8 @@ size_t MyString::GetCapacity() const
 
 char& MyString::operator[](const size_t index) const
 {
+	if (index >= m_length)
+		throw IndexOutOfRangeException(index);
 	return m_data[index];
 }
 

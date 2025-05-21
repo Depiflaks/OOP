@@ -144,147 +144,168 @@ TEST(PlusEqual, ConstCharToMyString)
 	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
 }
 
-// TEST(Equal, CompareEqual)
-// {
-// 	MyString a("same");
-// 	MyString b("same");
-// 	EXPECT_TRUE(a == b);
-// }
-//
-// TEST(Equal, StdStringAndMyString)
-// {
-// 	MyString a("test");
-// 	std::string b = "test";
-// 	EXPECT_TRUE(a == b);
-// 	EXPECT_TRUE(b == a);
-// }
-//
-// TEST(Equal, ConstCharAndMyString)
-// {
-// 	MyString a("match");
-// 	const char* b = "match";
-// 	EXPECT_TRUE(a == b);
-// 	EXPECT_TRUE(b == a);
-// }
-//
-// TEST(NotEqual, CompareNotEqual)
-// {
-// 	MyString a("abc");
-// 	MyString b("def");
-// 	EXPECT_TRUE(a != b);
-// }
-//
-// TEST(NotEqual, StdStringAndMyString)
-// {
-// 	MyString a("abc");
-// 	std::string b = "def";
-// 	EXPECT_TRUE(a != b);
-// 	EXPECT_TRUE(b != a);
-// }
-//
-// TEST(NotEqual, ConstCharAndMyString)
-// {
-// 	MyString a("left");
-// 	const char* b = "right";
-// 	EXPECT_TRUE(a != b);
-// 	EXPECT_TRUE(b != a);
-// }
-//
-// TEST(Less, LexicographicalOrder)
-// {
-// 	MyString a("abc");
-// 	MyString b("bcd");
-// 	EXPECT_TRUE(a < b);
-// }
-//
-// TEST(Less, StdStringAndMyString)
-// {
-// 	MyString a("abc");
-// 	std::string b = "bcd";
-// 	EXPECT_TRUE(a < b);
-// 	EXPECT_FALSE(b < a);
-// }
-//
-// TEST(Less, ConstCharAndMyString)
-// {
-// 	MyString a("abc");
-// 	const char* b = "xyz";
-// 	EXPECT_TRUE(a < b);
-// 	EXPECT_FALSE(b < a);
-// }
-//
-// TEST(Greater, LexicographicalOrder)
-// {
-// 	MyString a("xyz");
-// 	MyString b("uvw");
-// 	EXPECT_TRUE(a > b);
-// }
-//
-// TEST(Greater, StdStringAndMyString)
-// {
-// 	MyString a("zzz");
-// 	std::string b = "aaa";
-// 	EXPECT_TRUE(a > b);
-// 	EXPECT_FALSE(b > a);
-// }
-//
-// TEST(Greater, ConstCharAndMyString)
-// {
-// 	MyString a("hello");
-// 	const char* b = "abc";
-// 	EXPECT_TRUE(a > b);
-// 	EXPECT_FALSE(b > a);
-// }
-//
-// TEST(LessEqual, LexicographicalOrder)
-// {
-// 	MyString a("abc");
-// 	MyString b("abc");
-// 	MyString c("abd");
-// 	EXPECT_TRUE(a <= b);
-// 	EXPECT_TRUE(a <= c);
-// }
-//
-// TEST(GreaterEqual, LexicographicalOrder)
-// {
-// 	MyString a("abc");
-// 	MyString b("abc");
-// 	MyString c("abb");
-// 	EXPECT_TRUE(a >= b);
-// 	EXPECT_TRUE(a >= c);
-// }
-//
-// TEST(LessEqual, StdStringAndMyString)
-// {
-// 	MyString a("abc");
-// 	std::string b = "abc";
-// 	EXPECT_TRUE(a <= b);
-// 	EXPECT_TRUE(b <= a);
-// }
-//
-// TEST(LessEqual, ConstCharAndMyString)
-// {
-// 	MyString a("aaa");
-// 	const char* b = "bbb";
-// 	EXPECT_TRUE(a <= b);
-// 	EXPECT_FALSE(b <= a);
-// }
-//
-// TEST(GreaterEqual, StdStringAndMyString)
-// {
-// 	MyString a("zzz");
-// 	std::string b = "zzz";
-// 	EXPECT_TRUE(a >= b);
-// 	EXPECT_TRUE(b >= a);
-// }
-//
-// TEST(GreaterEqual, ConstCharAndMyString)
-// {
-// 	MyString a("ccc");
-// 	const char* b = "bbb";
-// 	EXPECT_TRUE(a >= b);
-// 	EXPECT_FALSE(b >= a);
-// }
+TEST(Equal, CompareEqual)
+{
+	MyString a("same");
+	MyString b("same");
+	EXPECT_TRUE(a == b);
+}
+
+TEST(Equal, SamePrefix)
+{
+	MyString a("samea");
+	MyString b("same");
+	EXPECT_TRUE(a != b);
+}
+
+TEST(Equal, StdStringAndMyString)
+{
+	MyString a("test");
+	std::string b = "test";
+	EXPECT_TRUE(a == b);
+	EXPECT_TRUE(b == a);
+}
+
+TEST(Equal, ConstCharAndMyString)
+{
+	MyString a("match");
+	const char* b = "match";
+	EXPECT_TRUE(a == b);
+	EXPECT_TRUE(b == a);
+}
+
+TEST(NotEqual, CompareNotEqual)
+{
+	MyString a("abc");
+	MyString b("def");
+	EXPECT_TRUE(a != b);
+}
+
+TEST(NotEqual, StdStringAndMyString)
+{
+	MyString a("abc");
+	std::string b = "def";
+	EXPECT_TRUE(a != b);
+	EXPECT_TRUE(b != a);
+}
+
+TEST(NotEqual, ConstCharAndMyString)
+{
+	MyString a("left");
+	const char* b = "right";
+	EXPECT_TRUE(a != b);
+	EXPECT_TRUE(b != a);
+}
+
+TEST(Less, LexicographicalOrder)
+{
+	MyString a("abc");
+	MyString b("bcd");
+	EXPECT_TRUE(a < b);
+}
+
+TEST(Less, SamePrefix)
+{
+	MyString a("abc");
+	MyString b("abcd");
+	EXPECT_TRUE(a < b);
+}
+
+TEST(Less, StdStringAndMyString)
+{
+	MyString a("abc");
+	std::string b = "bcd";
+	EXPECT_TRUE(a < b);
+	EXPECT_FALSE(b < a);
+}
+
+TEST(Less, ConstCharAndMyString)
+{
+	MyString a("abc");
+	const char* b = "xyz";
+	EXPECT_TRUE(a < b);
+	EXPECT_FALSE(b < a);
+}
+
+TEST(Greater, LexicographicalOrder)
+{
+	MyString a("xyz");
+	MyString b("uvw");
+	EXPECT_TRUE(a > b);
+}
+
+TEST(Greater, SamePrefix)
+{
+	MyString a("abc");
+	MyString b("abcd");
+	EXPECT_TRUE(b > a);
+}
+
+TEST(Greater, StdStringAndMyString)
+{
+	MyString a("zzz");
+	std::string b = "aaa";
+	EXPECT_TRUE(a > b);
+	EXPECT_FALSE(b > a);
+}
+
+TEST(Greater, ConstCharAndMyString)
+{
+	MyString a("hello");
+	const char* b = "abc";
+	EXPECT_TRUE(a > b);
+	EXPECT_FALSE(b > a);
+}
+
+TEST(LessEqual, LexicographicalOrder)
+{
+	MyString a("abc");
+	MyString b("abc");
+	MyString c("abd");
+	EXPECT_TRUE(a <= b);
+	EXPECT_TRUE(a <= c);
+}
+
+TEST(GreaterEqual, LexicographicalOrder)
+{
+	MyString a("abc");
+	MyString b("abc");
+	MyString c("abb");
+	EXPECT_TRUE(a >= b);
+	EXPECT_TRUE(a >= c);
+}
+
+TEST(LessEqual, StdStringAndMyString)
+{
+	MyString a("abc");
+	std::string b = "abc";
+	EXPECT_TRUE(a <= b);
+	EXPECT_TRUE(b <= a);
+}
+
+TEST(LessEqual, ConstCharAndMyString)
+{
+	MyString a("aaa");
+	const char* b = "bbb";
+	EXPECT_TRUE(a <= b);
+	EXPECT_FALSE(b <= a);
+}
+
+TEST(GreaterEqual, StdStringAndMyString)
+{
+	MyString a("zzz");
+	std::string b = "zzz";
+	EXPECT_TRUE(a >= b);
+	EXPECT_TRUE(b >= a);
+}
+
+TEST(GreaterEqual, ConstCharAndMyString)
+{
+	MyString a("ccc");
+	const char* b = "bbb";
+	EXPECT_TRUE(a >= b);
+	EXPECT_FALSE(b >= a);
+}
 
 TEST(Index, ReadAccess)
 {

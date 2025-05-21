@@ -67,21 +67,39 @@ private:
 	void InitFromBuffer(const char* pString, size_t length);
 };
 
-// inline std::strong_ordering operator<=>(const MyString& lhs, const MyString& rhs)
-// {
-// 	int cmp = std::strcmp(lhs.GetStringData(), rhs.GetStringData());
-// 	if (cmp < 0)
-// 		return std::strong_ordering::less;
-// 	if (cmp > 0)
-// 		return std::strong_ordering::greater;
-// 	return std::strong_ordering::equal;
-// }
-//
-// inline bool operator==(const MyString& lhs, const MyString& rhs)
-// {
-//
-// 	return;
-// };
+inline std::strong_ordering operator<=>(const MyString& lhs, const MyString& rhs)
+{
+	const size_t minLength = std::min(lhs.GetLength(), rhs.GetLength());
+
+	for (size_t i = 0; i < minLength; ++i)
+	{
+		if (lhs[i] < rhs[i])
+			return std::strong_ordering::less;
+		if (lhs[i] > rhs[i])
+			return std::strong_ordering::greater;
+	}
+
+	if (lhs.GetLength() < rhs.GetLength())
+		return std::strong_ordering::less;
+	if (lhs.GetLength() > rhs.GetLength())
+		return std::strong_ordering::greater;
+
+	return std::strong_ordering::equal;
+}
+
+inline bool operator==(const MyString& lhs, const MyString& rhs)
+{
+	if (lhs.GetLength() != rhs.GetLength())
+		return false;
+
+	for (size_t i = 0; i < lhs.GetLength(); ++i)
+	{
+		if (lhs[i] != rhs[i])
+			return false;
+	}
+
+	return true;
+}
 
 inline MyString operator+(const MyString& lhs, const MyString& rhs)
 {

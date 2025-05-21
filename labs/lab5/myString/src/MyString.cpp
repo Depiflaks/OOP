@@ -6,11 +6,11 @@
 
 #include <cstring>
 
-char* k_emptyString = { '\0' };
+static char k_stringEnd[] = { '\0' };
 
 MyString::MyString()
 {
-	m_data = k_emptyString;
+	m_data = k_stringEnd;
 }
 
 MyString::MyString(const char* pString)
@@ -33,9 +33,9 @@ MyString::MyString(MyString&& other) noexcept
 	, m_length(other.m_length)
 	, m_capacity(other.m_capacity)
 {
-	other.m_data = k_emptyString;
 	other.m_length = 0;
 	other.m_capacity = 0;
+	other.m_data = k_stringEnd;
 }
 
 MyString::MyString(std::string const& stlString)
@@ -45,7 +45,8 @@ MyString::MyString(std::string const& stlString)
 
 MyString::~MyString()
 {
-	delete[] m_data;
+	if (m_data != k_stringEnd)
+		delete[] m_data;
 }
 
 size_t MyString::GetLength() const
@@ -65,10 +66,11 @@ MyString MyString::SubString(const size_t start, const size_t length) const
 
 void MyString::Clear()
 {
-	delete[] m_data;
+	if (m_data != k_stringEnd)
+		delete[] m_data;
 	m_length = 0;
 	m_capacity = 0;
-	m_data = k_emptyString;
+	m_data = k_stringEnd;
 }
 
 size_t MyString::GetCapacity() const
@@ -83,6 +85,6 @@ void MyString::InitFromBuffer(const char* pString, const size_t length)
 	m_length = length;
 	m_capacity = m_length;
 	m_data = new char[m_capacity + 1];
-	m_data[m_length] = *k_emptyString;
+	m_data[m_length] = *k_stringEnd;
 	std::memcpy(m_data, pString, m_length);
 }

@@ -52,14 +52,12 @@ public:
 	void Clear();
 
 	// Возвращает вместимость строки
-	size_t GetCapacity() const;
+	[[nodiscard]] size_t GetCapacity() const;
 
 private:
 	char* m_data{nullptr};
 	size_t m_length{ 0 };
 	size_t m_capacity{ 0 };
-
-	void Resize(size_t newCapacity);
 };
 
 #endif // MYSTRING_H

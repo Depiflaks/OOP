@@ -5,7 +5,7 @@
 #include "../src/MyString.h"
 #include <gtest/gtest.h>
 
-TEST(MyStringTest, ConstructorFromCString)
+TEST(ConstructorFromC, Standart)
 {
 	MyString str("hello");
 	EXPECT_EQ(str.GetLength(), 5u);
@@ -13,7 +13,7 @@ TEST(MyStringTest, ConstructorFromCString)
 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
 }
 
-TEST(MyStringTest, ConstructorFromCStringAndLength)
+TEST(ConstructorFromC, StringAndLength)
 {
 	const char* data = "hello world";
 	MyString str(data, 5);
@@ -23,7 +23,7 @@ TEST(MyStringTest, ConstructorFromCStringAndLength)
 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
 }
 
-TEST(MyStringTest, ConstructorFromCLengthMoreThenString)
+TEST(ConstructorFromC, LengthMoreThenString)
 {
 	const char* str = "abc";
 	size_t declaredLength = 6;
@@ -40,7 +40,7 @@ TEST(MyStringTest, ConstructorFromCLengthMoreThenString)
 	}
 }
 
-TEST(MyStringTest, ConstructorFromStdString)
+TEST(ConstructorFromStd, Standart)
 {
 	std::string stdStr = "world";
 	MyString str(stdStr);
@@ -50,7 +50,7 @@ TEST(MyStringTest, ConstructorFromStdString)
 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
 }
 
-TEST(MyStringTest, SubStringReturnsCorrectLength)
+TEST(SubString, ReturnsCorrectLength)
 {
 	MyString str("abcdef");
 	MyString sub = str.SubString(2, 3);
@@ -59,7 +59,7 @@ TEST(MyStringTest, SubStringReturnsCorrectLength)
 	EXPECT_EQ(sub.GetStringData()[sub.GetLength()], '\0');
 }
 
-TEST(MyStringTest, SubStringOutOfRangeHandledGracefully)
+TEST(SubString, OutOfRangeHandledGracefully)
 {
     MyString s("abcdef");
     size_t originalLength = s.GetLength();
@@ -78,7 +78,7 @@ TEST(MyStringTest, SubStringOutOfRangeHandledGracefully)
         EXPECT_EQ(sub.GetStringData()[i], s.GetStringData()[start + i]);
     }
 }
-TEST(MyStringTest, SubStringWithoutLength)
+TEST(SubString, WithoutLength)
 {
     MyString s("abcdef");
     size_t originalLength = s.GetLength();
@@ -97,7 +97,7 @@ TEST(MyStringTest, SubStringWithoutLength)
     }
 }
 
-TEST(MyStringTest, MoveConstructorDoesNotThrowAndLeavesDonorEmpty)
+TEST(MoveConstructor, DoesNotThrowAndLeavesDonorEmpty)
 {
 	MyString source("move me");
 	size_t originalLength = source.GetLength();
@@ -109,5 +109,39 @@ TEST(MyStringTest, MoveConstructorDoesNotThrowAndLeavesDonorEmpty)
 		EXPECT_EQ(source.GetLength(), 0u);
 		EXPECT_STREQ(source.GetStringData(), "");
 		EXPECT_EQ(source.GetStringData()[source.GetLength()], '\0');
+	});
+}
+TEST(ClearMethod, ClearsStringCorrectly)
+{
+	MyString str("hello");
+	EXPECT_NO_THROW({
+		str.Clear();
+		EXPECT_EQ(str.GetLength(), 0u);
+		EXPECT_STREQ(str.GetStringData(), "");
+		EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
+	});
+}
+
+TEST(ClearMethod, DoubleClearDoesNotThrow)
+{
+	MyString str("hello");
+	EXPECT_NO_THROW({
+		str.Clear();
+		str.Clear();
+		EXPECT_EQ(str.GetLength(), 0u);
+		EXPECT_STREQ(str.GetStringData(), "");
+		EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
+	});
+}
+
+TEST(ClearMethod, ClearAfterMoveDoesNotThrow)
+{
+	MyString str("to be moved");
+	MyString moved = std::move(str);
+	EXPECT_NO_THROW({
+		str.Clear();
+		EXPECT_EQ(str.GetLength(), 0u);
+		EXPECT_STREQ(str.GetStringData(), "");
+		EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
 	});
 }

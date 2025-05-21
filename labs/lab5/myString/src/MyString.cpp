@@ -60,7 +60,7 @@ const char* MyString::GetStringData() const
 
 MyString MyString::SubString(const size_t start, const size_t length) const
 {
-	return MyString{ m_data + start, length };
+	return MyString{ m_data + start, std::min(m_length - start, length) };
 }
 
 void MyString::Clear()

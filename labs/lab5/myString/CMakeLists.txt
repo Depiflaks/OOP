@@ -20,6 +20,8 @@ add_executable(my_string_app
         ${SOURCES}
         src/MyString.cpp
         src/MyString.h
+        tests/MyStringTest.h
+        tests/ConstructorTests.cpp
 )
 
 target_include_directories(my_string_app PRIVATE

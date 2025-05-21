@@ -10,8 +10,6 @@
 #include <ostream>
 #include <string>
 
-constexpr int k_readBufferSize = 100;
-
 class MyString
 {
 public:
@@ -126,21 +124,9 @@ inline std::ostream& operator<<(std::ostream& os, const MyString& str)
 inline std::istream& operator>>(std::istream& is, MyString& str)
 {
 	str.Clear();
-	const auto buffer = new char[k_readBufferSize + 1];
-	buffer[k_readBufferSize] = '\0';
-	int currentSize = 0;
 	char ch;
 	while (is.get(ch) && !is.fail() && !is.eof() && !std::isspace(static_cast<unsigned char>(ch)))
-		if (currentSize == k_readBufferSize)
-		{
-			str += MyString(buffer);
-			currentSize = 0;
-		}
-		else
-			buffer[currentSize++] = ch;
-
-	str += MyString(buffer, currentSize);
-	delete[] buffer;
+		str += ch;
 	return is;
 }
 

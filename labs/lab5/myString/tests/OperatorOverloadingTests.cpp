@@ -5,44 +5,64 @@
 #include <gtest/gtest.h>
 #include <sstream>
 
-// TEST(Assignment, CopyAssignment)
-// {
-// 	MyString str1("Hello,");
-// 	MyString str2("World");
-// 	str2 = str1;
-// 	EXPECT_EQ(str2.GetLength(), str1.GetLength());
-// 	EXPECT_STREQ(str2.GetStringData(), str1.GetStringData());
-// 	EXPECT_EQ(str2.GetStringData()[str2.GetLength()], '\0');
-// }
-//
-// TEST(Assignment, SelfAssignment)
-// {
-// 	MyString str("Self");
-// 	str = str;
-// 	EXPECT_EQ(str.GetLength(), 4u);
-// 	EXPECT_STREQ(str.GetStringData(), "Self");
-// 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
-// }
-//
-// TEST(Assignment, AssignStdString)
-// {
-// 	std::string str = "FromStdString";
-// 	MyString myStr;
-// 	myStr = str;
-// 	EXPECT_EQ(myStr.GetLength(), str.length());
-// 	EXPECT_STREQ(myStr.GetStringData(), str.c_str());
-// 	EXPECT_EQ(myStr.GetStringData()[myStr.GetLength()], '\0');
-// }
-//
-// TEST(Assignment, AssignConstChar)
-// {
-// 	const char* str = "FromConstChar";
-// 	MyString myStr;
-// 	myStr = str;
-// 	EXPECT_EQ(myStr.GetLength(), strlen(str));
-// 	EXPECT_STREQ(myStr.GetStringData(), str);
-// 	EXPECT_EQ(myStr.GetStringData()[myStr.GetLength()], '\0');
-// }
+TEST(Assignment, CopyAssignment)
+{
+	MyString str1("Hello,");
+	MyString str2("World");
+	str2 = str1;
+	EXPECT_EQ(str2.GetLength(), str1.GetLength());
+	EXPECT_STREQ(str2.GetStringData(), str1.GetStringData());
+	EXPECT_EQ(str2.GetStringData()[str2.GetLength()], '\0');
+}
+
+TEST(Assignment, SelfAssignment)
+{
+	MyString str("Self");
+	str = str;
+	EXPECT_EQ(str.GetLength(), 4u);
+	EXPECT_STREQ(str.GetStringData(), "Self");
+	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
+}
+
+TEST(Assignment, AssignStdString)
+{
+	std::string str = "FromStdString";
+	MyString myStr;
+	myStr = str;
+	EXPECT_EQ(myStr.GetLength(), str.length());
+	EXPECT_STREQ(myStr.GetStringData(), str.c_str());
+	EXPECT_EQ(myStr.GetStringData()[myStr.GetLength()], '\0');
+}
+
+TEST(Assignment, AssignConstChar)
+{
+	const char* str = "FromConstChar";
+	MyString myStr;
+	myStr = str;
+	EXPECT_EQ(myStr.GetLength(), strlen(str));
+	EXPECT_STREQ(myStr.GetStringData(), str);
+	EXPECT_EQ(myStr.GetStringData()[myStr.GetLength()], '\0');
+}
+
+TEST(AssignmentOperator, MoveAssignment)
+{
+    MyString source("Hello, world!");
+    size_t sourceLength = source.GetLength();
+
+    MyString target("Initial");
+
+    EXPECT_NO_THROW({
+        target = std::move(source);
+    });
+
+    EXPECT_EQ(target.GetLength(), sourceLength);
+    EXPECT_STREQ(target.GetStringData(), "Hello, world!");
+    EXPECT_EQ(target.GetStringData()[target.GetLength()], '\0');
+
+    EXPECT_EQ(source.GetLength(), 0u);
+    EXPECT_STREQ(source.GetStringData(), "");
+    EXPECT_EQ(source.GetStringData()[source.GetLength()], '\0');
+}
 
 TEST(Addition, MyStringMyString)
 {

@@ -40,13 +40,9 @@ MyString::MyString(MyString const& other)
 }
 
 MyString::MyString(MyString&& other) noexcept
-	: m_data(other.m_data)
-	, m_length(other.m_length)
-	, m_capacity(other.m_capacity)
 {
-	other.m_length = 0;
-	other.m_capacity = 0;
-	other.m_data = k_stringEnd;
+	MoveFrom(other);
+	MakeEmpty(other);
 }
 
 MyString::MyString(std::string const& stlString)
@@ -56,8 +52,7 @@ MyString::MyString(std::string const& stlString)
 
 MyString::~MyString()
 {
-	if (m_data != k_stringEnd)
-		delete[] m_data;
+	DeleteData();
 }
 
 size_t MyString::GetLength() const
@@ -77,11 +72,8 @@ MyString MyString::SubString(const size_t start, const size_t length) const
 
 void MyString::Clear()
 {
-	if (m_data != k_stringEnd)
-		delete[] m_data;
-	m_length = 0;
-	m_capacity = 0;
-	m_data = k_stringEnd;
+	DeleteData();
+	MakeEmpty(*this);
 }
 
 size_t MyString::GetCapacity() const
@@ -89,9 +81,47 @@ size_t MyString::GetCapacity() const
 	return m_capacity;
 }
 
+void MyString::DeleteData() const
+{
+	if (m_data != k_stringEnd)
+		delete[] m_data;
+}
+
+MyString& MyString::operator=(const MyString& other)
+{
+	if (this == &other)
+		return *this;
+
+	const auto newData = new char[other.m_length + 1];
+	std::memcpy(newData, other.m_data, other.m_length);
+	newData[other.m_length] = '\0';
+
+	DeleteData();
+
+	m_data = newData;
+	m_length = other.m_length;
+	m_capacity = other.m_length;
+
+	return *this;
+}
+
+MyString& MyString::operator=(MyString&& other) noexcept
+{
+	if (this == &other)
+		return *this;
+
+	DeleteData();
+
+	MoveFrom(other);
+
+	MakeEmpty(other);
+
+	return *this;
+}
+
 char& MyString::operator[](const size_t index) const
 {
-	if (index >= m_length || index < 0)
+	if (index < 0 || index >= m_length)
 		throw IndexOutOfRangeException(index);
 	return m_data[index];
 }
@@ -123,4 +153,18 @@ void MyString::InitFromBuffer(const char* pString, const size_t length)
 	m_data = new char[m_capacity + 1];
 	m_data[m_length] = *k_stringEnd;
 	std::memcpy(m_data, pString, m_length);
+}
+
+void MyString::MoveFrom(const MyString& other)
+{
+	m_data = other.m_data;
+	m_length = other.m_length;
+	m_capacity = other.m_capacity;
+}
+
+void MyString::MakeEmpty(MyString& other)
+{
+	other.m_length = 0;
+	other.m_capacity = 0;
+	other.m_data = k_stringEnd;
 }

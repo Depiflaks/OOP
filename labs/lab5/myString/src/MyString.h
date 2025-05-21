@@ -55,6 +55,10 @@ public:
 	// Возвращает вместимость строки
 	[[nodiscard]] size_t GetCapacity() const;
 
+	MyString& operator=(const MyString& other);
+
+	MyString& operator=(MyString&& other) noexcept;
+
 	char& operator[](size_t index) const;
 
 	MyString& operator+=(const MyString& other);
@@ -65,6 +69,9 @@ private:
 	size_t m_capacity{ 0 };
 
 	void InitFromBuffer(const char* pString, size_t length);
+	void DeleteData() const;
+	void MoveFrom(const MyString& other);
+	static void MakeEmpty(MyString& other);
 };
 
 inline std::strong_ordering operator<=>(const MyString& lhs, const MyString& rhs)

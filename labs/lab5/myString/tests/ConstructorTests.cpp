@@ -23,6 +23,7 @@ TEST(ConstructorFromC, StringAndLength)
 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
 }
 
+// todo: пустые символы посередине строки
 TEST(ConstructorFromC, LengthMoreThenString)
 {
 	const char* str = "abc";

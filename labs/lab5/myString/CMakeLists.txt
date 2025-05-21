@@ -35,7 +35,8 @@ include(GoogleTest)
 file(GLOB TEST_SOURCES "tests/*.cpp")
 if (TEST_SOURCES)
     add_executable(my_string_tests ${TEST_SOURCES} ${SOURCES}
-            tests/OperatorOverloadingTests.cpp)
+            tests/OperatorOverloadingTests.cpp
+            tests/IteratorTests.cpp)
     target_include_directories(my_string_tests PRIVATE
             src
             ${CMAKE_CURRENT_SOURCE_DIR}/src/*

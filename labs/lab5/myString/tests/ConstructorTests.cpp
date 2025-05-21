@@ -23,6 +23,16 @@ TEST(ConstructorFromC, StringAndLength)
 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
 }
 
+TEST(ConstructorFromC, ZeroCharInTheMiddle)
+{
+	const char* data = "1\0 2";
+	MyString str(data, 4);
+	EXPECT_EQ(str.GetLength(), 4u);
+	EXPECT_GE(str.GetCapacity(), 4u);
+	EXPECT_STREQ(str.GetStringData(), "1\0 2");
+	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
+}
+
 // todo: пустые символы посередине строки
 TEST(ConstructorFromC, LengthMoreThenString)
 {

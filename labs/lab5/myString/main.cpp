@@ -4,11 +4,12 @@
 
 #include "MyString.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 int main()
 {
-	MyString mystring{"123"};
-	char a = mystring[0];
-	std::cout << a << std::endl;
+	MyString mystring{"5957325470"};
+	std::ranges::sort(mystring);
+	std::cout << mystring << std::endl;
 }

@@ -15,7 +15,7 @@ MyString::MyString()
 	m_data = k_stringEnd;
 }
 
-MyString::MyString(const char& ch)
+MyString::MyString(const char ch)
 	: m_length(1)
 	, m_capacity(1)
 {
@@ -111,9 +111,7 @@ MyString& MyString::operator=(MyString&& other) noexcept
 		return *this;
 
 	DeleteData();
-
 	MoveFrom(other);
-
 	MakeEmpty(other);
 
 	return *this;
@@ -136,7 +134,7 @@ MyString& MyString::operator+=(const MyString& other)
 		const auto newData = new char[m_capacity];
 		memcpy(newData, m_data, m_length);
 		memcpy(newData + m_length, other.m_data, other.m_length);
-		delete[] m_data;
+		DeleteData();
 		m_data = newData;
 	}
 	m_length += other.m_length;

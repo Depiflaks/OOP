@@ -6,7 +6,11 @@
 #define MYSTRING_H
 
 #include <cstdint>
+#include <istream>
+#include <ostream>
 #include <string>
+
+constexpr int k_readBufferSize = 100;
 
 class MyString
 {
@@ -14,7 +18,7 @@ public:
 	// конструктор по умолчанию
 	MyString();
 
-	MyString(const char& ch);
+	MyString(char ch);
 
 	// конструктор, инициализирующий строку данными строки
 	// с завершающим нулевым символом
@@ -98,13 +102,9 @@ inline bool operator==(const MyString& lhs, const MyString& rhs)
 {
 	if (lhs.GetLength() != rhs.GetLength())
 		return false;
-
 	for (size_t i = 0; i < lhs.GetLength(); ++i)
-	{
 		if (lhs[i] != rhs[i])
 			return false;
-	}
-
 	return true;
 }
 
@@ -113,6 +113,35 @@ inline MyString operator+(const MyString& lhs, const MyString& rhs)
 	MyString result(lhs);
 	result += rhs;
 	return result;
+}
+
+inline std::ostream& operator<<(std::ostream& os, const MyString& str)
+{
+	const char* data = str.GetStringData();
+	for (size_t i = 0; i < str.GetLength(); ++i)
+		os.put(data[i]);
+	return os;
+}
+
+inline std::istream& operator>>(std::istream& is, MyString& str)
+{
+	str.Clear();
+	const auto buffer = new char[k_readBufferSize + 1];
+	buffer[k_readBufferSize] = '\0';
+	int currentSize = 0;
+	char ch;
+	while (is.get(ch) && !is.fail() && !is.eof() && !std::isspace(static_cast<unsigned char>(ch)))
+		if (currentSize == k_readBufferSize)
+		{
+			str += MyString(buffer);
+			currentSize = 0;
+		}
+		else
+			buffer[currentSize++] = ch;
+
+	str += MyString(buffer, currentSize);
+	delete[] buffer;
+	return is;
 }
 
 #endif // MYSTRING_H

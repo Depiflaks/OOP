@@ -357,20 +357,20 @@ TEST(Index, WriteAccess)
 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
 }
 
-// TEST(OStream, OutputToStream)
-// {
-// 	MyString str("StreamOut");
-// 	std::ostringstream oss;
-// 	oss << str;
-// 	EXPECT_EQ(oss.str(), "StreamOut");
-// }
-//
-// TEST(IStream, InputFromStream)
-// {
-// 	MyString str;
-// 	std::istringstream iss("HelloInput");
-// 	iss >> str;
-// 	EXPECT_STREQ(str.GetStringData(), "HelloInput");
-// 	EXPECT_EQ(str.GetLength(), 10u);
-// 	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
-// }
+TEST(OStream, OutputToStream)
+{
+	MyString str("StreamOut");
+	std::ostringstream oss;
+	oss << str;
+	EXPECT_EQ(oss.str(), "StreamOut");
+}
+
+TEST(IStream, InputFromStream)
+{
+	MyString str;
+	std::istringstream iss("HelloInput");
+	iss >> str;
+	EXPECT_STREQ(str.GetStringData(), "HelloInput");
+	EXPECT_EQ(str.GetLength(), 10u);
+	EXPECT_EQ(str.GetStringData()[str.GetLength()], '\0');
+}

@@ -91,7 +91,7 @@ size_t MyString::GetCapacity() const
 
 char& MyString::operator[](const size_t index) const
 {
-	if (index >= m_length)
+	if (index >= m_length || index < 0)
 		throw IndexOutOfRangeException(index);
 	return m_data[index];
 }

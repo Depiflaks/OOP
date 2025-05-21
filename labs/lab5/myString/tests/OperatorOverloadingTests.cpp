@@ -293,6 +293,13 @@ TEST(Index, ReadAccess)
 	EXPECT_EQ(str[4], 'x');
 }
 
+TEST(Index, IndexOutOfRange)
+{
+	MyString str("Index");
+	EXPECT_THROW(str[-1], std::runtime_error);
+	EXPECT_THROW(str[5], std::runtime_error);
+}
+
 TEST(Index, ConstReadAccess)
 {
 	MyString str("Index");

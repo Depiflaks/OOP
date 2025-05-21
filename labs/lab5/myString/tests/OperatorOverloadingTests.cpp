@@ -43,87 +43,107 @@
 // 	EXPECT_STREQ(myStr.GetStringData(), str);
 // 	EXPECT_EQ(myStr.GetStringData()[myStr.GetLength()], '\0');
 // }
-//
-// TEST(Addition, MyStringMyString)
-// {
-// 	MyString a("Hello");
-// 	MyString b("World");
-// 	MyString result = a + b;
-// 	EXPECT_EQ(result.GetLength(), 10u);
-// 	EXPECT_STREQ(result.GetStringData(), "HelloWorld");
-// 	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
-// }
-//
-// TEST(Addition, StdStringMyString)
-// {
-// 	std::string a = "Hi";
-// 	MyString b{ "There" };
-// 	MyString result = a + b;
-// 	EXPECT_EQ(result.GetLength(), 7u);
-// 	EXPECT_STREQ(result.GetStringData(), "HiThere");
-// 	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
-// }
-//
-// TEST(Addition, ConstCharMyString)
-// {
-// 	const char* a = "Yo";
-// 	MyString b("Man");
-// 	MyString result = a + b;
-// 	EXPECT_EQ(result.GetLength(), 5u);
-// 	EXPECT_STREQ(result.GetStringData(), "YoMan");
-// 	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
-// }
-//
-// TEST(Addition, MyStringStdString)
-// {
-// 	MyString a("Hi");
-// 	std::string b = "There";
-// 	MyString result = a + b;
-// 	EXPECT_EQ(result.GetLength(), 7u);
-// 	EXPECT_STREQ(result.GetStringData(), "HiThere");
-// 	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
-// }
-//
-// TEST(Addition, MyStringConstChar)
-// {
-// 	MyString a("Yo");
-// 	const char* b = "Man";
-// 	MyString result = a + b;
-// 	EXPECT_EQ(result.GetLength(), 5u);
-// 	EXPECT_STREQ(result.GetStringData(), "YoMan");
-// 	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
-// }
-//
-// TEST(PlusEqual, MyStringMyString)
-// {
-// 	MyString a("One");
-// 	MyString b("Two");
-// 	a += b;
-// 	EXPECT_EQ(a.GetLength(), 6u);
-// 	EXPECT_STREQ(a.GetStringData(), "OneTwo");
-// 	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
-// }
-//
-// TEST(PlusEqual, StdStringToMyString)
-// {
-// 	MyString a("Hello");
-// 	std::string b = "World";
-// 	a += b;
-// 	EXPECT_EQ(a.GetLength(), 10u);
-// 	EXPECT_STREQ(a.GetStringData(), "HelloWorld");
-// 	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
-// }
-//
-// TEST(PlusEqual, ConstCharToMyString)
-// {
-// 	MyString a("Hi");
-// 	const char* b = "There";
-// 	a += b;
-// 	EXPECT_EQ(a.GetLength(), 7u);
-// 	EXPECT_STREQ(a.GetStringData(), "HiThere");
-// 	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
-// }
-//
+
+TEST(Addition, MyStringMyString)
+{
+	MyString a("Hello");
+	MyString b("World");
+	MyString result = a + b;
+	EXPECT_EQ(result.GetLength(), 10u);
+	EXPECT_STREQ(result.GetStringData(), "HelloWorld");
+	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
+}
+
+TEST(Addition, StdStringMyString)
+{
+	std::string a = "Hi";
+	MyString b{ "There" };
+	MyString result = a + b;
+	EXPECT_EQ(result.GetLength(), 7u);
+	EXPECT_STREQ(result.GetStringData(), "HiThere");
+	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
+}
+
+TEST(Addition, ConstCharMyString)
+{
+	const char* a = "Yo";
+	MyString b("Man");
+	MyString result = a + b;
+	EXPECT_EQ(result.GetLength(), 5u);
+	EXPECT_STREQ(result.GetStringData(), "YoMan");
+	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
+}
+
+TEST(Addition, MyStringStdString)
+{
+	MyString a("Hi");
+	std::string b = "There";
+	MyString result = a + b;
+	EXPECT_EQ(result.GetLength(), 7u);
+	EXPECT_STREQ(result.GetStringData(), "HiThere");
+	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
+}
+
+TEST(Addition, MyStringConstChar)
+{
+	MyString a("Yo");
+	const char* b = "Man";
+	MyString result = a + b;
+	EXPECT_EQ(result.GetLength(), 5u);
+	EXPECT_STREQ(result.GetStringData(), "YoMan");
+	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
+}
+
+TEST(Addition, MyStringChar)
+{
+	MyString a("Yo");
+	const char b = '1';
+	MyString result = a + b;
+	EXPECT_EQ(result.GetLength(), 3u);
+	EXPECT_STREQ(result.GetStringData(), "Yo1");
+	EXPECT_EQ(result.GetStringData()[result.GetLength()], '\0');
+}
+
+TEST(PlusEqual, MyStringMyString)
+{
+	MyString a("One");
+	MyString b("Two");
+	a += b;
+	EXPECT_EQ(a.GetLength(), 6u);
+	EXPECT_STREQ(a.GetStringData(), "OneTwo");
+	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
+}
+
+TEST(PlusEqual, MyStringChar)
+{
+	MyString a("One");
+	char b = '1';
+	a += b;
+	EXPECT_EQ(a.GetLength(), 4u);
+	EXPECT_STREQ(a.GetStringData(), "One1");
+	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
+}
+
+TEST(PlusEqual, StdStringToMyString)
+{
+	MyString a("Hello");
+	std::string b = "World";
+	a += b;
+	EXPECT_EQ(a.GetLength(), 10u);
+	EXPECT_STREQ(a.GetStringData(), "HelloWorld");
+	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
+}
+
+TEST(PlusEqual, ConstCharToMyString)
+{
+	MyString a("Hi");
+	const char* b = "There";
+	a += b;
+	EXPECT_EQ(a.GetLength(), 7u);
+	EXPECT_STREQ(a.GetStringData(), "HiThere");
+	EXPECT_EQ(a.GetStringData()[a.GetLength()], '\0');
+}
+
 // TEST(Equal, CompareEqual)
 // {
 // 	MyString a("same");

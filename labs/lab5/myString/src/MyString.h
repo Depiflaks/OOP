@@ -14,10 +14,11 @@ public:
 	// конструктор по умолчанию
 	MyString();
 
+	MyString(const char& ch);
+
 	// конструктор, инициализирующий строку данными строки
 	// с завершающим нулевым символом
-	explicit MyString(const char* pString);
-	void InitFromBuffer(const char* pString, size_t length);
+	MyString(const char* pString);
 
 	// конструктор, инициализирующий строку данными из
 	// символьного массива заданной длины
@@ -32,7 +33,7 @@ public:
 
 	// конструктор, инициализирующий строку данными из
 	// строки стандартной библиотеки C++
-	explicit MyString(std::string const& stlString);
+	MyString(std::string const& stlString);
 
 	// деструктор класса - освобождает память, занимаемую символами строки
 	~MyString();
@@ -56,10 +57,14 @@ public:
 
 	char& operator[](size_t index) const;
 
+	MyString& operator+=(const MyString& other);
+
 private:
 	char* m_data{ nullptr };
 	size_t m_length{ 0 };
 	size_t m_capacity{ 0 };
+
+	void InitFromBuffer(const char* pString, size_t length);
 };
 
 // inline std::strong_ordering operator<=>(const MyString& lhs, const MyString& rhs)
@@ -78,7 +83,7 @@ private:
 // 	return;
 // };
 
-MyString operator+(const MyString& lhs, const MyString& rhs)
+inline MyString operator+(const MyString& lhs, const MyString& rhs)
 {
 	MyString result(lhs);
 	result += rhs;

@@ -13,6 +13,15 @@ MyString::MyString()
 	m_data = k_stringEnd;
 }
 
+MyString::MyString(const char& ch)
+	: m_length(1)
+	, m_capacity(1)
+{
+	m_data = new char[2];
+	m_data[0] = ch;
+	m_data[1] = *k_stringEnd;
+}
+
 MyString::MyString(const char* pString)
 {
 	InitFromBuffer(pString, strlen(pString));
@@ -81,6 +90,24 @@ size_t MyString::GetCapacity() const
 char& MyString::operator[](const size_t index) const
 {
 	return m_data[index];
+}
+
+MyString& MyString::operator+=(const MyString& other)
+{
+	if (m_capacity >= m_length + other.m_length)
+		memcpy(m_data + m_length, other.m_data, other.m_length);
+	else
+	{
+		m_capacity = std::max(m_capacity * 2, m_length + other.m_length);
+		const auto newData = new char[m_capacity];
+		memcpy(newData, m_data, m_length);
+		memcpy(newData + m_length, other.m_data, other.m_length);
+		delete[] m_data;
+		m_data = newData;
+	}
+	m_length += other.m_length;
+	m_data[m_length] = *k_stringEnd;
+	return *this;
 }
 
 void MyString::InitFromBuffer(const char* pString, const size_t length)

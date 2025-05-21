@@ -17,6 +17,7 @@ public:
 	// конструктор, инициализирующий строку данными строки
 	// с завершающим нулевым символом
 	explicit MyString(const char* pString);
+	void InitFromBuffer(const char* pString, size_t length);
 
 	// конструктор, инициализирующий строку данными из
 	// символьного массива заданной длины
@@ -51,7 +52,14 @@ public:
 	void Clear();
 
 	// Возвращает вместимость строки
-	size_t GetCapacity();
+	size_t GetCapacity() const;
+
+private:
+	char* m_data{nullptr};
+	size_t m_length{ 0 };
+	size_t m_capacity{ 0 };
+
+	void Resize(size_t newCapacity);
 };
 
 #endif // MYSTRING_H

@@ -5,6 +5,8 @@
 #ifndef MYSTRING_H
 #define MYSTRING_H
 
+#include "iterator/MyStringIterator.h"
+
 #include <cstdint>
 #include <istream>
 #include <ostream>
@@ -13,6 +15,11 @@
 class MyString
 {
 public:
+	using iterator = MyStringIterator<char>;
+	using const_iterator = MyStringIterator<const char>;
+	using reverse_iterator = std::reverse_iterator<iterator>;
+	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
 	// конструктор по умолчанию
 	MyString();
 
@@ -64,6 +71,24 @@ public:
 	char& operator[](size_t index) const;
 
 	MyString& operator+=(const MyString& other);
+
+	iterator begin() { return { m_data, m_data, m_data + m_length }; }
+	iterator end() { return { m_data + m_length, m_data, m_data + m_length }; }
+
+	[[nodiscard]] const_iterator begin() const { return { m_data, m_data, m_data + m_length }; }
+	[[nodiscard]] const_iterator end() const { return { m_data + m_length, m_data, m_data + m_length }; }
+
+	[[nodiscard]] const_iterator cbegin() const { return begin(); }
+	[[nodiscard]] const_iterator cend() const { return end(); }
+
+	reverse_iterator rbegin() { return reverse_iterator(end()); }
+	reverse_iterator rend() { return reverse_iterator(begin()); }
+
+	[[nodiscard]] const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+	[[nodiscard]] const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+
+	[[nodiscard]] const_reverse_iterator crbegin() const { return const_reverse_iterator(cend()); }
+	[[nodiscard]] const_reverse_iterator crend() const { return const_reverse_iterator(cbegin()); }
 
 private:
 	char* m_data{ nullptr };

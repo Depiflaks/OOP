@@ -21,6 +21,8 @@ add_executable(my_string_app
         src/MyString.cpp
         src/MyString.h
         src/exception/MyStringException.h
+        src/iterator/MyStringIterator.cpp
+        src/iterator/MyStringIterator.h
 )
 
 target_include_directories(my_string_app PRIVATE

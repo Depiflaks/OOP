@@ -78,6 +78,11 @@ size_t MyString::GetCapacity() const
 	return m_capacity;
 }
 
+char& MyString::operator[](const size_t index) const
+{
+	return m_data[index];
+}
+
 void MyString::InitFromBuffer(const char* pString, const size_t length)
 {
 	if (pString == nullptr)

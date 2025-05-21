@@ -54,10 +54,35 @@ public:
 	// Возвращает вместимость строки
 	[[nodiscard]] size_t GetCapacity() const;
 
+	char& operator[](size_t index) const;
+
 private:
-	char* m_data{nullptr};
+	char* m_data{ nullptr };
 	size_t m_length{ 0 };
 	size_t m_capacity{ 0 };
 };
+
+// inline std::strong_ordering operator<=>(const MyString& lhs, const MyString& rhs)
+// {
+// 	int cmp = std::strcmp(lhs.GetStringData(), rhs.GetStringData());
+// 	if (cmp < 0)
+// 		return std::strong_ordering::less;
+// 	if (cmp > 0)
+// 		return std::strong_ordering::greater;
+// 	return std::strong_ordering::equal;
+// }
+//
+// inline bool operator==(const MyString& lhs, const MyString& rhs)
+// {
+//
+// 	return;
+// };
+
+MyString operator+(const MyString& lhs, const MyString& rhs)
+{
+	MyString result(lhs);
+	result += rhs;
+	return result;
+}
 
 #endif // MYSTRING_H

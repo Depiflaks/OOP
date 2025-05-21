@@ -141,16 +141,14 @@ inline MyString operator+(const MyString& lhs, const MyString& rhs)
 inline std::ostream& operator<<(std::ostream& os, const MyString& str)
 {
 	const char* data = str.GetStringData();
-	for (size_t i = 0; i < str.GetLength(); ++i)
-		os.put(data[i]);
-	return os;
+	return os.write(data, static_cast<std::streamsize>(str.GetLength()));
 }
 
 inline std::istream& operator>>(std::istream& is, MyString& str)
 {
 	str.Clear();
 	char ch;
-	while (is.get(ch) && !is.fail() && !is.eof() && !std::isspace(static_cast<unsigned char>(ch)))
+	while (is.get(ch) && !std::isspace(static_cast<unsigned char>(ch)))
 		str += ch;
 	return is;
 }

@@ -41,8 +41,7 @@ MyString::MyString(MyString const& other)
 
 MyString::MyString(MyString&& other) noexcept
 {
-	MoveFrom(other);
-	MakeEmpty(other);
+	*this = std::move(other);
 }
 
 MyString::MyString(std::string const& stlString)
@@ -94,7 +93,7 @@ MyString& MyString::operator=(const MyString& other)
 
 	const auto newData = new char[other.m_length + 1];
 	std::memcpy(newData, other.m_data, other.m_length);
-	newData[other.m_length] = '\0';
+	newData[other.m_length] = *k_stringEnd;
 
 	DeleteData();
 
@@ -119,7 +118,7 @@ MyString& MyString::operator=(MyString&& other) noexcept
 
 char& MyString::operator[](const size_t index) const
 {
-	if (index < 0 || index >= m_length)
+	if (index >= m_length)
 		throw IndexOutOfRangeException(index);
 	return m_data[index];
 }
@@ -127,7 +126,9 @@ char& MyString::operator[](const size_t index) const
 MyString& MyString::operator+=(const MyString& other)
 {
 	if (m_capacity >= m_length + other.m_length)
+	{
 		memcpy(m_data + m_length, other.m_data, other.m_length);
+	}
 	else
 	{
 		m_capacity = std::max(m_capacity * 2, m_length + other.m_length);
@@ -144,8 +145,6 @@ MyString& MyString::operator+=(const MyString& other)
 
 void MyString::InitFromBuffer(const char* pString, const size_t length)
 {
-	if (pString == nullptr)
-		return;
 	m_length = length;
 	m_capacity = m_length;
 	m_data = new char[m_capacity + 1];

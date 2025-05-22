@@ -4,98 +4,172 @@
 
 #include "StringList.h"
 
+
 StringList::StringList() = default;
 
-StringList::StringList(const StringList& other) {
-    CopyFrom(other);
+StringList::StringList(const StringList& other)
+{
+	CopyFrom(other);
 }
 
-StringList::StringList(StringList&& other) noexcept {
-    MoveFrom(std::move(other));
+StringList::StringList(StringList&& other) noexcept
+{
+	MoveFrom(std::move(other));
 }
 
-StringList::~StringList() {
-    FreeList();
+StringList::~StringList()
+{
+	FreeList();
 }
 
-StringList& StringList::operator=(const StringList& other) {
-    if (this != &other) {
-        FreeList();
-        CopyFrom(other);
-    }
-    return *this;
+StringList& StringList::operator=(const StringList& other)
+{
+	if (this != &other)
+	{
+		FreeList();
+		CopyFrom(other);
+	}
+	return *this;
 }
 
-StringList& StringList::operator=(StringList&& other) noexcept {
-    if (this != &other) {
-        FreeList();
-        MoveFrom(std::move(other));
-    }
-    return *this;
+StringList& StringList::operator=(StringList&& other) noexcept
+{
+	if (this != &other)
+	{
+		FreeList();
+		MoveFrom(std::move(other));
+	}
+	return *this;
 }
 
-void StringList::PushBack(const std::string& value) {
-    Node* node = new Node(value);
-    node->prev = m_tail;
-    if (m_tail) {
-        m_tail->next = node;
-    } else {
-        m_head = node;
-    }
-    m_tail = node;
-    ++m_size;
+void StringList::PushBack(const std::string& value)
+{
+	Node* node = new Node(value);
+	node->prev = m_tail;
+	if (m_tail)
+	{
+		m_tail->next = node;
+	}
+	else
+	{
+		m_head = node;
+	}
+	m_tail = node;
+	++m_size;
 }
 
-void StringList::PushFront(const std::string& value) {
-    Node* node = new Node(value);
-    node->next = m_head;
-    if (m_head) {
-        m_head->prev = node;
-    } else {
-        m_tail = node;
-    }
-    m_head = node;
-    ++m_size;
+void StringList::PushFront(const std::string& value)
+{
+	Node* node = new Node(value);
+	node->next = m_head;
+	if (m_head)
+	{
+		m_head->prev = node;
+	}
+	else
+	{
+		m_tail = node;
+	}
+	m_head = node;
+	++m_size;
 }
 
-void StringList::Clear() {
-    FreeList();
+void StringList::Clear()
+{
+	FreeList();
 }
 
-bool StringList::IsEmpty() const {
-    return m_size == 0;
+bool StringList::IsEmpty() const
+{
+	return m_size == 0;
 }
 
-size_t StringList::GetSize() const {
-    return m_size;
+size_t StringList::GetSize() const
+{
+	return m_size;
 }
 
-void StringList::CopyFrom(const StringList& other) {
+StringList::iterator StringList::begin() { return iterator(m_head); }
+
+StringList::iterator StringList::end() { return iterator(nullptr); }
+
+StringList::const_iterator StringList::begin() const { return const_iterator(m_head); }
+
+StringList::const_iterator StringList::end() const
+{
+}
+
+StringList::const_iterator StringList::cbegin() const
+{
+}
+
+StringList::const_iterator StringList::cend() const
+{
+}
+
+StringList::reverse_iterator StringList::rbegin()
+{
+}
+
+StringList::reverse_iterator StringList::rend()
+{
+}
+
+StringList::const_reverse_iterator StringList::rbegin() const
+{
+}
+
+StringList::const_reverse_iterator StringList::rend() const
+{
+}
+
+StringList::const_reverse_iterator StringList::crbegin() const
+{
+}
+
+StringList::const_reverse_iterator StringList::crend() const
+{
+}
+
+StringList::iterator StringList::Insert(const_iterator pos, const std::string& value)
+{
+}
+
+StringList::iterator StringList::Erase(const_iterator pos)
+{
+}
+
+void StringList::CopyFrom(const StringList& other)
+{
 	const Node* current = other.m_head;
-    while (current) {
-        PushBack(current->value);
-        current = current->next;
-    }
+	while (current)
+	{
+		PushBack(current->value);
+		current = current->next;
+	}
 }
 
-void StringList::MoveFrom(StringList&& other) noexcept {
-    m_head = other.m_head;
-    m_tail = other.m_tail;
-    m_size = other.m_size;
+void StringList::MoveFrom(StringList&& other) noexcept
+{
+	m_head = other.m_head;
+	m_tail = other.m_tail;
+	m_size = other.m_size;
 
-    other.m_head = nullptr;
-    other.m_tail = nullptr;
-    other.m_size = 0;
+	other.m_head = nullptr;
+	other.m_tail = nullptr;
+	other.m_size = 0;
 }
 
-void StringList::FreeList() {
+void StringList::FreeList()
+{
 	const Node* current = m_head;
-    while (current) {
+	while (current)
+	{
 		const Node* next = current->next;
-        delete current;
-        current = next;
-    }
-    m_head = nullptr;
-    m_tail = nullptr;
-    m_size = 0;
+		delete current;
+		current = next;
+	}
+	m_head = nullptr;
+	m_tail = nullptr;
+	m_size = 0;
 }

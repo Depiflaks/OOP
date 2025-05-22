@@ -5,11 +5,10 @@
 #ifndef STRINGLIST_H
 #define STRINGLIST_H
 
-
-#include <string>
 #include <cstddef>
+#include <iterator/StringListIterator.h>
 #include <iterator>
-#include "StringListIterator.h"
+#include <string>
 
 class StringList {
 public:
@@ -25,28 +24,28 @@ public:
     void PushFront(const std::string& value);
     void Clear();
 
-    bool IsEmpty() const;
-    size_t GetSize() const;
+    [[nodiscard]] bool IsEmpty() const;
+    [[nodiscard]] size_t GetSize() const;
 
-    using Node = StringListIterator<std::string>::Node;
-    using iterator = StringListIterator<std::string>;
-    using const_iterator = StringListIterator<const std::string>;
+    using Node = ListIterator<std::string>::Node;
+    using iterator = ListIterator<std::string>;
+    using const_iterator = ListIterator<const std::string>;
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     iterator begin();
     iterator end();
-    const_iterator begin() const;
-    const_iterator end() const;
-    const_iterator cbegin() const;
-    const_iterator cend() const;
+    [[nodiscard]] const_iterator begin() const;
+    [[nodiscard]] const_iterator end() const;
+    [[nodiscard]] const_iterator cbegin() const;
+    [[nodiscard]] const_iterator cend() const;
 
     reverse_iterator rbegin();
     reverse_iterator rend();
-    const_reverse_iterator rbegin() const;
-    const_reverse_iterator rend() const;
-    const_reverse_iterator crbegin() const;
-    const_reverse_iterator crend() const;
+    [[nodiscard]] const_reverse_iterator rbegin() const;
+    [[nodiscard]] const_reverse_iterator rend() const;
+    [[nodiscard]] const_reverse_iterator crbegin() const;
+    [[nodiscard]] const_reverse_iterator crend() const;
 
     iterator Insert(const_iterator pos, const std::string& value);
     iterator Erase(const_iterator pos);

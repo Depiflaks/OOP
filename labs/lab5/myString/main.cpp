@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
+
 int main()
 {
 	MyString mystring{"5957325470"};

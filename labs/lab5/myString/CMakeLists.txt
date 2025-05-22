@@ -36,9 +36,7 @@ include(GoogleTest)
 
 file(GLOB TEST_SOURCES "tests/*.cpp")
 if (TEST_SOURCES)
-    add_executable(my_string_tests ${TEST_SOURCES} ${SOURCES}
-            tests/OperatorOverloadingTests.cpp
-            tests/IteratorTests.cpp)
+    add_executable(my_string_tests ${TEST_SOURCES} ${SOURCES})
     target_include_directories(my_string_tests PRIVATE
             src
             ${CMAKE_CURRENT_SOURCE_DIR}/src/*
@@ -55,4 +53,5 @@ if (TEST_SOURCES)
 
     enable_testing()
     gtest_discover_tests(my_string_tests)
+    #    target_link_libraries(my_string_tests PRIVATE my_string_app)
 endif ()

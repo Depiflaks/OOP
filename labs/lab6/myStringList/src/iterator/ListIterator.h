@@ -5,6 +5,7 @@
 #ifndef STRING_LIST_ITERATOR_H
 #define STRING_LIST_ITERATOR_H
 
+#include <assert.h>
 #include <iterator>
 #include <string>
 #include <utility>
@@ -23,8 +24,9 @@ public:
 		: m_node(nullptr)
 	{
 	}
-	explicit ListIterator(NodeType* node) noexcept
+	explicit ListIterator(NodeType* node, NodeType* sentinel) noexcept
 		: m_node(node)
+		, m_sentinel(sentinel)
 	{
 	}
 
@@ -37,8 +39,19 @@ public:
 	ListIterator(const ListIterator& other) noexcept = default;
 	ListIterator& operator=(const ListIterator& other) noexcept = default;
 
-	reference operator*() const { return m_node->value; }
-	pointer operator->() const { return &m_node->value; }
+	reference operator*() const
+	{
+		assert(m_node);
+		assert(m_node != m_sentinel);
+		return m_node->value;
+	}
+
+	pointer operator->() const
+	{
+		assert(m_node);
+		assert(m_node != m_sentinel);
+		return &m_node->value;
+	}
 
 	ListIterator& operator++() noexcept
 	{
@@ -82,6 +95,7 @@ public:
 
 private:
 	NodeType* m_node;
+	NodeType* m_sentinel{ nullptr };
 };
 
 #endif // STRING_LIST_ITERATOR_H

@@ -9,6 +9,7 @@
 #include <iterator/ListIterator.h>
 #include <iterator>
 #include <string>
+#include <utility>
 
 class StringList
 {
@@ -20,6 +21,12 @@ class StringList
 
 		explicit Node(std::string val)
 			: value(std::move(val))
+		{
+		}
+
+		explicit Node(Node* prev, Node* next)
+			: prev(prev)
+			, next(next)
 		{
 		}
 	};
@@ -66,10 +73,12 @@ private:
 	Node* m_head = nullptr;
 	Node* m_tail = nullptr;
 	size_t m_size = 0;
+	Node* m_sentinel{ nullptr };
 
 	void CopyFrom(const StringList& other);
 	void MoveFrom(StringList&& other) noexcept;
 	void FreeList();
+	void UpdateTail(Node* newTail);
 };
 
 #endif // STRING_LIST_H

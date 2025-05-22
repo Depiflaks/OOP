@@ -9,23 +9,21 @@
 #include <iterator/ListIterator.h>
 #include <iterator>
 #include <string>
-template <typename T>
-class ListIterator;
-
-struct StringListNode
-{
-	std::string value;
-	StringListNode* prev = nullptr;
-	StringListNode* next = nullptr;
-
-	explicit StringListNode(std::string val)
-		: value(std::move(val))
-	{
-	}
-};
 
 class StringList
 {
+	struct Node
+	{
+		std::string value;
+		Node* prev = nullptr;
+		Node* next = nullptr;
+
+		explicit Node(std::string val)
+			: value(std::move(val))
+		{
+		}
+	};
+
 public:
 	StringList();
 	StringList(const StringList& other);
@@ -42,28 +40,27 @@ public:
 	[[nodiscard]] bool IsEmpty() const;
 	[[nodiscard]] size_t GetSize() const;
 
-	using Node = StringListNode;
-	using iterator = ListIterator<std::string>;
-	using const_iterator = ListIterator<const std::string>;
+	using iterator = ListIterator<Node, std::string, false>;
+	using const_iterator = ListIterator<Node, std::string, true>;
 	using reverse_iterator = std::reverse_iterator<iterator>;
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-	iterator begin();
-	iterator end();
-	[[nodiscard]] const_iterator begin() const;
-	[[nodiscard]] const_iterator end() const;
-	[[nodiscard]] const_iterator cbegin() const;
-	[[nodiscard]] const_iterator cend() const;
+	iterator begin() noexcept;
+	iterator end() noexcept;
+	[[nodiscard]] const_iterator begin() const noexcept;
+	[[nodiscard]] const_iterator end() const noexcept;
+	[[nodiscard]] const_iterator cbegin() const noexcept;
+	[[nodiscard]] const_iterator cend() const noexcept;
 
-	reverse_iterator rbegin();
-	reverse_iterator rend();
-	[[nodiscard]] const_reverse_iterator rbegin() const;
-	[[nodiscard]] const_reverse_iterator rend() const;
-	[[nodiscard]] const_reverse_iterator crbegin() const;
-	[[nodiscard]] const_reverse_iterator crend() const;
+	[[nodiscard]] reverse_iterator rbegin() noexcept;
+	[[nodiscard]] reverse_iterator rend() noexcept;
+	[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
+	[[nodiscard]] const_reverse_iterator rend() const noexcept;
+	[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
+	[[nodiscard]] const_reverse_iterator crend() const noexcept;
 
-	iterator Insert(const_iterator pos, const std::string& value);
-	iterator Erase(const_iterator pos);
+	iterator Insert(const iterator& pos, const std::string& v);
+	iterator Erase(const iterator& pos);
 
 private:
 	Node* m_head = nullptr;

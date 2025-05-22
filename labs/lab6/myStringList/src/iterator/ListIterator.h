@@ -5,78 +5,76 @@
 #ifndef STRING_LIST_ITERATOR_H
 #define STRING_LIST_ITERATOR_H
 
-#include <StringList.h>
 #include <iterator>
 #include <string>
 #include <utility>
 
-struct StringListNode;
-
-template <typename T>
+template <typename NodeType, typename ValueType, bool IsConst>
 class ListIterator
 {
 public:
 	using iterator_category = std::bidirectional_iterator_tag;
-	using value_type = std::remove_const_t<T>;
-	using reference = T&;
-	using pointer = T*;
+	using value_type = ValueType;
 	using difference_type = std::ptrdiff_t;
-	using raw_value_type = std::remove_const_t<T>;
+	using pointer = std::conditional_t<IsConst, const ValueType*, ValueType*>;
+	using reference = std::conditional_t<IsConst, const ValueType&, ValueType&>;
 
-	using Node = StringListNode;
-
-	explicit ListIterator(Node* node)
+	ListIterator() noexcept
+		: m_node(nullptr)
+	{
+	}
+	explicit ListIterator(NodeType* node) noexcept
 		: m_node(node)
 	{
 	}
 
-	ListIterator(const ListIterator&) = default;
-	ListIterator& operator=(const ListIterator&) = default;
+	explicit ListIterator(const ListIterator<NodeType, ValueType, false>& other) noexcept
+		requires(IsConst)
+		: m_node(other.m_node)
+	{
+	}
 
-	reference operator*() const { return *static_cast<pointer>(&m_node->value); }
+	reference operator*() const { return m_node->value; }
+	pointer operator->() const { return &m_node->value; }
 
-	pointer operator->() const { return static_cast<pointer>(&m_node->value); }
-
-	ListIterator& operator++()
+	ListIterator& operator++() noexcept
 	{
 		m_node = m_node->next;
 		return *this;
 	}
-
-	ListIterator operator++(int)
+	ListIterator operator++(int) noexcept
 	{
-		auto tmp = *this;
+		ListIterator tmp = *this;
 		++(*this);
 		return tmp;
 	}
-
-	ListIterator& operator--()
+	ListIterator& operator--() noexcept
 	{
 		m_node = m_node->prev;
 		return *this;
 	}
-
-	ListIterator operator--(int)
+	ListIterator operator--(int) noexcept
 	{
-		auto tmp = *this;
+		ListIterator tmp = *this;
 		--(*this);
 		return tmp;
 	}
 
-	bool operator==(const ListIterator& other) const
+	template <bool OtherConst>
+	bool operator==(const ListIterator<NodeType, ValueType, OtherConst>& other) const noexcept
 	{
 		return m_node == other.m_node;
 	}
-
-	bool operator!=(const ListIterator& other) const
+	template <bool OtherConst>
+	bool operator!=(const ListIterator<NodeType, ValueType, OtherConst>& other) const noexcept
 	{
 		return !(*this == other);
 	}
 
-	[[nodiscard]] Node* GetNode() const { return m_node; }
+	NodeType* GetNode() const noexcept { return m_node; }
 
 private:
-	Node* m_node;
+	NodeType* m_node;
 };
 
 #endif // STRING_LIST_ITERATOR_H

@@ -18,6 +18,11 @@ list(REMOVE_ITEM SOURCES
 add_executable(string_list_app
         main.cpp
         ${SOURCES}
+        src/StringList.cpp
+        src/StringList.h
+        tests/StringListTests.cpp
+        src/iterator/StringListIterator.cpp
+        src/iterator/StringListIterator.h
 )
 
 target_include_directories(string_list_app PRIVATE

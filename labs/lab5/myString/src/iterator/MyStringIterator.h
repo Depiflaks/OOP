@@ -99,7 +99,10 @@ public:
 		return m_ptr - other.m_ptr;
 	}
 
-	auto operator<=>(const MyStringIterator&) const = default;
+	auto operator<=>(const MyStringIterator& rhs) const
+	{
+		return m_ptr <=> rhs.m_ptr;
+	}
 
 private:
 	pointer m_ptr = nullptr;

@@ -45,12 +45,14 @@ public:
 		m_node = m_node->next;
 		return *this;
 	}
+
 	ListIterator operator++(int) noexcept
 	{
 		ListIterator tmp = *this;
 		++(*this);
 		return tmp;
 	}
+
 	ListIterator& operator--() noexcept
 	{
 		m_node = m_node->prev;

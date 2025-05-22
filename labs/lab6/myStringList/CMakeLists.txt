@@ -20,7 +20,6 @@ add_executable(string_list_app
         ${SOURCES}
         src/StringList.cpp
         src/StringList.h
-        tests/StringListTests.cpp
         src/iterator/ListIterator.cpp
         src/iterator/ListIterator.h
 )

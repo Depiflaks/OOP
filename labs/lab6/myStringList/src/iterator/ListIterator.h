@@ -34,6 +34,9 @@ public:
 	{
 	}
 
+	ListIterator(const ListIterator& other) noexcept = default;
+	ListIterator& operator=(const ListIterator& other) noexcept = default;
+
 	reference operator*() const { return m_node->value; }
 	pointer operator->() const { return &m_node->value; }
 
@@ -53,6 +56,7 @@ public:
 		m_node = m_node->prev;
 		return *this;
 	}
+
 	ListIterator operator--(int) noexcept
 	{
 		ListIterator tmp = *this;
@@ -65,6 +69,7 @@ public:
 	{
 		return m_node == other.m_node;
 	}
+
 	template <bool OtherConst>
 	bool operator!=(const ListIterator<NodeType, ValueType, OtherConst>& other) const noexcept
 	{

@@ -45,19 +45,19 @@ public:
 	using reverse_iterator = std::reverse_iterator<iterator>;
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-	iterator begin() noexcept;
-	iterator end() noexcept;
-	[[nodiscard]] const_iterator begin() const noexcept;
-	[[nodiscard]] const_iterator end() const noexcept;
-	[[nodiscard]] const_iterator cbegin() const noexcept;
-	[[nodiscard]] const_iterator cend() const noexcept;
+	iterator begin();
+	iterator end();
+	[[nodiscard]] const_iterator begin() const;
+	[[nodiscard]] const_iterator end() const;
+	[[nodiscard]] const_iterator cbegin() const;
+	[[nodiscard]] const_iterator cend() const;
 
-	[[nodiscard]] reverse_iterator rbegin() noexcept;
-	[[nodiscard]] reverse_iterator rend() noexcept;
-	[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
-	[[nodiscard]] const_reverse_iterator rend() const noexcept;
-	[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
-	[[nodiscard]] const_reverse_iterator crend() const noexcept;
+	[[nodiscard]] reverse_iterator rbegin();
+	[[nodiscard]] reverse_iterator rend();
+	[[nodiscard]] const_reverse_iterator rbegin() const;
+	[[nodiscard]] const_reverse_iterator rend() const;
+	[[nodiscard]] const_reverse_iterator crbegin() const;
+	[[nodiscard]] const_reverse_iterator crend() const;
 
 	iterator Insert(const iterator& pos, const std::string& v);
 	iterator Erase(const iterator& pos);

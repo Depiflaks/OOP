@@ -88,29 +88,29 @@ size_t StringList::GetSize() const
 	return m_size;
 }
 
-StringList::iterator StringList::begin() noexcept { return iterator(m_head); }
+StringList::iterator StringList::begin() { return iterator(m_head); }
 
-StringList::iterator StringList::end() noexcept { return iterator(nullptr); }
+StringList::iterator StringList::end() { return iterator(nullptr); }
 
-StringList::const_iterator StringList::begin() const noexcept { return const_iterator(m_head); }
+StringList::const_iterator StringList::begin() const { return const_iterator(m_head); }
 
-StringList::const_iterator StringList::end() const noexcept { return const_iterator(nullptr); }
+StringList::const_iterator StringList::end() const { return const_iterator(nullptr); }
 
-StringList::const_iterator StringList::cbegin() const noexcept { return const_iterator(m_head); }
+StringList::const_iterator StringList::cbegin() const { return const_iterator(m_head); }
 
-StringList::const_iterator StringList::cend() const noexcept { return const_iterator(nullptr); }
+StringList::const_iterator StringList::cend() const { return const_iterator(nullptr); }
 
-StringList::reverse_iterator StringList::rbegin() noexcept { return reverse_iterator(end()); }
+StringList::reverse_iterator StringList::rbegin() { return reverse_iterator(end()); }
 
-StringList::reverse_iterator StringList::rend() noexcept { return reverse_iterator(begin()); }
+StringList::reverse_iterator StringList::rend() { return reverse_iterator(begin()); }
 
-StringList::const_reverse_iterator StringList::rbegin() const noexcept { return const_reverse_iterator(end()); }
+StringList::const_reverse_iterator StringList::rbegin() const { return const_reverse_iterator(end()); }
 
-StringList::const_reverse_iterator StringList::rend() const noexcept { return const_reverse_iterator(begin()); }
+StringList::const_reverse_iterator StringList::rend() const { return const_reverse_iterator(begin()); }
 
-StringList::const_reverse_iterator StringList::crbegin() const noexcept { return const_reverse_iterator(end()); }
+StringList::const_reverse_iterator StringList::crbegin() const { return const_reverse_iterator(end()); }
 
-StringList::const_reverse_iterator StringList::crend() const noexcept { return const_reverse_iterator(begin()); }
+StringList::const_reverse_iterator StringList::crend() const { return const_reverse_iterator(begin()); }
 
 StringList::iterator StringList::Insert(const iterator& pos, const std::string& value)
 {

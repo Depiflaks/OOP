@@ -10,13 +10,13 @@ StringList::StringList()
 }
 
 StringList::StringList(const StringList& other)
-	: m_sentinel{ new Node{ m_head, nullptr } }
+	: StringList()
 {
-	CopyFrom(other);
+	CopyWithErrorHandling(other);
 }
 
 StringList::StringList(StringList&& other) noexcept
-	: m_sentinel{ new Node{ m_head, nullptr } }
+	: StringList()
 {
 	MoveFrom(std::move(other));
 }
@@ -32,13 +32,17 @@ StringList& StringList::operator=(const StringList& other)
 	if (this != &other)
 	{
 		FreeList();
-		CopyFrom(other);
+		CopyWithErrorHandling(other);
 	}
 	return *this;
 }
 
 StringList& StringList::operator=(StringList&& other) noexcept
 {
+	if (this == &other)
+	{
+		return *this;
+	}
 	if (this != &other)
 	{
 		FreeList();
@@ -106,7 +110,7 @@ StringList::iterator StringList::Insert(const iterator& pos, const std::string& 
 	if (pos == end())
 	{
 		PushBack(value);
-		return iterator(m_tail, m_sentinel);
+		return end();
 	}
 
 	Node* newNode = new Node(value);
@@ -148,6 +152,18 @@ StringList::iterator StringList::Erase(const iterator& pos)
 	--m_size;
 
 	return iterator(next, m_sentinel);
+}
+
+void StringList::CopyWithErrorHandling(const StringList& other)
+{
+	try
+	{
+		CopyFrom(other);
+	}
+	catch (const std::bad_alloc& e)
+	{
+		Clear();
+	}
 }
 
 void StringList::CopyFrom(const StringList& other)

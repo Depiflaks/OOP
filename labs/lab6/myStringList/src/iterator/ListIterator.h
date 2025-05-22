@@ -24,6 +24,7 @@ public:
 		: m_node(nullptr)
 	{
 	}
+
 	explicit ListIterator(NodeType* node, NodeType* sentinel) noexcept
 		: m_node(node)
 		, m_sentinel(sentinel)
@@ -35,6 +36,7 @@ public:
 		: m_node(other.m_node)
 	{
 	}
+	// readme: почитать про lvalue и rvalue
 
 	ListIterator(const ListIterator& other) noexcept = default;
 	ListIterator& operator=(const ListIterator& other) noexcept = default;

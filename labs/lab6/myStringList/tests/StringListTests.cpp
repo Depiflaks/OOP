@@ -43,6 +43,26 @@ TEST(Constructors, MoveConstructor)
 	EXPECT_TRUE(src.IsEmpty());
 }
 
+TEST(Constructors, CopySelf)
+{
+	StringList src;
+	src.PushBack("one");
+	src.PushBack("two");
+
+	src = src;
+	EXPECT_EQ(src.GetSize(), 2);
+}
+
+TEST(Constructors, MoveSelf)
+{
+	StringList src;
+	src.PushBack("one");
+	src.PushBack("two");
+
+	src = std::move(src);
+	EXPECT_EQ(src.GetSize(), 2);
+}
+
 TEST(AssignmentOperators, CopyAssignment)
 {
 	StringList src;
@@ -246,8 +266,7 @@ TEST(Iterators, OutOfRange)
 	list.PushBack("one");
 	list.PushBack("two");
 	auto endIt = list.end();
-	ASSERT_DEATH({ auto val = *endIt;
-	(void)val; }, ".*");
+	ASSERT_DEATH({ auto val = *endIt; (void)val; }, ".*");
 }
 
 TEST(Iterators, StdRangesIteration)

@@ -33,6 +33,7 @@ class StringList
 
 public:
 	StringList();
+	void CopyWithErrorHandling(const StringList& other);
 	StringList(const StringList& other);
 	StringList(StringList&& other) noexcept;
 	~StringList();

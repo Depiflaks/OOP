@@ -40,7 +40,7 @@ public:
     [[nodiscard]] const_iterator cbegin() const;
     [[nodiscard]] const_iterator cend() const;
 
-    reverse_iterator rbegin();
+	reverse_iterator rbegin();
     reverse_iterator rend();
     [[nodiscard]] const_reverse_iterator rbegin() const;
     [[nodiscard]] const_reverse_iterator rend() const;

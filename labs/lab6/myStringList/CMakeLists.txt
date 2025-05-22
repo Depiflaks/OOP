@@ -21,8 +21,8 @@ add_executable(string_list_app
         src/StringList.cpp
         src/StringList.h
         tests/StringListTests.cpp
-        src/iterator/StringListIterator.cpp
-        src/iterator/StringListIterator.h
+        src/iterator/ListIterator.cpp
+        src/iterator/ListIterator.h
 )
 
 target_include_directories(string_list_app PRIVATE

@@ -4,7 +4,6 @@
 
 #include "StringList.h"
 
-
 StringList::StringList() = default;
 
 StringList::StringList(const StringList& other)
@@ -95,41 +94,23 @@ StringList::iterator StringList::end() { return iterator(nullptr); }
 
 StringList::const_iterator StringList::begin() const { return const_iterator(m_head); }
 
-StringList::const_iterator StringList::end() const
-{
-}
+StringList::const_iterator StringList::end() const { return const_iterator(nullptr); }
 
-StringList::const_iterator StringList::cbegin() const
-{
-}
+StringList::const_iterator StringList::cbegin() const { return const_iterator(m_head); }
 
-StringList::const_iterator StringList::cend() const
-{
-}
+StringList::const_iterator StringList::cend() const { return const_iterator(nullptr); }
 
-StringList::reverse_iterator StringList::rbegin()
-{
-}
+StringList::reverse_iterator StringList::rbegin() { return reverse_iterator(end()); }
 
-StringList::reverse_iterator StringList::rend()
-{
-}
+StringList::reverse_iterator StringList::rend() { return reverse_iterator(begin()); }
 
-StringList::const_reverse_iterator StringList::rbegin() const
-{
-}
+StringList::const_reverse_iterator StringList::rbegin() const { return const_reverse_iterator(end()); }
 
-StringList::const_reverse_iterator StringList::rend() const
-{
-}
+StringList::const_reverse_iterator StringList::rend() const { return const_reverse_iterator(begin()); }
 
-StringList::const_reverse_iterator StringList::crbegin() const
-{
-}
+StringList::const_reverse_iterator StringList::crbegin() const { return const_reverse_iterator(cend()); }
 
-StringList::const_reverse_iterator StringList::crend() const
-{
-}
+StringList::const_reverse_iterator StringList::crend() const { return const_reverse_iterator(cbegin()); }
 
 StringList::iterator StringList::Insert(const_iterator pos, const std::string& value)
 {

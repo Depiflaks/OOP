@@ -10,15 +10,18 @@
 #include <string>
 #include <utility>
 
+struct StringListNode;
+
 template <typename T>
 class ListIterator
 {
 public:
-using iterator_category = std::bidirectional_iterator_tag;
+	using iterator_category = std::bidirectional_iterator_tag;
 	using value_type = std::remove_const_t<T>;
 	using reference = T&;
 	using pointer = T*;
 	using difference_type = std::ptrdiff_t;
+	using raw_value_type = std::remove_const_t<T>;
 
 	using Node = StringListNode;
 
@@ -27,9 +30,12 @@ using iterator_category = std::bidirectional_iterator_tag;
 	{
 	}
 
-	reference operator*() const { return const_cast<reference>(m_node->value); }
+	ListIterator(const ListIterator&) = default;
+	ListIterator& operator=(const ListIterator&) = default;
 
-	pointer operator->() const { return &const_cast<reference>(m_node->value); }
+	reference operator*() const { return *static_cast<pointer>(&m_node->value); }
+
+	pointer operator->() const { return static_cast<pointer>(&m_node->value); }
 
 	ListIterator& operator++()
 	{
@@ -67,7 +73,7 @@ using iterator_category = std::bidirectional_iterator_tag;
 		return !(*this == other);
 	}
 
-	Node* GetNode() const { return m_node; }
+	[[nodiscard]] Node* GetNode() const { return m_node; }
 
 private:
 	Node* m_node;

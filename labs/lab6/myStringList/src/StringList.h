@@ -6,17 +6,22 @@
 #define STRING_LIST_H
 
 #include <cstddef>
-#include <iterator/StringListIterator.h>
+#include <iterator/ListIterator.h>
 #include <iterator>
 #include <string>
+template <typename T>
+class ListIterator;
 
-struct StringListNode {
-    std::string value;
-    StringListNode* prev = nullptr;
-    StringListNode* next = nullptr;
+struct StringListNode
+{
+	std::string value;
+	StringListNode* prev = nullptr;
+	StringListNode* next = nullptr;
 
-    explicit StringListNode(std::string val)
-        : value(std::move(val)) {}
+	explicit StringListNode(std::string val)
+		: value(std::move(val))
+	{
+	}
 };
 
 class StringList
@@ -44,7 +49,7 @@ public:
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 	iterator begin();
-	static iterator end();
+	iterator end();
 	[[nodiscard]] const_iterator begin() const;
 	[[nodiscard]] const_iterator end() const;
 	[[nodiscard]] const_iterator cbegin() const;

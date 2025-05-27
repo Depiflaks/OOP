@@ -22,4 +22,8 @@ inline std::ostream& operator<<(std::ostream& os, Athlete const& a)
     return os;
 }
 
+inline bool CompareByHeight(const Athlete& a, const Athlete& b) { return a.height < b.height; }
+
+inline bool CompareByWeight(const Athlete& a, const Athlete& b) { return a.weight < b.weight; }
+
 #endif // ATHLETE_H

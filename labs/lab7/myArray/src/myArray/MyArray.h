@@ -24,7 +24,6 @@ public:
 	using reverse_iterator = std::reverse_iterator<iterator>;
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-	// Конструктор по умолчанию
 	MyArray() noexcept
 		: m_data(nullptr)
 		, m_size(0)
@@ -32,7 +31,6 @@ public:
 	{
 	}
 
-	// Конструктор копирования
 	MyArray(const MyArray& other)
 		: m_data(nullptr)
 		, m_size(0)
@@ -46,7 +44,6 @@ public:
 		}
 	}
 
-	// Конструктор перемещения
 	MyArray(MyArray&& other) noexcept
 		: m_data(other.m_data)
 		, m_size(other.m_size)
@@ -62,14 +59,12 @@ public:
 		operator delete[](m_data);
 	}
 
-	// Оператор присваивания (copy-and-swap)
 	MyArray& operator=(MyArray other)
 	{
 		swap(other);
 		return *this;
 	}
 
-	// Добавление элемента в конец
 	void PushBack(const value_type& value)
 	{
 		if (m_size == m_capacity)
@@ -94,7 +89,6 @@ public:
 		return m_data[index];
 	}
 
-	// Изменение длины массива
 	void Resize(const size_type newSize)
 	{
 		if (newSize > m_capacity)
@@ -112,7 +106,6 @@ public:
 		m_size = newSize;
 	}
 
-	// Удаление всех элементов
 	void Clear() noexcept
 	{
 		for (size_type i = 0; i < m_size; ++i)
@@ -120,7 +113,6 @@ public:
 		m_size = 0;
 	}
 
-	// Итераторы
 	iterator begin() noexcept { return m_data; }
 	iterator end() noexcept { return m_data + m_size; }
 	const_iterator begin() const noexcept { return m_data; }
@@ -136,7 +128,6 @@ private:
 	size_type m_size;
 	size_type m_capacity;
 
-	// Резервирование памяти
 	void reserve(const size_type newCapacity)
 	{
 		auto newData = static_cast<iterator>(operator new[](newCapacity * sizeof(T)));
@@ -147,14 +138,12 @@ private:
 		m_capacity = newCapacity;
 	}
 
-	// Увеличение емкости (удваивает)
 	void grow()
 	{
 		const size_type newCap = m_capacity > 0 ? m_capacity * 2 : 1;
 		reserve(newCap);
 	}
 
-	// Обмен содержимым
 	void swap(MyArray& other) noexcept
 	{
 		std::swap(m_data, other.m_data);
@@ -162,7 +151,6 @@ private:
 		std::swap(m_capacity, other.m_capacity);
 	}
 
-	// Вспомогательные методы для копирования и перемещения элементов без исключений
 	static void uninitialized_copy(iterator srcBegin, iterator srcEnd, iterator dst)
 	{
 		iterator cur = dst;

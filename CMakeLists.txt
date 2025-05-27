@@ -17,6 +17,7 @@ add_subdirectory(labs/lab6/http)
 add_subdirectory(labs/lab3/tvset)
 add_subdirectory(labs/lab5/myString)
 add_subdirectory(labs/lab6/myStringList)
+add_subdirectory(labs/lab7/myArray)
 
 add_executable(OOP
         labs/lab1/replace/main.cpp

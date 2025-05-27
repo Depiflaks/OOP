@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(lab4_shape)
+project(lab7_my_array)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -8,7 +8,6 @@ if (POLICY CMP0072)
 endif ()
 set(OpenGL_GL_PREFERENCE GLVND)
 
-find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
 find_package(GTest REQUIRED)
 
@@ -23,42 +22,38 @@ file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
 
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 
-# ==== SHAPE_APP ====
+# ==== APP ====
 
-add_executable(shape_app
+add_executable(my_array_app
         main.cpp
     ${ALL_SOURCES}
-        src/openGl/openGl.h
-        src/openGl/openGl.cpp
+        src/myArray/MyArray.cpp
+        src/myArray/MyArray.h
 )
 
-target_link_libraries(shape_app
+target_link_libraries(my_array_app
     PRIVATE
-    OpenGL::GL
-    glfw
 )
 
-target_include_directories(shape_app PRIVATE
+target_include_directories(my_array_app PRIVATE
         src
 )
 
 # ==== TESTS ====
 
-list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/GlCanvas\\.cpp$")
-list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/openGl\\.cpp$")
 file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "tests/*.cpp")
 
 if (TEST_SOURCES)
-    add_executable(shape_tests
+    add_executable(my_array_tests
         ${TEST_SOURCES}
         ${ALL_SOURCES}
     )
 
-    target_include_directories(shape_tests PRIVATE
+    target_include_directories(my_array_tests PRIVATE
             src
     )
 
-    target_link_libraries(shape_tests
+    target_link_libraries(my_array_tests
         PRIVATE
         GTest::gtest
         GTest::gmock
@@ -67,5 +62,5 @@ if (TEST_SOURCES)
 
     enable_testing()
     include(GoogleTest)
-    gtest_discover_tests(shape_tests)
+    gtest_discover_tests(my_array_tests)
 endif ()

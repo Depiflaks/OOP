@@ -14,7 +14,7 @@ int main()
 	for (int i = 0; i < n; i++)
 		std::cin >> v[i];
 	int maxi;
-	FindMax(v, maxi, std::greater());
+	FindMax(v, maxi, std::less());
 	std::cout << maxi << std::endl;
 	return 0;
 }

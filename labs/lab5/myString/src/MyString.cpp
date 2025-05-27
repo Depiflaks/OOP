@@ -131,10 +131,11 @@ MyString& MyString::operator+=(const MyString& other)
 	}
 	else
 	{
-		m_capacity = std::max(m_capacity * 2, m_length + other.m_length);
-		const auto newData = new char[m_capacity];
+		auto newCapacity = std::max(m_capacity * 2, m_length + other.m_length);
+		const auto newData = new char[newCapacity];
 		memcpy(newData, m_data, m_length);
 		memcpy(newData + m_length, other.m_data, other.m_length);
+		m_capacity = newCapacity;
 		DeleteData();
 		m_data = newData;
 	}
@@ -145,9 +146,9 @@ MyString& MyString::operator+=(const MyString& other)
 
 void MyString::InitFromBuffer(const char* pString, const size_t length)
 {
+	m_data = new char[length + 1];
 	m_length = length;
 	m_capacity = m_length;
-	m_data = new char[m_capacity + 1];
 	m_data[m_length] = *k_stringEnd;
 	std::memcpy(m_data, pString, m_length);
 }

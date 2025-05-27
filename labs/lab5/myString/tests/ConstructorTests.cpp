@@ -88,6 +88,26 @@ TEST(SubString, OutOfRangeHandledGracefully)
         EXPECT_EQ(sub.GetStringData()[i], s.GetStringData()[start + i]);
     }
 }
+
+TEST(SubString, StartIsOutOfRange)
+{
+    MyString s("abcdef");
+
+    size_t start = 10;
+    size_t requestedLength = 0;
+
+    MyString sub = s.SubString(start, requestedLength);
+
+    EXPECT_EQ(sub.GetLength(), 0);
+    EXPECT_EQ(sub.GetCapacity(), 0);
+    EXPECT_EQ(sub.GetStringData()[sub.GetLength()], "");
+
+    for (size_t i = 0; i < sub.GetLength(); ++i)
+    {
+        EXPECT_EQ(sub.GetStringData()[i], s.GetStringData()[start + i]);
+    }
+}
+
 TEST(SubString, WithoutLength)
 {
     MyString s("abcdef");

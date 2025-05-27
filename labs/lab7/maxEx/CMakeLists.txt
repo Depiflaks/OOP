@@ -27,7 +27,6 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 add_executable(max_ex_app
         main.cpp
         ${ALL_SOURCES}
-        tests/maxExTests.cpp
         src/findMax.h
         src/findMax.cpp
 )

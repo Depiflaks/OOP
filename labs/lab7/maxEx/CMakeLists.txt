@@ -29,6 +29,8 @@ add_executable(max_ex_app
         ${ALL_SOURCES}
         src/findMax.h
         src/findMax.cpp
+        src/athlete/Athlete.cpp
+        src/athlete/Athlete.h
 )
 
 target_link_libraries(max_ex_app

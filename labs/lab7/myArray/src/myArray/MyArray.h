@@ -11,7 +11,14 @@
 #include <memory>
 #include <stdexcept>
 
+template <typename T>
+concept DefaultConstructible = std::is_default_constructible_v<T>;
+
+template <typename T>
+concept NothrowDestructible = std::is_nothrow_destructible_v<T>;
+
 template <typename ValueType>
+	requires DefaultConstructible<ValueType> && NothrowDestructible<ValueType>
 class MyArray
 {
 public:
@@ -25,8 +32,9 @@ public:
 	MyArray(const MyArray& other)
 		: m_data(nullptr)
 	{
-		m_data = AllocateMemory(other.m_capacity);
-		CopyData(m_data, other.m_data, other.m_size);
+		ValueType* newData = AllocateMemory(other.m_capacity);
+		CopyData(newData, other.m_data, other.m_size);
+		m_data = newData;
 		m_capacity = other.m_capacity;
 		m_size = other.m_size;
 	}
@@ -61,7 +69,7 @@ public:
 
 	MyArray& operator=(MyArray&& other) noexcept
 	{
-		AssertValueTypeHasNoExceptDestructor();
+		AssertTypeHasNoExceptDestructor();
 		if (this == &other)
 			return *this;
 		FreeUpMemory(m_data, m_size);
@@ -154,6 +162,7 @@ private:
 
 	static void DestroyObjects(ValueType* data, size_t elementCount)
 	{
+		AssertTypeHasNoExceptDestructor();
 		for (size_t i = 0; i < elementCount; ++i)
 			data[i].~ValueType();
 	}
@@ -164,7 +173,7 @@ private:
 		::operator delete(data);
 	}
 
-	void CopyData(ValueType* to, ValueType* from, size_t copySize)
+	void CopyData(ValueType* to, const ValueType* from, size_t copySize)
 	{
 		size_t createdObjectsCount = 0;
 		try
@@ -174,7 +183,7 @@ private:
 		}
 		catch (...)
 		{
-			DestroyObjects(to, createdObjectsCount);
+			FreeUpMemory(to, createdObjectsCount);
 			throw;
 		}
 	}
@@ -190,7 +199,7 @@ private:
 		}
 		catch (...)
 		{
-			DestroyObjects(to, createdObjectsCount);
+			FreeUpMemory(to, createdObjectsCount);
 			throw;
 		}
 	}
@@ -206,7 +215,7 @@ private:
 		static_assert(std::is_default_constructible_v<ValueType>, "Array type must have a default constructor");
 	}
 
-	void AssertValueTypeHasNoExceptDestructor()
+	void AssertTypeHasNoExceptDestructor()
 	{
 		static_assert(std::is_nothrow_destructible_v<ValueType>, "Array type must have a noexcept destructor");
 	}

@@ -10,12 +10,12 @@
 #include <memory>
 #include <stdexcept>
 
-template <typename valueType>
+template <typename ValueType>
 class MyArray
 {
 public:
-	using iterator = valueType*;
-	using const_iterator = const valueType*;
+	using iterator = ValueType*;
+	using const_iterator = const ValueType*;
 	using reverse_iterator = std::reverse_iterator<iterator>;
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
@@ -54,7 +54,7 @@ public:
 		return *this;
 	}
 
-	void PushBack(const valueType& value)
+	void PushBack(const ValueType& value)
 	{
 		if (m_size == m_capacity)
 			Resize(m_capacity * 2);
@@ -62,28 +62,39 @@ public:
 		++m_size;
 	}
 
-	[[nodiscard]] std::size_t GetSize() const noexcept { return m_size; }
+	[[nodiscard]] size_t GetSize() const noexcept { return m_size; }
 
-	valueType& operator[](std::size_t index)
+	ValueType& operator[](size_t index)
 	{
 		CheckIndexInRange(index);
 		return m_data[index];
 	}
 
-	const valueType& operator[](std::size_t index) const
+	const ValueType& operator[](size_t index) const
 	{
 		CheckIndexInRange(index);
 		return m_data[index];
 	}
 
-	void Resize(const std::size_t newSize)
+	void CopyData(ValueType* to, ValueType* from, size_t copySize)
 	{
-		// TODO: оператор resize
+		for (size_t i = 0; i < copySize; ++i)
+			new (to + i) ValueType(from[i]);
+	}
+
+	void Resize(const size_t newSize)
+	{
+		size_t copySize = std::min(m_size, newSize);
+        ValueType* newData = AllocateMemory(newSize);
+		CopyData(copySize, newData);
+
 	}
 
 	void Clear() noexcept
 	{
-		// TODO: clar
+		for (size_t i = 0; i < m_size; ++i)
+			m_data[i].~valueType();
+		std::free(m_data);
 	}
 
 	iterator begin() noexcept { return m_data; }
@@ -98,19 +109,19 @@ public:
 
 private:
 	iterator m_data{ nullptr };
-	std::size_t m_size{ 0 };
-	std::size_t m_capacity{ 0 };
+	size_t m_size{ 0 };
+	size_t m_capacity{ 0 };
 
-	valueType* AllocateMemory(std::size_t elementCount)
+	ValueType* AllocateMemory(size_t elementCount)
 	{
-		std::size_t allocSize = elementCount * sizeof(valueType);
-		valueType* ptr = std::malloc(allocSize);
+		size_t allocSize = elementCount * sizeof(ValueType);
+		ValueType* ptr = std::malloc(allocSize);
 		if (ptr == nullptr)
 			throw std::bad_alloc();
-		return reinterpret_cast<valueType*>(ptr);
+		return reinterpret_cast<ValueType*>(ptr);
 	}
 
-	void CheckIndexInRange(std::size_t index) const
+	void CheckIndexInRange(size_t index) const
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range: " + std::to_string(index));

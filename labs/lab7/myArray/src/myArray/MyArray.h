@@ -55,11 +55,10 @@ public:
 		return *this;
 	}
 
-	void PushBack(const ValueType& value)
+	void PushBack(ValueType value)
 	{
-		if (m_size == m_capacity)
-			ResizeWithErrorHandling(m_capacity * 2);
-		m_data[m_size + 1] = value;
+		EnsureCapacity();
+		new (m_data + m_size) ValueType(std::move(value));
 		++m_size;
 	}
 
@@ -134,6 +133,24 @@ private:
 		m_size = newSize;
 		m_capacity = newSize;
 	}
+
+	void EnsureCapacity()
+	{
+		if (m_size < m_capacity)
+			return;
+		try
+		{
+			size_t newCapacity = m_capacity * 2;
+			ValueType* newData = Reallocate(m_data, newCapacity);
+			m_data = newData;
+			m_capacity = newCapacity;
+		}
+		catch (std::bad_alloc&)
+		{
+			throw std::bad_alloc();
+		}
+	}
+
 
 	ValueType* AllocateMemory(size_t elementCount)
 	{

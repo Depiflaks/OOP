@@ -23,6 +23,18 @@ TEST(MyArrayTest, PushBackIncreasesSizeAndStoresElements) {
     EXPECT_DOUBLE_EQ(arr[2], 3.3);
 }
 
+TEST(MyArrayTest, PushBackString) {
+    MyArray<std::string> arr;
+    arr.PushBack("111");
+    arr.PushBack("222");
+    arr.PushBack("333");
+
+    EXPECT_EQ(arr.GetSize(), 3);
+	EXPECT_EQ(arr[0], "111");
+	EXPECT_EQ(arr[1], "222");
+	EXPECT_EQ(arr[2], "333");
+}
+
 TEST(MyArrayTest, IndexOperatorThrowsOutOfRange) {
     MyArray<std::string> arr;
     arr.PushBack("hello");
@@ -44,7 +56,7 @@ TEST(MyArrayTest, ResizeIncreaseInitializesWithDefault)
 {
     MyArray<int> arr;
     arr.PushBack(1);
-    arr.ResizeWithErrorHandling(5);
+    arr.Resize(5);
 
     EXPECT_EQ(arr.GetSize(), 5);
     EXPECT_EQ(arr[0], 1);
@@ -59,7 +71,7 @@ TEST(MyArrayTest, ResizeDecreaseRemovesElements) {
     arr.PushBack("one");
     arr.PushBack("two");
     arr.PushBack("three");
-    arr.ResizeWithErrorHandling(1);
+    arr.Resize(1);
 
     EXPECT_EQ(arr.GetSize(), 1);
     EXPECT_EQ(arr[0], "one");

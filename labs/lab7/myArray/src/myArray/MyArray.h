@@ -76,16 +76,16 @@ public:
 		return m_data[index];
 	}
 
-	void ResizeWithErrorHandling(const size_t newSize)
+	void Resize(const size_t newSize)
 	{
-		try
-		{
-			Resize(newSize);
-		}
-		catch (const std::bad_alloc&)
-		{
-			throw std::bad_alloc();
-		}
+		size_t copySize = std::min(m_size, newSize);
+		ValueType* newData = AllocateMemory(newSize);
+		CopyData(newData, m_data, newSize);
+		FillEmptyData(newData + copySize, newSize - copySize);
+
+		m_data = newData;
+		m_size = newSize;
+		m_capacity = newSize;
 	}
 
 	void Clear() noexcept
@@ -111,63 +111,19 @@ private:
 	size_t m_size{ 0 };
 	size_t m_capacity{ 0 };
 
-	void Resize(const size_t newSize)
-	{
-		ValueType* newData = nullptr;
-		if (newSize <= m_size)
-		{
-			DestroyObjects(m_data + newSize, m_size - newSize);
-			newData = RelocateMemory(newSize);
-		}
-		else if (newSize <= m_capacity)
-		{
-			FillEmptyData(m_data + m_size, newSize - m_size);
-			newData = RelocateMemory(newSize);
-		}
-		else
-		{
-			newData = RelocateMemory(newSize);
-			FillEmptyData(newData + m_size, newSize - m_size);
-		}
-		m_data = newData;
-		m_size = newSize;
-		m_capacity = newSize;
-	}
-
 	void EnsureCapacity()
 	{
 		if (m_size < m_capacity)
 			return;
-		try
-		{
-			size_t newCapacity = m_capacity * 2;
-			ValueType* newData = Reallocate(m_data, newCapacity);
-			m_data = newData;
-			m_capacity = newCapacity;
-		}
-		catch (std::bad_alloc&)
-		{
-			throw std::bad_alloc();
-		}
+		size_t newCapacity = (m_capacity == 0) ? 1 : m_capacity * 2;
+		Resize(newCapacity);
 	}
-
 
 	ValueType* AllocateMemory(size_t elementCount)
 	{
 		size_t allocSize = elementCount * sizeof(ValueType);
-		ValueType* ptr = std::malloc(allocSize);
-		if (ptr == nullptr)
-			throw std::bad_alloc();
-		return reinterpret_cast<ValueType*>(ptr);
-	}
-
-	ValueType* RelocateMemory(size_t elementCount)
-	{
-		size_t allocSize = elementCount * sizeof(ValueType);
-		ValueType* ptr = std::realloc(m_data, allocSize);
-		if (ptr == nullptr)
-			throw std::bad_alloc();
-		return reinterpret_cast<ValueType*>(ptr);
+		void* ptr = ::operator new(allocSize);
+		return static_cast<ValueType*>(ptr);
 	}
 
 	void DestroyObjects(ValueType* data, size_t elementCount)

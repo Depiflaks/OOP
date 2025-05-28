@@ -50,9 +50,10 @@ public:
 	{
 		if (this == &other)
 			return *this;
+		ValueType* newData = AllocateMemory(other.m_capacity);
+		CopyData(newData, other.m_data, other.m_size);
 		FreeUpMemory(m_data, m_size);
-		m_data = AllocateMemory(other.m_capacity);
-		CopyData(m_data, other.m_data, other.m_size);
+		m_data = newData;
 		m_capacity = other.m_capacity;
 		m_size = other.m_size;
 		return *this;
@@ -101,6 +102,7 @@ public:
 		ValueType* newData = AllocateMemory(newSize);
 		CopyData(newData, m_data, copySize);
 		FillEmptyData(newData + copySize, newSize - copySize);
+		FreeUpMemory(m_data, m_size);
 
 		m_data = newData;
 		m_size = newSize;
@@ -137,6 +139,7 @@ private:
 		size_t newCapacity = (m_capacity == 0) ? 1 : m_capacity * 2;
 		ValueType* newData = AllocateMemory(newCapacity);
 		CopyData(newData, m_data, m_size);
+		FreeUpMemory(m_data, m_size);
 
 		m_data = newData;
 		m_capacity = newCapacity;
@@ -149,10 +152,15 @@ private:
 		return static_cast<ValueType*>(ptr);
 	}
 
-	static void FreeUpMemory(ValueType* data, size_t elementCount)
+	static void DestroyObjects(ValueType* data, size_t elementCount)
 	{
 		for (size_t i = 0; i < elementCount; ++i)
 			data[i].~ValueType();
+	}
+
+	static void FreeUpMemory(ValueType* data, size_t elementCount)
+	{
+		DestroyObjects(data, elementCount);
 		::operator delete(data);
 	}
 
@@ -166,7 +174,7 @@ private:
 		}
 		catch (...)
 		{
-			FreeUpMemory(to, createdObjectsCount);
+			DestroyObjects(to, createdObjectsCount);
 			throw;
 		}
 	}
@@ -182,7 +190,7 @@ private:
 		}
 		catch (...)
 		{
-			FreeUpMemory(to, createdObjectsCount);
+			DestroyObjects(to, createdObjectsCount);
 			throw;
 		}
 	}

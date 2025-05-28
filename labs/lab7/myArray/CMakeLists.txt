@@ -29,6 +29,7 @@ add_executable(my_array_app
     ${ALL_SOURCES}
         src/myArray/MyArray.cpp
         src/myArray/MyArray.h
+        src/tests/baseTests.cpp
 )
 
 target_link_libraries(my_array_app

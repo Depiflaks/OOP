@@ -80,7 +80,14 @@ public:
 	{
 		size_t copySize = std::min(m_size, newSize);
 		ValueType* newData = AllocateMemory(newSize);
-		CopyData(copySize, newData);
+		if (newSize < m_size)
+		{
+			CopyData(copySize, newData);
+			FreeMemory(m_data, m_size);
+		}
+		m_data = newData;
+		m_size = newSize;
+		m_capacity = newSize;
 	}
 
 	void Clear() noexcept

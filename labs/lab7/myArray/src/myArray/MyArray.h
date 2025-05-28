@@ -101,6 +101,15 @@ private:
 	std::size_t m_size{ 0 };
 	std::size_t m_capacity{ 0 };
 
+	valueType* AllocateMemory(std::size_t elementCount)
+	{
+		std::size_t allocSize = elementCount * sizeof(valueType);
+		valueType* ptr = std::malloc(allocSize);
+		if (ptr == nullptr)
+			throw std::bad_alloc();
+		return reinterpret_cast<valueType*>(ptr);
+	}
+
 	void CheckIndexInRange(std::size_t index) const
 	{
 		if (index >= m_size)

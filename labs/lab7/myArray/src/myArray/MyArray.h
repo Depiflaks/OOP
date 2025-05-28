@@ -5,6 +5,7 @@
 #ifndef MY_ARRAY_H
 #define MY_ARRAY_H
 
+#include <bits/stl_algo.h>
 #include <cstddef>
 #include <iterator>
 #include <memory>
@@ -39,7 +40,7 @@ public:
 
 	~MyArray() noexcept
 	{
-		// TODO: деструктор
+		FreeUpMemory(m_data, m_size);
 	}
 
 	MyArray& operator=(MyArray& other)
@@ -57,7 +58,7 @@ public:
 	void PushBack(const ValueType& value)
 	{
 		if (m_size == m_capacity)
-			Resize(m_capacity * 2);
+			ResizeWithErrorHandling(m_capacity * 2);
 		m_data[m_size + 1] = value;
 		++m_size;
 	}
@@ -76,23 +77,21 @@ public:
 		return m_data[index];
 	}
 
-	void Resize(const size_t newSize)
+	void ResizeWithErrorHandling(const size_t newSize)
 	{
-		size_t copySize = std::min(m_size, newSize);
-		ValueType* newData = AllocateMemory(newSize);
-		if (newSize < m_size)
+		try
 		{
-			CopyData(copySize, newData);
-			FreeMemory(m_data, m_size);
+			Resize(newSize);
 		}
-		m_data = newData;
-		m_size = newSize;
-		m_capacity = newSize;
+		catch (const std::bad_alloc&)
+		{
+			throw std::bad_alloc();
+		}
 	}
 
 	void Clear() noexcept
 	{
-		FreeMemory(m_data, m_size);
+		FreeUpMemory(m_data, m_size);
 		m_data = nullptr;
 		m_size = 0;
 		m_capacity = 0;
@@ -113,6 +112,29 @@ private:
 	size_t m_size{ 0 };
 	size_t m_capacity{ 0 };
 
+	void Resize(const size_t newSize)
+	{
+		ValueType* newData = nullptr;
+		if (newSize <= m_size)
+		{
+			DestroyObjects(m_data + newSize, m_size - newSize);
+			newData = RelocateMemory(newSize);
+		}
+		else if (newSize <= m_capacity)
+		{
+			FillEmptyData(m_data + m_size, newSize - m_size);
+			newData = RelocateMemory(newSize);
+		}
+		else
+		{
+			newData = RelocateMemory(newSize);
+			FillEmptyData(newData + m_size, newSize - m_size);
+		}
+		m_data = newData;
+		m_size = newSize;
+		m_capacity = newSize;
+	}
+
 	ValueType* AllocateMemory(size_t elementCount)
 	{
 		size_t allocSize = elementCount * sizeof(ValueType);
@@ -122,10 +144,24 @@ private:
 		return reinterpret_cast<ValueType*>(ptr);
 	}
 
-	void FreeUpMemory(ValueType* data, size_t elementCount)
+	ValueType* RelocateMemory(size_t elementCount)
+	{
+		size_t allocSize = elementCount * sizeof(ValueType);
+		ValueType* ptr = std::realloc(m_data, allocSize);
+		if (ptr == nullptr)
+			throw std::bad_alloc();
+		return reinterpret_cast<ValueType*>(ptr);
+	}
+
+	void DestroyObjects(ValueType* data, size_t elementCount)
 	{
 		for (size_t i = 0; i < elementCount; ++i)
 			data[i].~ValueType();
+	}
+
+	void FreeUpMemory(ValueType* data, size_t elementCount)
+	{
+		DestroyObjects(data, elementCount);
 		std::free(data);
 	}
 
@@ -144,10 +180,31 @@ private:
 		}
 	}
 
+	void FillEmptyData(ValueType* to, size_t elementCount)
+	{
+		CheckTypeHasDefaultConstructor();
+		size_t createdObjectsCount = 0;
+		try
+		{
+			for (; createdObjectsCount < elementCount; ++createdObjectsCount)
+				new (to + createdObjectsCount) ValueType();
+		}
+		catch (...)
+		{
+			FreeUpMemory(to, createdObjectsCount);
+			throw;
+		}
+	}
+
 	void CheckIndexInRange(size_t index) const
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range: " + std::to_string(index));
+	}
+
+	void CheckTypeHasDefaultConstructor()
+	{
+		static_assert(std::is_default_constructible_v<ValueType>, "Array type must have a default constructor");
 	}
 };
 

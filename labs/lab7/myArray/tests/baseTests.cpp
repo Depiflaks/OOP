@@ -44,7 +44,7 @@ TEST(MyArrayTest, ResizeIncreaseInitializesWithDefault)
 {
     MyArray<int> arr;
     arr.PushBack(1);
-    arr.Resize(5);
+    arr.ResizeWithErrorHandling(5);
 
     EXPECT_EQ(arr.GetSize(), 5);
     EXPECT_EQ(arr[0], 1);
@@ -59,7 +59,7 @@ TEST(MyArrayTest, ResizeDecreaseRemovesElements) {
     arr.PushBack("one");
     arr.PushBack("two");
     arr.PushBack("three");
-    arr.Resize(1);
+    arr.ResizeWithErrorHandling(1);
 
     EXPECT_EQ(arr.GetSize(), 1);
     EXPECT_EQ(arr[0], "one");

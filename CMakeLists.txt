@@ -34,4 +34,5 @@ add_executable(OOP
         labs/lab2/dictionary/src/dictionary/Dictionary.h
         labs/lab2/dictionary/src/translationSet/TranslationSet.cpp
         labs/lab2/dictionary/src/translationSet/TranslationSet.h
-        labs/lab2/dictionary/tests/TestDictionary.cpp)
+        labs/lab2/dictionary/tests/TestDictionary.cpp
+        main.cpp)

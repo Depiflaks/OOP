@@ -4,7 +4,7 @@
 
 #include "Athlete.h"
 
-Athlete::Athlete(std::string name, const double height, const double weight)
+Athlete::Athlete(std::string name, double height, double weight)
 	: name(std::move(name))
 	, height(height)
 	, weight(weight)

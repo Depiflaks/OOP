@@ -78,3 +78,57 @@ TEST(FindMaxTests, CommitRollbackOnExceptionInAssignment)
 		EXPECT_EQ(target.value, 0);
 	}
 }
+
+TEST(FindMaxAthleteTests, EmptyReturnsFalse)
+{
+    std::vector<Athlete> athletes;
+    Athlete result("N/A", 0, 0);
+    EXPECT_FALSE(FindMax(athletes, result, CompareByHeight));
+}
+
+TEST(FindMaxAthleteTests, AllEqualHeight)
+{
+    std::vector<Athlete> athletes = {
+        {"A", 1.80, 70},
+        {"B", 1.80, 75},
+        {"C", 1.80, 80}
+    };
+    Athlete result("X", 0, 0);
+    EXPECT_TRUE(FindMax(athletes, result, CompareByHeight));
+    EXPECT_EQ(result.name, "A");
+}
+
+TEST(FindMaxAthleteTests, FindByHeight)
+{
+    std::vector<Athlete> athletes = {
+        {"A", 1.70, 70},
+        {"B", 1.90, 80},
+        {"C", 1.85, 90}
+    };
+    Athlete result("X", 0, 0);
+    EXPECT_TRUE(FindMax(athletes, result, CompareByHeight));
+    EXPECT_EQ(result.name, "B");
+}
+
+TEST(FindMaxAthleteTests, FindByWeight)
+{
+    std::vector<Athlete> athletes = {
+        {"A", 1.70, 60},
+        {"B", 1.85, 75},
+        {"C", 1.90, 90}
+    };
+    Athlete result("X", 0, 0);
+    EXPECT_TRUE(FindMax(athletes, result, CompareByWeight));
+    EXPECT_EQ(result.name, "C");
+}
+
+TEST(FindMaxAthleteTests, CommitRollbackNoAssignmentOnEmpty)
+{
+    std::vector<Athlete> athletes;
+    Athlete original("Original", 1.75, 70);
+    Athlete result = original;
+    EXPECT_FALSE(FindMax(athletes, result, CompareByWeight));
+    EXPECT_EQ(result.name, original.name);
+    EXPECT_EQ(result.height, original.height);
+    EXPECT_EQ(result.weight, original.weight);
+}

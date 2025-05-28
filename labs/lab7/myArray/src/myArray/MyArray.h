@@ -5,31 +5,21 @@
 #ifndef MY_ARRAY_H
 #define MY_ARRAY_H
 
-#include <algorithm>
 #include <cstddef>
-#include <iostream>
 #include <iterator>
 #include <memory>
 #include <stdexcept>
-#include <string>
 
-template <typename T>
+template <typename valueType>
 class MyArray
 {
 public:
-	using value_type = T;
-	using size_type = std::size_t;
-	using iterator = T*;
-	using const_iterator = const T*;
+	using iterator = valueType*;
+	using const_iterator = const valueType*;
 	using reverse_iterator = std::reverse_iterator<iterator>;
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-	MyArray() noexcept
-		: m_data(nullptr)
-		, m_size(0)
-		, m_capacity(0)
-	{
-	}
+	MyArray() noexcept = default;
 
 	MyArray(const MyArray& other)
 		: m_data(nullptr)
@@ -50,8 +40,6 @@ public:
 	~MyArray() noexcept
 	{
 		// TODO: деструктор
-		// Clear();
-		// operator delete[](m_data);
 	}
 
 	MyArray& operator=(MyArray& other)
@@ -66,28 +54,31 @@ public:
 		return *this;
 	}
 
-	void PushBack(const value_type& value)
+	void PushBack(const valueType& value)
 	{
-		// TODO: оператор перемещения
+		if (m_size == m_capacity)
+			Resize(m_capacity * 2);
+		m_data[m_size + 1] = value;
+		++m_size;
 	}
 
-	[[nodiscard]] size_type GetSize() const noexcept { return m_size; }
+	[[nodiscard]] std::size_t GetSize() const noexcept { return m_size; }
 
-	value_type& operator[](size_type index)
-	{
-		if (index >= m_size)
-			throw std::out_of_range("Index out of range");
-		return m_data[index];
-	}
-
-	const value_type& operator[](size_type index) const
+	valueType& operator[](std::size_t index)
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range");
 		return m_data[index];
 	}
 
-	void Resize(const size_type newSize)
+	const valueType& operator[](std::size_t index) const
+	{
+		if (index >= m_size)
+			throw std::out_of_range("Index out of range");
+		return m_data[index];
+	}
+
+	void Resize(const std::size_t newSize)
 	{
 		// TODO: оператор resize
 	}
@@ -108,10 +99,9 @@ public:
 	const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
 
 private:
-	iterator m_data;
-	size_type m_size;
-	size_type m_capacity;
-
+	iterator m_data{ nullptr };
+	std::size_t m_size{ 0 };
+	std::size_t m_capacity{ 0 };
 };
 
 #endif // MY_ARRAY_H

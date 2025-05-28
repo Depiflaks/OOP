@@ -79,9 +79,8 @@ public:
 	void Resize(const size_t newSize)
 	{
 		size_t copySize = std::min(m_size, newSize);
-        ValueType* newData = AllocateMemory(newSize);
+		ValueType* newData = AllocateMemory(newSize);
 		CopyData(copySize, newData);
-
 	}
 
 	void Clear() noexcept
@@ -123,16 +122,25 @@ private:
 		std::free(data);
 	}
 
+	void CopyData(ValueType* to, ValueType* from, size_t copySize)
+	{
+		size_t i = 0;
+		try
+		{
+			for (; i < copySize; ++i)
+				new (to + i) ValueType(from[i]);
+		}
+		catch (...)
+		{
+			FreeUpMemory(to, i);
+			throw;
+		}
+	}
+
 	void CheckIndexInRange(size_t index) const
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range: " + std::to_string(index));
-	}
-
-	void CopyData(ValueType* to, ValueType* from, size_t copySize)
-	{
-		for (size_t i = 0; i < copySize; ++i)
-			new (to + i) ValueType(from[i]);
 	}
 };
 

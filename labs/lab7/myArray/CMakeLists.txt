@@ -31,6 +31,7 @@ add_executable(my_array_app
         src/myArray/MyArray.h
         src/tests/baseTests.cpp
         src/tests/copyMoveConstructorsTests.cpp
+        src/tests/iteratorTests.cpp
 )
 
 target_link_libraries(my_array_app

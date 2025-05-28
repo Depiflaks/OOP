@@ -124,15 +124,15 @@ private:
 
 	void CopyData(ValueType* to, ValueType* from, size_t copySize)
 	{
-		size_t i = 0;
+		size_t createdObjectsCount = 0;
 		try
 		{
-			for (; i < copySize; ++i)
-				new (to + i) ValueType(from[i]);
+			for (; createdObjectsCount < copySize; ++createdObjectsCount)
+				new (to + createdObjectsCount) ValueType(from[createdObjectsCount]);
 		}
 		catch (...)
 		{
-			FreeUpMemory(to, i);
+			FreeUpMemory(to, createdObjectsCount);
 			throw;
 		}
 	}

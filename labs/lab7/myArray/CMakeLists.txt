@@ -45,9 +45,7 @@ file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "tests/*.cpp")
 
 if (TEST_SOURCES)
     add_executable(my_array_tests
-            #            ${TEST_SOURCES}
-            tests/baseTests.cpp
-            tests/copyMoveConstructorsTests.cpp
+            ${TEST_SOURCES}
             ${ALL_SOURCES}
     )
 

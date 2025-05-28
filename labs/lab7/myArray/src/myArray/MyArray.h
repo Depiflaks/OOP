@@ -153,7 +153,7 @@ private:
 	{
 		for (size_t i = 0; i < elementCount; ++i)
 			data[i].~ValueType();
-		delete[] data;
+		::operator delete(data);
 	}
 
 	void CopyData(ValueType* to, ValueType* from, size_t copySize)

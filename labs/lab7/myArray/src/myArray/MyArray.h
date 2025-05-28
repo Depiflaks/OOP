@@ -80,7 +80,7 @@ public:
 	{
 		size_t copySize = std::min(m_size, newSize);
 		ValueType* newData = AllocateMemory(newSize);
-		CopyData(newData, m_data, newSize);
+		CopyData(newData, m_data, copySize);
 		FillEmptyData(newData + copySize, newSize - copySize);
 
 		m_data = newData;
@@ -116,7 +116,11 @@ private:
 		if (m_size < m_capacity)
 			return;
 		size_t newCapacity = (m_capacity == 0) ? 1 : m_capacity * 2;
-		Resize(newCapacity);
+		ValueType* newData = AllocateMemory(newCapacity);
+		CopyData(newData, m_data, m_size);
+
+		m_data = newData;
+		m_capacity = newCapacity;
 	}
 
 	ValueType* AllocateMemory(size_t elementCount)

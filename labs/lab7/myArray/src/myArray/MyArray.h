@@ -76,12 +76,6 @@ public:
 		return m_data[index];
 	}
 
-	void CopyData(ValueType* to, ValueType* from, size_t copySize)
-	{
-		for (size_t i = 0; i < copySize; ++i)
-			new (to + i) ValueType(from[i]);
-	}
-
 	void Resize(const size_t newSize)
 	{
 		size_t copySize = std::min(m_size, newSize);
@@ -92,9 +86,10 @@ public:
 
 	void Clear() noexcept
 	{
-		for (size_t i = 0; i < m_size; ++i)
-			m_data[i].~valueType();
-		std::free(m_data);
+		FreeMemory(m_data, m_size);
+		m_data = nullptr;
+		m_size = 0;
+		m_capacity = 0;
 	}
 
 	iterator begin() noexcept { return m_data; }
@@ -121,10 +116,23 @@ private:
 		return reinterpret_cast<ValueType*>(ptr);
 	}
 
+	void FreeUpMemory(ValueType* data, size_t elementCount)
+	{
+		for (size_t i = 0; i < elementCount; ++i)
+			data[i].~ValueType();
+		std::free(data);
+	}
+
 	void CheckIndexInRange(size_t index) const
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range: " + std::to_string(index));
+	}
+
+	void CopyData(ValueType* to, ValueType* from, size_t copySize)
+	{
+		for (size_t i = 0; i < copySize; ++i)
+			new (to + i) ValueType(from[i]);
 	}
 };
 

@@ -69,7 +69,6 @@ public:
 
 	MyArray& operator=(MyArray&& other) noexcept
 	{
-		AssertTypeHasNoExceptDestructor();
 		if (this == &other)
 			return *this;
 		FreeUpMemory(m_data, m_size);
@@ -162,7 +161,6 @@ private:
 
 	static void DestroyObjects(ValueType* data, size_t elementCount)
 	{
-		AssertTypeHasNoExceptDestructor();
 		for (size_t i = 0; i < elementCount; ++i)
 			data[i].~ValueType();
 	}
@@ -190,7 +188,6 @@ private:
 
 	void FillEmptyData(ValueType* to, size_t elementCount)
 	{
-		AssertTypeHasDefaultConstructor();
 		size_t createdObjectsCount = 0;
 		try
 		{
@@ -208,16 +205,6 @@ private:
 	{
 		if (index >= m_size)
 			throw std::out_of_range("Index out of range: " + std::to_string(index));
-	}
-
-	void AssertTypeHasDefaultConstructor()
-	{
-		static_assert(std::is_default_constructible_v<ValueType>, "Array type must have a default constructor");
-	}
-
-	void AssertTypeHasNoExceptDestructor()
-	{
-		static_assert(std::is_nothrow_destructible_v<ValueType>, "Array type must have a noexcept destructor");
 	}
 };
 

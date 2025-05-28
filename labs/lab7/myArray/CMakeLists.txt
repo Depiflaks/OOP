@@ -14,10 +14,10 @@ find_package(GTest REQUIRED)
 # ==== SOURCES ====
 
 file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
-    "src/*.cpp"
-    "src/*/*.cpp"
-    "src/*/*/*.cpp"
-    "src/*/*/*/*.cpp"
+        "src/*.cpp"
+        "src/*/*.cpp"
+        "src/*/*/*.cpp"
+        "src/*/*/*/*.cpp"
 )
 
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
@@ -26,16 +26,13 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 
 add_executable(my_array_app
         main.cpp
-    ${ALL_SOURCES}
+        ${ALL_SOURCES}
         src/myArray/MyArray.cpp
         src/myArray/MyArray.h
-        src/tests/baseTests.cpp
-        src/tests/copyMoveConstructorsTests.cpp
-        src/tests/iteratorTests.cpp
 )
 
 target_link_libraries(my_array_app
-    PRIVATE
+        PRIVATE
 )
 
 target_include_directories(my_array_app PRIVATE
@@ -48,8 +45,9 @@ file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "tests/*.cpp")
 
 if (TEST_SOURCES)
     add_executable(my_array_tests
-        ${TEST_SOURCES}
-        ${ALL_SOURCES}
+            #            ${TEST_SOURCES}
+            tests/baseTests.cpp
+            ${ALL_SOURCES}
     )
 
     target_include_directories(my_array_tests PRIVATE
@@ -57,10 +55,10 @@ if (TEST_SOURCES)
     )
 
     target_link_libraries(my_array_tests
-        PRIVATE
-        GTest::gtest
-        GTest::gmock
-        GTest::gtest_main
+            PRIVATE
+            GTest::gtest
+            GTest::gmock
+            GTest::gtest_main
     )
 
     enable_testing()

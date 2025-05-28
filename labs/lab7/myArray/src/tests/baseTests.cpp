@@ -39,3 +39,29 @@ TEST(MyArrayTest, ClearRemovesAllElements) {
     EXPECT_EQ(arr.GetSize(), 0);
     EXPECT_THROW(arr[0], std::out_of_range);
 }
+
+TEST(MyArrayTest, ResizeIncreaseInitializesWithDefault)
+{
+    MyArray<int> arr;
+    arr.PushBack(1);
+    arr.Resize(5);
+
+    EXPECT_EQ(arr.GetSize(), 5);
+    EXPECT_EQ(arr[0], 1);
+    EXPECT_EQ(arr[1], 0);
+    EXPECT_EQ(arr[2], 0);
+    EXPECT_EQ(arr[3], 0);
+    EXPECT_EQ(arr[4], 0);
+}
+
+TEST(MyArrayTest, ResizeDecreaseRemovesElements) {
+    MyArray<std::string> arr;
+    arr.PushBack("one");
+    arr.PushBack("two");
+    arr.PushBack("three");
+    arr.Resize(1);
+
+    EXPECT_EQ(arr.GetSize(), 1);
+    EXPECT_EQ(arr[0], "one");
+    EXPECT_THROW(arr[1], std::out_of_range);
+}

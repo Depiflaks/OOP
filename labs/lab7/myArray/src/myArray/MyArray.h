@@ -36,12 +36,7 @@ public:
 		, m_size(0)
 		, m_capacity(0)
 	{
-		if (other.m_size > 0)
-		{
-			reserve(other.m_capacity);
-			uninitialized_copy(other.m_data, other.m_data + other.m_size, m_data);
-			m_size = other.m_size;
-		}
+		// TODO: реализовать копирующий конструктор
 	}
 
 	MyArray(MyArray&& other) noexcept
@@ -49,8 +44,7 @@ public:
 		, m_size(other.m_size)
 		, m_capacity(other.m_capacity)
 	{
-		other.m_data = nullptr;
-		other.m_size = other.m_capacity = 0;
+		// TODO: реализовать перемещающий конструктор
 	}
 
 	~MyArray() noexcept
@@ -73,7 +67,7 @@ public:
 		++m_size;
 	}
 
-	[[nodiscard]] size_type Size() const noexcept { return m_size; }
+	[[nodiscard]] size_type GetSize() const noexcept { return m_size; }
 
 	value_type& operator[](size_type index)
 	{

@@ -66,15 +66,13 @@ public:
 
 	valueType& operator[](std::size_t index)
 	{
-		if (index >= m_size)
-			throw std::out_of_range("Index out of range");
+		CheckIndexInRange(index);
 		return m_data[index];
 	}
 
 	const valueType& operator[](std::size_t index) const
 	{
-		if (index >= m_size)
-			throw std::out_of_range("Index out of range");
+		CheckIndexInRange(index);
 		return m_data[index];
 	}
 
@@ -102,6 +100,12 @@ private:
 	iterator m_data{ nullptr };
 	std::size_t m_size{ 0 };
 	std::size_t m_capacity{ 0 };
+
+	void CheckIndexInRange(std::size_t index) const
+	{
+		if (index >= m_size)
+			throw std::out_of_range("Index out of range: " + std::to_string(index));
+	}
 };
 
 #endif // MY_ARRAY_H

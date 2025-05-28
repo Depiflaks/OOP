@@ -47,6 +47,7 @@ if (TEST_SOURCES)
     add_executable(my_array_tests
             #            ${TEST_SOURCES}
             tests/baseTests.cpp
+            tests/copyMoveConstructorsTests.cpp
             ${ALL_SOURCES}
     )
 

@@ -24,10 +24,11 @@ public:
 
 	MyArray(const MyArray& other)
 		: m_data(nullptr)
-		, m_size(0)
-		, m_capacity(0)
 	{
-		// TODO: реализовать копирующий конструктор
+		m_data = AllocateMemory(other.m_capacity);
+		CopyData(m_data, other.m_data, other.m_size);
+		m_capacity = other.m_capacity;
+		m_size = other.m_size;
 	}
 
 	MyArray(MyArray&& other) noexcept
@@ -35,7 +36,9 @@ public:
 		, m_size(other.m_size)
 		, m_capacity(other.m_capacity)
 	{
-		// TODO: реализовать перемещающий конструктор
+		other.m_data = nullptr;
+		other.m_size = 0;
+		other.m_capacity = 0;
 	}
 
 	~MyArray() noexcept
@@ -43,15 +46,31 @@ public:
 		FreeUpMemory(m_data, m_size);
 	}
 
-	MyArray& operator=(MyArray& other)
+	MyArray& operator=(MyArray const& other)
 	{
-		// TODO: оператор копирования
+		if (this == &other)
+			return *this;
+		FreeUpMemory(m_data, m_size);
+		m_data = AllocateMemory(other.m_capacity);
+		CopyData(m_data, other.m_data, other.m_size);
+		m_capacity = other.m_capacity;
+		m_size = other.m_size;
 		return *this;
 	}
 
 	MyArray& operator=(MyArray&& other) noexcept
 	{
-		// TODO: оператор перемещения
+		AssertValueTypeHasNoExceptDestructor();
+		if (this == &other)
+			return *this;
+		FreeUpMemory(m_data, m_size);
+		m_data = other.m_data;
+		m_size = other.m_size;
+		m_capacity = other.m_capacity;
+
+		other.m_data = nullptr;
+		other.m_size = 0;
+		other.m_capacity = 0;
 		return *this;
 	}
 
@@ -123,23 +142,18 @@ private:
 		m_capacity = newCapacity;
 	}
 
-	ValueType* AllocateMemory(size_t elementCount)
+	static ValueType* AllocateMemory(size_t elementCount)
 	{
 		size_t allocSize = elementCount * sizeof(ValueType);
 		void* ptr = ::operator new(allocSize);
 		return static_cast<ValueType*>(ptr);
 	}
 
-	void DestroyObjects(ValueType* data, size_t elementCount)
+	static void FreeUpMemory(ValueType* data, size_t elementCount)
 	{
 		for (size_t i = 0; i < elementCount; ++i)
 			data[i].~ValueType();
-	}
-
-	void FreeUpMemory(ValueType* data, size_t elementCount)
-	{
-		DestroyObjects(data, elementCount);
-		std::free(data);
+		delete[] data;
 	}
 
 	void CopyData(ValueType* to, ValueType* from, size_t copySize)
@@ -159,7 +173,7 @@ private:
 
 	void FillEmptyData(ValueType* to, size_t elementCount)
 	{
-		CheckTypeHasDefaultConstructor();
+		AssertTypeHasDefaultConstructor();
 		size_t createdObjectsCount = 0;
 		try
 		{
@@ -179,9 +193,14 @@ private:
 			throw std::out_of_range("Index out of range: " + std::to_string(index));
 	}
 
-	void CheckTypeHasDefaultConstructor()
+	void AssertTypeHasDefaultConstructor()
 	{
 		static_assert(std::is_default_constructible_v<ValueType>, "Array type must have a default constructor");
+	}
+
+	void AssertValueTypeHasNoExceptDestructor()
+	{
+		static_assert(std::is_nothrow_destructible_v<ValueType>, "Array type must have a noexcept destructor");
 	}
 };
 

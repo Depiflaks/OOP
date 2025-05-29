@@ -4,6 +4,7 @@
 
 #ifndef RADIX_CONVERTER_H
 #define RADIX_CONVERTER_H
+#include <string>
 
 int StringToInt(const std::string& value, int radix);
 std::string IntToString(int number, int radix);

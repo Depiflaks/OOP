@@ -46,25 +46,3 @@ void RadixConversionData::SetOriginalValue(const std::string& value)
 
 void RadixConversionData::SetDecimalValue(const int value) { m_decimalValue = value; }
 
-bool RadixConversionData::IsOriginalValueNegative(const std::string& value)
-{
-	return value[0] == '-';
-}
-
-void RadixConversionData::CheckRadixRange(int radix)
-{
-	if (radix < 2 || radix > 36)
-		throw std::invalid_argument("Invalid radix");
-}
-
-void RadixConversionData::CheckNotEmpty(const std::string& value)
-{
-	if (value.empty())
-		throw std::invalid_argument("Empty string");
-}
-
-void RadixConversionData::CheckHaveDigitAfterSign(const std::string& value)
-{
-	if ((value[0] == '-' || value[0] == '+') && value.size() == 1)
-		throw std::invalid_argument("Missing digits after sign");
-}

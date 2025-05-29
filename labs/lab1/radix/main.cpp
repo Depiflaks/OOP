@@ -16,10 +16,33 @@ int CharToDecimal(char currentChar);
 void CheckCharInRadixRange(int radix, int digit, char ch);
 void CheckOverflowDoesntReached(int radix, long long result, int digit);
 void CheckValueInIntRange(long long result);
+bool IsOriginalValueNegative(const std::string& value);
+int StringToInt(const std::string& value, int radix);
 
-int StringToInt(const RadixConversionData& data);
+bool IsOriginalValueNegative(const std::string& value)
+{
+	return value[0] == '-';
+}
 
-std::string IntToString(int n, int radix)
+void CheckRadixRange(int radix)
+{
+	if (radix < 2 || radix > 36)
+		throw std::invalid_argument("Invalid radix");
+}
+
+void CheckNotEmpty(const std::string& value)
+{
+	if (value.empty())
+		throw std::invalid_argument("Empty string");
+}
+
+void CheckHaveDigitAfterSign(const std::string& value)
+{
+	if ((value[0] == '-' || value[0] == '+') && value.size() == 1)
+		throw std::invalid_argument("Missing digits after sign");
+}
+
+std::string IntToString(int number, int radix)
 {
 	if (radix < 2 || radix > 36)
 		throw std::invalid_argument("Invalid radix");
@@ -105,22 +128,27 @@ RadixConversionData ParseArguments(char** argv)
 	return RadixConversionData{ sourceRadix, destRadix, value };
 }
 
-int StringToInt(const RadixConversionData& data)
+int StringToInt(const std::string& value, int radix)
 {
+	CheckRadixRange(radix);
+	CheckNotEmpty(value);
+	CheckHaveDigitAfterSign(value);
+
+	bool isNegative = IsOriginalValueNegative(value);
+	int startChar = value[0] == '+' || value[0] == '-';
 	long long result = 0;
 
-	std::string value = data.GetOriginalValue();
-	int radix = data.GetSourceRadix();
-	for (size_t i = data.GetStartChar(); i < value.size(); ++i)
+	for (size_t i = startChar; i < value.size(); ++i)
 	{
 		char currentChar = value[i];
 		int digit = CharToDecimal(currentChar);
 
 		CheckCharInRadixRange(radix, digit, currentChar);
 		CheckOverflowDoesntReached(radix, result, digit);
+
 		result = result * radix + digit;
 	}
-	if (data.IsNegative())
+	if (isNegative)
 		result = -result;
 
 	CheckValueInIntRange(result);
@@ -155,4 +183,3 @@ void CheckValueInIntRange(long long result)
 	if (result > INT_MAX || result < INT_MIN)
 		throw std::overflow_error("Overflow");
 }
-

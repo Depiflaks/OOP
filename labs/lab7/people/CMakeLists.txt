@@ -27,6 +27,10 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 add_executable(people_app
         main.cpp
         ${ALL_SOURCES}
+        src/interface/person/IPerson.cpp
+        src/interface/person/IPerson.h
+        src/interface/student/IStudent.cpp
+        src/interface/student/IStudent.h
 )
 
 target_link_libraries(people_app

@@ -19,6 +19,7 @@ add_subdirectory(labs/lab5/myString)
 add_subdirectory(labs/lab6/myStringList)
 add_subdirectory(labs/lab7/myArray)
 add_subdirectory(labs/lab7/maxEx)
+add_subdirectory(labs/lab7/people)
 
 add_executable(OOP
         labs/lab1/replace/main.cpp

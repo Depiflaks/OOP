@@ -8,7 +8,6 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
-#include <utility>
 
 void PrintHelp(const char* command);
 RadixConversionData ParseArguments(char** argv);
@@ -17,68 +16,13 @@ void CheckCharInRadixRange(int radix, int digit, char ch);
 void CheckOverflowDoesntReached(int radix, long long result, int digit);
 void CheckValueInIntRange(long long result);
 bool IsOriginalValueNegative(const std::string& value);
+void CheckRadixRange(int radix);
+void CheckNotEmpty(const std::string& value);
+void CheckHaveDigitAfterSign(const std::string& value);
 int StringToInt(const std::string& value, int radix);
-
-bool IsOriginalValueNegative(const std::string& value)
-{
-	return value[0] == '-';
-}
-
-void CheckRadixRange(int radix)
-{
-	if (radix < 2 || radix > 36)
-		throw std::invalid_argument("Invalid radix");
-}
-
-void CheckNotEmpty(const std::string& value)
-{
-	if (value.empty())
-		throw std::invalid_argument("Empty string");
-}
-
-void CheckHaveDigitAfterSign(const std::string& value)
-{
-	if ((value[0] == '-' || value[0] == '+') && value.size() == 1)
-		throw std::invalid_argument("Missing digits after sign");
-}
-
-std::string IntToString(int number, int radix)
-{
-	if (radix < 2 || radix > 36)
-		throw std::invalid_argument("Invalid radix");
-
-	if (n == 0)
-		return "0";
-
-	bool negative = n < 0;
-	unsigned int abs_n;
-
-	if (n == INT_MIN)
-		abs_n = static_cast<unsigned int>(INT_MAX) + 1;
-	else
-		abs_n = negative ? static_cast<unsigned int>(-n) : static_cast<unsigned int>(n);
-
-	std::string result;
-	while (abs_n > 0)
-	{
-		unsigned int digit = abs_n % radix;
-		abs_n /= radix;
-
-		char c;
-		if (digit < 10)
-			c = '0' + digit;
-		else
-			c = 'A' + digit - 10;
-
-		result.push_back(c);
-	}
-
-	if (negative)
-		result.push_back('-');
-
-	std::ranges::reverse(result);
-	return result;
-}
+constexpr char DigitToChar(unsigned int digit);
+unsigned int AbsValue(int number, bool negative);
+std::string IntToString(int number, int radix);
 
 int main(int argc, char* argv[])
 {
@@ -91,10 +35,9 @@ int main(int argc, char* argv[])
 	try
 	{
 		auto conversionData = ParseArguments(argv);
-		int number = StringToInt(conversionData);
-		conversionData.SetDecimalValue(number);
-		std::string result = IntToString(number, destRadix);
-		std::cout << result << std::endl;
+		int number = StringToInt(conversionData.m_originalValue, conversionData.m_sourceRadix);
+		std::string result = IntToString(number, conversionData.m_destRadix);
+		std::cout << result << '\n';
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -122,10 +65,11 @@ void PrintHelp(const char* command)
 
 RadixConversionData ParseArguments(char** argv)
 {
-	int sourceRadix = std::stoi(argv[1]);
-	int destRadix = std::stoi(argv[2]);
-	std::string value = argv[3];
-	return RadixConversionData{ sourceRadix, destRadix, value };
+	return RadixConversionData{
+		std::stoi(argv[1]),
+		std::stoi(argv[2]),
+		argv[3]
+	};
 }
 
 int StringToInt(const std::string& value, int radix)
@@ -155,6 +99,29 @@ int StringToInt(const std::string& value, int radix)
 	return static_cast<int>(result);
 }
 
+bool IsOriginalValueNegative(const std::string& value)
+{
+	return value[0] == '-';
+}
+
+void CheckRadixRange(int radix)
+{
+	if (radix < 2 || radix > 36)
+		throw std::invalid_argument("Invalid radix");
+}
+
+void CheckNotEmpty(const std::string& value)
+{
+	if (value.empty())
+		throw std::invalid_argument("Empty string");
+}
+
+void CheckHaveDigitAfterSign(const std::string& value)
+{
+	if ((value[0] == '-' || value[0] == '+') && value.size() == 1)
+		throw std::invalid_argument("Missing digits after sign");
+}
+
 int CharToDecimal(char currentChar)
 {
 	if (currentChar >= '0' && currentChar <= '9')
@@ -182,4 +149,43 @@ void CheckValueInIntRange(long long result)
 {
 	if (result > INT_MAX || result < INT_MIN)
 		throw std::overflow_error("Overflow");
+}
+
+constexpr char DigitToChar(unsigned int digit)
+{
+	return (digit < 10)
+		? static_cast<char>('0' + digit)
+		: static_cast<char>('A' + (digit - 10));
+}
+
+unsigned int AbsValue(int number, bool negative)
+{
+	if (number == INT_MIN)
+		return static_cast<unsigned int>(INT_MAX) + 1;
+	return negative ? static_cast<unsigned int>(-number) : static_cast<unsigned int>(number);
+}
+
+std::string IntToString(int number, int radix)
+{
+	CheckRadixRange(radix);
+	if (number == 0)
+		return "0";
+
+	bool negative = number < 0;
+	unsigned int absNumber = AbsValue(number, negative);
+
+	std::string result;
+	while (absNumber > 0)
+	{
+		unsigned int digit = absNumber % radix;
+		absNumber /= radix;
+		char ch = DigitToChar(digit);
+		result.push_back(ch);
+	}
+
+	if (negative)
+		result.push_back('-');
+
+	std::ranges::reverse(result);
+	return result;
 }

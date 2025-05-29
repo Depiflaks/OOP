@@ -11,6 +11,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(labs/lab1/replace)
+add_subdirectory(labs/lab1/radix)
 add_subdirectory(labs/lab2/primes)
 add_subdirectory(labs/lab2/html_decode)
 add_subdirectory(labs/lab2/dictionary)

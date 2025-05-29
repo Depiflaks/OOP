@@ -7,36 +7,83 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 class RadixConversionData
 {
+public:
+	RadixConversionData(int sourceRadix, int destRadix, std::string value)
+		: m_sourceRadix(sourceRadix)
+		, m_destRadix(destRadix)
+		, m_originalValue(std::move(value))
+		, m_decimalValue(0)
+	{
+	}
 
+	[[nodiscard]] int GetSourceRadix() const { return m_sourceRadix; }
+	[[nodiscard]] int GetDestRadix() const { return m_destRadix; }
+	[[nodiscard]] std::string GetOriginalValue() const { return m_originalValue; }
+	[[nodiscard]] int GetDecimalValue() const { return m_decimalValue; }
+
+	void SetSourceRadix(int radix)
+	{
+		CheckRadixRange(radix);
+		m_sourceRadix = radix;
+	}
+
+	void SetDestRadix(int radix)
+	{
+		CheckRadixRange(radix);
+		m_destRadix = radix;
+	}
+
+	void SetOriginalValue(const std::string& value)
+	{
+		CheckNotEmpty(value);
+		CheckHaveDigitAfterSign(value);
+		m_originalValue = value;
+	}
+
+	void SetDecimalValue(const int value) { m_decimalValue = value; }
+
+private:
+	int m_sourceRadix;
+	int m_destRadix;
+	std::string m_originalValue;
+	int m_decimalValue;
+
+	static void CheckRadixRange(int radix)
+	{
+		if (radix < 2 || radix > 36)
+			throw std::invalid_argument("Invalid radix");
+	}
+
+	static void CheckNotEmpty(const std::string& value)
+	{
+		if (value.empty())
+			throw std::invalid_argument("Empty string");
+	}
+
+	static void CheckHaveDigitAfterSign(const std::string& value)
+	{
+		if ((value[0] == '-' || value[0] == '+') && value.size() == 1)
+			throw std::invalid_argument("Missing digits after sign");
+	}
 };
 
-	int StringToInt(const std::string& str, int radix)
+int StringToInt(const std::string& str, int radix)
 {
-	if (radix < 2 || radix > 36)
-		throw std::invalid_argument("Invalid radix");
-
-	if (str.empty())
-		throw std::invalid_argument("Empty string");
-
 	size_t startChar = 0;
-	bool negative = false;
+	bool isNegative = false;
 
 	if (str[0] == '-')
 	{
-		negative = true;
+		isNegative = true;
 		startChar = 1;
 	}
 	else if (str[0] == '+')
 	{
 		startChar = 1;
-	}
-
-	if (startChar == str.size())
-	{
-		throw std::invalid_argument("Missing digits after sign");
 	}
 
 	long long result = 0;
@@ -64,7 +111,7 @@ class RadixConversionData
 		result = result * radix + digit;
 	}
 
-	if (negative)
+	if (isNegative)
 		result = -result;
 
 	if (result > INT_MAX || result < INT_MIN)

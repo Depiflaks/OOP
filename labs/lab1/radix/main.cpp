@@ -1,6 +1,7 @@
 //
 // Created by smmm on 29.05.2025.
 //
+#include <RadixConversionData.h>
 #include <algorithm>
 #include <cctype>
 #include <climits>
@@ -10,56 +11,13 @@
 #include <utility>
 
 void PrintHelp(const char* command);
-RadixConversionData ParseArguments(int argc, char** argv);
+RadixConversionData ParseArguments(char** argv);
+int CharToDecimal(char currentChar);
+void CheckCharInRadixRange(int radix, int digit, char ch);
+void CheckOverflowDoesntReached(int radix, long long result, int digit);
+void CheckValueInIntRange(long long result);
 
-int StringToInt(const std::string& str, int radix)
-{
-	size_t startChar = 0;
-	bool isNegative = false;
-
-	if (str[0] == '-')
-	{
-		isNegative = true;
-		startChar = 1;
-	}
-	else if (str[0] == '+')
-	{
-		startChar = 1;
-	}
-
-	long long result = 0;
-
-	for (size_t i = startChar; i < str.size(); ++i)
-	{
-		char c = str[i];
-		int digit;
-
-		if (c >= '0' && c <= '9')
-			digit = c - '0';
-		else if (c >= 'A' && c <= 'Z')
-			digit = c - 'A' + 10;
-		else if (c >= 'a' && c <= 'z')
-			digit = c - 'a' + 10;
-		else
-			throw std::invalid_argument("Invalid character");
-
-		if (digit >= radix)
-			throw std::invalid_argument("Digit exceeds radix");
-
-		if (result > (LLONG_MAX - digit) / radix)
-			throw std::overflow_error("Overflow");
-
-		result = result * radix + digit;
-	}
-
-	if (isNegative)
-		result = -result;
-
-	if (result > INT_MAX || result < INT_MIN)
-		throw std::overflow_error("Overflow");
-
-	return static_cast<int>(result);
-}
+int StringToInt(const RadixConversionData& data);
 
 std::string IntToString(int n, int radix)
 {
@@ -110,7 +68,8 @@ int main(int argc, char* argv[])
 	try
 	{
 		auto conversionData = ParseArguments(argv);
-		int number = StringToInt(value, sourceRadix);
+		int number = StringToInt(conversionData);
+		conversionData.SetDecimalValue(number);
 		std::string result = IntToString(number, destRadix);
 		std::cout << result << std::endl;
 	}
@@ -145,3 +104,55 @@ RadixConversionData ParseArguments(char** argv)
 	std::string value = argv[3];
 	return RadixConversionData{ sourceRadix, destRadix, value };
 }
+
+int StringToInt(const RadixConversionData& data)
+{
+	long long result = 0;
+
+	std::string value = data.GetOriginalValue();
+	int radix = data.GetSourceRadix();
+	for (size_t i = data.GetStartChar(); i < value.size(); ++i)
+	{
+		char currentChar = value[i];
+		int digit = CharToDecimal(currentChar);
+
+		CheckCharInRadixRange(radix, digit, currentChar);
+		CheckOverflowDoesntReached(radix, result, digit);
+		result = result * radix + digit;
+	}
+	if (data.IsNegative())
+		result = -result;
+
+	CheckValueInIntRange(result);
+	return static_cast<int>(result);
+}
+
+int CharToDecimal(char currentChar)
+{
+	if (currentChar >= '0' && currentChar <= '9')
+		return currentChar - '0';
+	if (currentChar >= 'A' && currentChar <= 'Z')
+		return currentChar - 'A' + 10;
+	if (currentChar >= 'a' && currentChar <= 'z')
+		return currentChar - 'a' + 10;
+	throw std::invalid_argument("Invalid character: " + currentChar);
+}
+
+void CheckCharInRadixRange(int radix, int digit, char ch)
+{
+	if (digit >= radix)
+		throw std::invalid_argument("Digit exceeds radix: " + ch);
+}
+
+void CheckOverflowDoesntReached(int radix, long long result, int digit)
+{
+	if (result > (LLONG_MAX - digit) / radix)
+		throw std::overflow_error("Overflow");
+}
+
+void CheckValueInIntRange(long long result)
+{
+	if (result > INT_MAX || result < INT_MIN)
+		throw std::overflow_error("Overflow");
+}
+

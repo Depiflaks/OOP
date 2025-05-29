@@ -14,10 +14,10 @@ template <typename Base>
 concept DerivedFromIPerson = std::is_base_of_v<IPerson, Base>;
 
 template <DerivedFromIPerson Base>
-class CPersonImpl : public Base
+class PersonImpl : public Base
 {
 public:
-	CPersonImpl(std::string first, std::string last,
+	PersonImpl(std::string first, std::string last,
 		std::string patronymic, std::string address)
 		: m_firstName(std::move(first))
 		, m_lastName(std::move(last))

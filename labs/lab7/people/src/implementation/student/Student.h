@@ -4,13 +4,12 @@
 
 #ifndef STUDENT_H
 #define STUDENT_H
+#include "implementation/StudentImpl.h"
+#include "interface/student/IStudent.h"
 
-
-
-class Student {
+class Student final : public StudentImpl<IStudent>
+{
 
 };
 
-
-
-#endif //STUDENT_H
+#endif // STUDENT_H

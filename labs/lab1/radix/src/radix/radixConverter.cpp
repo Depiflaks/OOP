@@ -3,7 +3,7 @@
 //
 #include "radixConverter.h"
 
-#include <bits/ranges_algo.h>
+#include <algorithm>
 #include <climits>
 #include <stdexcept>
 

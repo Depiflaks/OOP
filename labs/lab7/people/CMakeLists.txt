@@ -31,6 +31,20 @@ add_executable(people_app
         src/interface/person/IPerson.h
         src/interface/student/IStudent.cpp
         src/interface/student/IStudent.h
+        src/implementation/PersonImpl.cpp
+        src/implementation/PersonImpl.h
+        src/implementation/StudentImpl.cpp
+        src/implementation/StudentImpl.h
+        src/implementation/advancedStudent/AdvancedStudent.cpp
+        src/implementation/advancedStudent/AdvancedStudent.h
+        src/implementation/pupil/Pupil.cpp
+        src/implementation/pupil/Pupil.h
+        src/implementation/student/Student.cpp
+        src/implementation/student/Student.h
+        src/implementation/tearcher/Tearcher.cpp
+        src/implementation/tearcher/Tearcher.h
+        src/implementation/worker/Worker.cpp
+        src/implementation/worker/Worker.h
 )
 
 target_link_libraries(people_app

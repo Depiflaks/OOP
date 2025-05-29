@@ -58,12 +58,12 @@ public:
 	{
 		if (this == &other)
 			return *this;
-		ValueType* newData = AllocateMemory(other.m_capacity);
-		CopyData(newData, other.m_data, other.m_size);
-		FreeUpMemory(m_data, m_size);
-		m_data = newData;
-		m_capacity = other.m_capacity;
-		m_size = other.m_size;
+
+		MyArray temp(other);
+		std::swap(m_data, temp.m_data);
+		std::swap(m_size, temp.m_size);
+		std::swap(m_capacity, temp.m_capacity);
+
 		return *this;
 	}
 
@@ -71,14 +71,10 @@ public:
 	{
 		if (this == &other)
 			return *this;
-		FreeUpMemory(m_data, m_size);
-		m_data = other.m_data;
-		m_size = other.m_size;
-		m_capacity = other.m_capacity;
-
-		other.m_data = nullptr;
-		other.m_size = 0;
-		other.m_capacity = 0;
+		std::swap(m_data, other.m_data);
+		std::swap(m_size, other.m_size);
+		std::swap(m_capacity, other.m_capacity);
+		other.Clear();
 		return *this;
 	}
 
@@ -106,6 +102,7 @@ public:
 	void Resize(const size_t newSize)
 	{
 		size_t copySize = std::min(m_size, newSize);
+		// todo: ensure capacity
 		ValueType* newData = AllocateMemory(newSize);
 		CopyData(newData, m_data, copySize);
 		FillEmptyData(newData + copySize, newSize - copySize);
@@ -161,8 +158,7 @@ private:
 
 	static void DestroyObjects(ValueType* data, size_t elementCount)
 	{
-		for (size_t i = 0; i < elementCount; ++i)
-			data[i].~ValueType();
+		std::destroy_n(data, elementCount);
 	}
 
 	static void FreeUpMemory(ValueType* data, size_t elementCount)
@@ -178,6 +174,7 @@ private:
 		{
 			for (; createdObjectsCount < copySize; ++createdObjectsCount)
 				new (to + createdObjectsCount) ValueType(from[createdObjectsCount]);
+			// todo: попробовать вытащить конструктор
 		}
 		catch (...)
 		{

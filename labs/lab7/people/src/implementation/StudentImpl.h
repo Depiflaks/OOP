@@ -7,15 +7,19 @@
 #include <utility>
 
 #include "PersonImpl.h"
+#include "interface/student/IStudent.h"
 
 template <typename Base>
-class StudentImpl : public CPersonImpl<Base>
+concept DerivedFromIStudent = std::is_base_of_v<IStudent, Base>;
+
+template <DerivedFromIStudent Base>
+class StudentImpl : public PersonImpl<Base>
 {
 public:
 	StudentImpl(const std::string& first, const std::string& last,
 		const std::string& patronymic, const std::string& address,
 		std::string university, std::string studentId)
-		: CPersonImpl<Base>(first, last, patronymic, address)
+		: PersonImpl<Base>(first, last, patronymic, address)
 		, m_university(std::move(university))
 		, m_studentId(std::move(studentId))
 	{

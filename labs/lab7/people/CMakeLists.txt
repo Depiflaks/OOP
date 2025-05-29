@@ -41,8 +41,8 @@ add_executable(people_app
         src/implementation/pupil/Pupil.h
         src/implementation/student/Student.cpp
         src/implementation/student/Student.h
-        src/implementation/tearcher/Tearcher.cpp
-        src/implementation/tearcher/Tearcher.h
+        src/implementation/tearcher/Teacher.cpp
+        src/implementation/tearcher/Teacher.h
         src/implementation/worker/Worker.cpp
         src/implementation/worker/Worker.h
 )

@@ -2,4 +2,4 @@
 // Created by smmm on 29.05.2025.
 //
 
-#include "Tearcher.h"
+#include "Teacher.h"

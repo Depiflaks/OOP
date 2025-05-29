@@ -10,6 +10,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
+add_subdirectory(labs/lab1/replace)
+add_subdirectory(labs/lab2/primes)
+add_subdirectory(labs/lab2/html_decode)
+add_subdirectory(labs/lab2/dictionary)
 add_subdirectory(labs/lab3/bank)
 add_subdirectory(labs/lab5/rational)
 add_subdirectory(labs/lab4/shape)
@@ -20,19 +24,3 @@ add_subdirectory(labs/lab6/myStringList)
 add_subdirectory(labs/lab7/myArray)
 add_subdirectory(labs/lab7/maxEx)
 add_subdirectory(labs/lab7/people)
-
-add_executable(OOP
-        labs/lab1/replace/main.cpp
-        labs/lab2/html_decode/main.cpp
-        labs/lab2/html_decode/src/HtmlDecode.cpp
-        labs/lab2/html_decode/tests/TestHtmlDecode.cpp
-        labs/lab2/dictionary/main.cpp
-        labs/lab2/dictionary/src/dictionaryReader/DictionaryReader.cpp
-        labs/lab2/dictionary/src/dictionaryReader/DictionaryReader.h
-        labs/lab2/dictionary/src/dialogHandler/DialogHandler.cpp
-        labs/lab2/dictionary/src/dialogHandler/DialogHandler.h
-        labs/lab2/dictionary/src/dictionary/Dictionary.cpp
-        labs/lab2/dictionary/src/dictionary/Dictionary.h
-        labs/lab2/dictionary/src/translationSet/TranslationSet.cpp
-        labs/lab2/dictionary/src/translationSet/TranslationSet.h
-        labs/lab2/dictionary/tests/TestDictionary.cpp)

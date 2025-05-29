@@ -9,21 +9,24 @@
 #include <string>
 #include <utility>
 
+void PrintHelp(const char* command);
+
 class RadixConversionData
 {
 public:
-	RadixConversionData(int sourceRadix, int destRadix, std::string value)
-		: m_sourceRadix(sourceRadix)
-		, m_destRadix(destRadix)
-		, m_originalValue(std::move(value))
-		, m_decimalValue(0)
+	RadixConversionData(int sourceRadix, int destRadix, const std::string& value)
 	{
+		SetSourceRadix(sourceRadix);
+		SetDestRadix(destRadix);
+		SetOriginalValue(value);
 	}
 
 	[[nodiscard]] int GetSourceRadix() const { return m_sourceRadix; }
 	[[nodiscard]] int GetDestRadix() const { return m_destRadix; }
 	[[nodiscard]] std::string GetOriginalValue() const { return m_originalValue; }
 	[[nodiscard]] int GetDecimalValue() const { return m_decimalValue; }
+	[[nodiscard]] int GetStartChar() const { return m_startChar; }
+	[[nodiscard]] bool IsNegative() const { return m_isNegative; }
 
 	void SetSourceRadix(int radix)
 	{
@@ -42,15 +45,24 @@ public:
 		CheckNotEmpty(value);
 		CheckHaveDigitAfterSign(value);
 		m_originalValue = value;
+		m_isNegative = IsOriginalValueNegative(value);
+		m_startChar = value[0] == '+' || value[0] == '-';
 	}
 
 	void SetDecimalValue(const int value) { m_decimalValue = value; }
 
 private:
-	int m_sourceRadix;
-	int m_destRadix;
+	int m_sourceRadix{};
+	int m_destRadix{};
 	std::string m_originalValue;
-	int m_decimalValue;
+	int m_decimalValue{};
+	bool m_isNegative{false};
+	int m_startChar{ 0 };
+
+	static bool IsOriginalValueNegative(const std::string& value)
+	{
+		return value[0] == '-';
+	}
 
 	static void CheckRadixRange(int radix)
 	{
@@ -162,7 +174,7 @@ int main(int argc, char* argv[])
 {
 	if (argc != 4)
 	{
-		std::cerr << "Usage: " << argv[0] << " <source notation> <destination notation> <value>" << std::endl;
+		PrintHelp(argv[0]);
 		return 1;
 	}
 
@@ -193,4 +205,9 @@ int main(int argc, char* argv[])
 	}
 
 	return 0;
+}
+
+void PrintHelp(const char* command)
+{
+	std::cerr << "Usage: " << command << " <source notation> <destination notation> <value>\n";
 }

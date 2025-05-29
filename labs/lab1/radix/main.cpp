@@ -1,10 +1,9 @@
 //
 // Created by smmm on 29.05.2025.
 //
-#include <RadixConversionData.h>
 #include <algorithm>
-#include <cctype>
 #include <climits>
+#include <data/RadixConversionData.h>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -19,10 +18,8 @@ bool IsOriginalValueNegative(const std::string& value);
 void CheckRadixRange(int radix);
 void CheckNotEmpty(const std::string& value);
 void CheckHaveDigitAfterSign(const std::string& value);
-int StringToInt(const std::string& value, int radix);
 constexpr char DigitToChar(unsigned int digit);
 unsigned int AbsValue(int number, bool negative);
-std::string IntToString(int number, int radix);
 
 int main(int argc, char* argv[])
 {

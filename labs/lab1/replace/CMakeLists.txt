@@ -15,9 +15,13 @@ find_package(GTest REQUIRED)
 
 file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS
         "src/*.cpp"
+        "src/*.h"
         "src/*/*.cpp"
+        "src/*/*.h"
         "src/*/*/*.cpp"
+        "src/*/*/*.h"
         "src/*/*/*/*.cpp"
+        "src/*/*/*/*.h"
 )
 
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")

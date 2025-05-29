@@ -27,8 +27,10 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*tests/.*")
 add_executable(radix_app
         main.cpp
         ${ALL_SOURCES}
-        src/RadixConversionData.cpp
-        src/RadixConversionData.h
+        src/data/RadixConversionData.cpp
+        src/data/RadixConversionData.h
+        src/radix/radixConverter.h
+        src/radix/radixConverter.cpp
 )
 
 target_link_libraries(radix_app

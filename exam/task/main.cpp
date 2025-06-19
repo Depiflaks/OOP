@@ -59,27 +59,41 @@ public:
 		// Метод должен обеспечивать строгую гарантию безопасности исключений
 		// При попытке добавить человека с уже имеющимся id, должно выбрасываться исключение
 		// std::invalid_argument
-		if (m_repository.contains(p.id))
-		{
+        if (m_repository.contains(p.id))
 			throw std::invalid_argument("person with id: " + std::to_string(p.id) + " already exist!");
+
+        m_repository.emplace(p.id, p);
+		try
+		{
+			m_nameIndex.emplace(p.name, p.id);
+			m_surnameIndex.emplace(p.name, p.id);
 		}
-		m_repository.emplace(p.id, p);
+		catch (...)
+		{
+			RemovePerson(p.id);
+		}
 	}
 
 	// Удаляет человека из коллекции с идентификатором, равным id
 	void RemovePerson(PersonIdType id)
 	{
-		// Метод должен обеспечивать строгую гарантию безопасности исключений.
-		// При отсутствии человека с таким id не должно происходить ничего.
-		// Удаление должно выполняться на время, не хуже чем за O(log N)
-		m_repository.erase(id);
+        auto it = m_repository.find(id);
+        if (it == m_repository.end())
+            return;
+
+        const Person& p = it->second;
+
+        m_repository.erase(id);
+		EraseFromMultimap(m_nameIndex, p.name, p.id);
+		EraseFromMultimap(m_surnameIndex, p.surname, p.id);
 	}
 
-	const Person* FindPersonById(PersonIdType id) const
+	[[nodiscard]] const Person* FindPersonById(PersonIdType id) const
 	{
 		// Возвращает человека с указанным id либо nullptr, если такого человека нет.
 		// Поиск должен выполняться за время, не хуже чем O(log N)
-		return nullptr;
+        auto it = m_repository.find(id);
+        return it != m_repository.end() ? &it->second : nullptr;
 	}
 
 	// Callback - это любой тип, который можно использовать как функцию,
@@ -142,12 +156,6 @@ private:
 			m_nameIndex.emplace(person.name, id);
 			m_surnameIndex.emplace(person.surname, id);
 		}
-	}
-
-	void RemoveFromIndices(const Person& person)
-	{
-		EraseFromMultimap(m_nameIndex, person.name, person.id);
-		EraseFromMultimap(m_surnameIndex, person.surname, person.id);
 	}
 
 	static void EraseFromMultimap(IndexType& index, const std::string& key, PersonIdType id)

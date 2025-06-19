@@ -42,7 +42,6 @@ void addStrong(std::vector<T> v, const T& value)
 	}
 }
 
-
 struct A
 {
 	std::string& r;
@@ -52,6 +51,7 @@ int main()
 {
 	std::string y{"123"};
 	A t{y};
+	std::cout << sizeof(false) << '\n';
 	std::cout << sizeof(t) << '\n';
 	std::cout << sizeof(t.r) << '\n';
 }

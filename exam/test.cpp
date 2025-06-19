@@ -2,56 +2,74 @@
 // Created by smmm on 19.06.2025.
 //
 
-#include <map>
-#include <vector>
-#include <string>
-#include <vector>
 #include <iostream>
+#include <list>
+#include <forward_list>
+#include <algorithm>
+#include <vector>
 
-template<typename T>
-void add(std::vector<T> v, const T& value)
-{
-	v.push_back(value);
+void demo_list() {
+    std::cout << "===== std::list DEMO =====\n";
+
+    std::list<int> lst = {1, 2, 3};
+    lst.push_front(0);
+    lst.push_back(4);
+
+    auto it = std::next(lst.begin(), 2);
+    lst.insert(it, 10);
+
+    std::cout << "Initial: ";
+    for (int n : lst) std::cout << n << " ";
+    std::cout << "\n";
+
+    lst.erase(it);
+
+    lst.remove_if([](int x) { return x % 2 == 0; }); // [1,3]
+
+    lst = {1, 3, 2, 2, -8, 5, 1, 1, 1, 2};
+
+    lst.unique();
+    lst.sort();
+    lst.reverse();
+
+    std::list<int> lst2 = {10, 20, 30};
+    lst.splice(lst.begin(), lst2);
+
+    std::cout << "After ops: ";
+    for (int n : lst) std::cout << n << " ";
+    std::cout << "\n\n";
 }
 
-template<typename T>
-void addBase(std::vector<T> v, const T& value)
-{
-	try
-	{
-		v.push_back(value);
-	}
-	catch (...)
-	{
+void demo_forward_list() {
+    std::cout << "===== std::forward_list DEMO =====\n";
 
-	}
+    std::forward_list<int> flst = {1, 2, 3};
+    flst.push_front(0);
+
+    auto it = flst.begin();
+    flst.insert_after(it, 10);
+
+    flst.erase_after(it);
+
+    flst.remove_if([](int x) { return x < 2; }); // [2,3]
+
+    flst = {1, 3, 2, 2, -8, 5, 1, 1, 1, 2};
+
+    flst.unique();
+
+    flst.sort();
+
+    flst.reverse();
+
+    std::forward_list<int> flst2 = {10, 20, 30};
+    flst.splice_after(flst.before_begin(), flst2);
+
+    size_t count = 0;
+    for (auto it = flst.begin(); it != flst.end(); ++it) count++;
 }
 
-template<typename T>
-void addStrong(std::vector<T> v, const T& value)
-{
-	try
-	{
-		std::vector<T> tmp{v};
-		tmp.push_back(value);
-		std::swap(v, tmp);
-	}
-	catch (...)
-	{
-
-	}
-}
-
-struct A
-{
-	std::string& r;
-};
-
-int main()
-{
-	std::string y{"123"};
-	A t{y};
-	std::cout << sizeof(false) << '\n';
-	std::cout << sizeof(t) << '\n';
-	std::cout << sizeof(t.r) << '\n';
+int main() {
+    demo_list();
+    demo_forward_list();
+    return 0;
 }

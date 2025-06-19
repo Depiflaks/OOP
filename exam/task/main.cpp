@@ -7,6 +7,8 @@
 #include <iostream>
 #include <map>
 #include <string_view>
+#include <functional>
+#include <concepts>
 
 // Написать коллекцию
 
@@ -66,11 +68,12 @@ public:
 		try
 		{
 			m_nameIndex.emplace(p.name, p.id);
-			m_surnameIndex.emplace(p.name, p.id);
+			m_surnameIndex.emplace(p.surname, p.id);
 		}
 		catch (...)
 		{
 			RemovePerson(p.id);
+			throw;
 		}
 	}
 
@@ -114,14 +117,7 @@ public:
 	void FindAllPeopleWithName(std::string_view name, Callback&& callback) const
 	{
 		// Поиск должен выполняться за время не хуже чем за O(log N)
-		auto range = m_nameIndex.equal_range(std::string(name));
-		for (auto it = range.first; it != range.second; ++it)
-		{
-			if (auto found = m_repository.find(it->second); found != m_repository.end())
-			{
-				callback(found->second);
-			}
-		}
+		FindAllPeopleWithCallback(m_nameIndex, name, callback);
 	}
 
 	// Ищет всех людей с указанной фамилией и для каждого из них вызывает callback
@@ -129,14 +125,7 @@ public:
 	void FindAllPeopleWithSurname(std::string_view surname, Callback&& callback) const
 	{
 		// Поиск должен выполняться за время не хуже чем за O(log N)
-		auto range = m_surnameIndex.equal_range(std::string(surname));
-		for (auto it = range.first; it != range.second; ++it)
-		{
-			if (auto found = m_repository.find(it->second); found != m_repository.end())
-			{
-				callback(found->second);
-			}
-		}
+		FindAllPeopleWithCallback(m_surnameIndex, surname, callback);
 	}
 
 private:
@@ -167,6 +156,19 @@ private:
 				it = index.erase(it);
 			else
 				++it;
+		}
+	}
+
+	template <std::invocable<const Person&> Callback>
+	void FindAllPeopleWithCallback(const IndexType& index, std::string_view key, Callback&& callback) const
+	{
+		auto range = index.equal_range(std::string(key));
+		for (auto it = range.first; it != range.second; ++it)
+		{
+			if (auto found = m_repository.find(it->second); found != m_repository.end())
+			{
+				callback(found->second);
+			}
 		}
 	}
 };

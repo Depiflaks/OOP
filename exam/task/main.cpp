@@ -4,11 +4,10 @@
 
 #include <cassert>
 #include <concepts>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <string_view>
-#include <functional>
-#include <concepts>
 
 // Написать коллекцию
 
@@ -35,12 +34,24 @@ class PersonRepository
 public:
 	explicit PersonRepository() = default;
 
+	PersonRepository(const PersonRepository& other) = default;
+
+	PersonRepository(PersonRepository&& other) noexcept
+		: m_repository(std::move(other.m_repository))
+		, m_nameIndex(std::move(other.m_nameIndex))
+		, m_surnameIndex(std::move(other.m_surnameIndex))
+	{
+		other.m_nameIndex.clear();
+		other.m_nameIndex.clear();
+		other.m_surnameIndex.clear();
+	}
+
 	PersonRepository& operator=(const PersonRepository& other)
 	{
 		if (this != &other)
 		{
-			m_repository = other.m_repository;
-			FillIndices();
+			PersonRepository tmp{other};
+			std::swap(*this, tmp);
 		}
 		return *this;
 	}
@@ -49,8 +60,8 @@ public:
 	{
 		if (this != &other)
 		{
-			m_repository = std::move(other.m_repository);
-			FillIndices();
+			PersonRepository tmp{std::move(other)};
+			std::swap(*this, tmp);
 		}
 		return *this;
 	}
@@ -61,10 +72,10 @@ public:
 		// Метод должен обеспечивать строгую гарантию безопасности исключений
 		// При попытке добавить человека с уже имеющимся id, должно выбрасываться исключение
 		// std::invalid_argument
-        if (m_repository.contains(p.id))
+		if (m_repository.contains(p.id))
 			throw std::invalid_argument("person with id: " + std::to_string(p.id) + " already exist!");
 
-        m_repository.emplace(p.id, p);
+		m_repository.emplace(p.id, p);
 		try
 		{
 			m_nameIndex.emplace(p.name, p.id);
@@ -80,13 +91,13 @@ public:
 	// Удаляет человека из коллекции с идентификатором, равным id
 	void RemovePerson(PersonIdType id)
 	{
-        auto it = m_repository.find(id);
-        if (it == m_repository.end())
-            return;
+		auto it = m_repository.find(id);
+		if (it == m_repository.end())
+			return;
 
-        const Person& p = it->second;
+		const Person& p = it->second;
 
-        m_repository.erase(id);
+		m_repository.erase(id);
 		EraseFromMultimap(m_nameIndex, p.name, p.id);
 		EraseFromMultimap(m_surnameIndex, p.surname, p.id);
 	}
@@ -95,8 +106,8 @@ public:
 	{
 		// Возвращает человека с указанным id либо nullptr, если такого человека нет.
 		// Поиск должен выполняться за время, не хуже чем O(log N)
-        auto it = m_repository.find(id);
-        return it != m_repository.end() ? &it->second : nullptr;
+		auto it = m_repository.find(id);
+		return it != m_repository.end() ? &it->second : nullptr;
 	}
 
 	// Callback - это любой тип, который можно использовать как функцию,

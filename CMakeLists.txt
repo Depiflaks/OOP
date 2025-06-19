@@ -20,6 +20,7 @@ add_subdirectory(labs/lab6/myStringList)
 add_subdirectory(labs/lab7/myArray)
 add_subdirectory(labs/lab7/maxEx)
 add_subdirectory(labs/lab7/people)
+add_subdirectory(exam/task)
 
 add_executable(OOP
         labs/lab1/replace/main.cpp
@@ -35,4 +36,5 @@ add_executable(OOP
         labs/lab2/dictionary/src/dictionary/Dictionary.h
         labs/lab2/dictionary/src/translationSet/TranslationSet.cpp
         labs/lab2/dictionary/src/translationSet/TranslationSet.h
-        labs/lab2/dictionary/tests/TestDictionary.cpp)
+        labs/lab2/dictionary/tests/TestDictionary.cpp
+        exam/test.cpp)

@@ -64,7 +64,6 @@ public:
 			throw std::invalid_argument("person with id: " + std::to_string(p.id) + " already exist!");
 		}
 		m_repository.emplace(p.id, p);
-
 	}
 
 	// Удаляет человека из коллекции с идентификатором, равным id
@@ -90,6 +89,10 @@ public:
 	{
 		// Перебирает всех людей в коллекции, вызывая для каждого из них callback
 		// Порядок, в котором происходит перебор людей не принципиален
+		for (const auto& [id, person] : m_repository)
+		{
+			callback(person);
+		}
 	}
 
 	// Ищет всех людей с указанным именем и для каждого из них вызывает callback
@@ -97,6 +100,14 @@ public:
 	void FindAllPeopleWithName(std::string_view name, Callback&& callback) const
 	{
 		// Поиск должен выполняться за время не хуже чем за O(log N)
+		auto range = m_nameIndex.equal_range(std::string(name));
+		for (auto it = range.first; it != range.second; ++it)
+		{
+			if (auto found = m_repository.find(it->second); found != m_repository.end())
+			{
+				callback(found->second);
+			}
+		}
 	}
 
 	// Ищет всех людей с указанной фамилией и для каждого из них вызывает callback
@@ -104,6 +115,14 @@ public:
 	void FindAllPeopleWithSurname(std::string_view surname, Callback&& callback) const
 	{
 		// Поиск должен выполняться за время не хуже чем за O(log N)
+		auto range = m_surnameIndex.equal_range(std::string(surname));
+		for (auto it = range.first; it != range.second; ++it)
+		{
+			if (auto found = m_repository.find(it->second); found != m_repository.end())
+			{
+				callback(found->second);
+			}
+		}
 	}
 
 private:

@@ -10,9 +10,11 @@
 
 // Написать коллекцию
 
+using PersonIdType = unsigned int;
+
 struct Person
 {
-	unsigned id = 0;
+	PersonIdType id = 0;
 	std::string name;
 	std::string surname;
 	int age = 0;
@@ -26,8 +28,30 @@ std::ostream& operator<<(std::ostream& out, const Person& p)
 
 class PersonRepository
 {
+	using RepositoryType = std::map<PersonIdType, Person>;
+
 public:
-	// Для класса должны быть разработаны конструкторы копирования, перемещения и операторы присваивания
+	explicit PersonRepository() = default;
+
+	PersonRepository& operator=(const PersonRepository& other)
+	{
+		if (this != &other)
+		{
+			m_repository = other.m_repository;
+			FillIndices();
+		}
+		return *this;
+	}
+
+	PersonRepository& operator=(PersonRepository&& other) noexcept
+	{
+		if (this != &other)
+		{
+			m_repository = std::move(other.m_repository);
+			FillIndices();
+		}
+		return *this;
+	}
 
 	// Добавляет человека в коллекцию
 	void AddPerson(Person p)
@@ -35,17 +59,24 @@ public:
 		// Метод должен обеспечивать строгую гарантию безопасности исключений
 		// При попытке добавить человека с уже имеющимся id, должно выбрасываться исключение
 		// std::invalid_argument
+		if (m_repository.contains(p.id))
+		{
+			throw std::invalid_argument("person with id: " + std::to_string(p.id) + " already exist!");
+		}
+		m_repository.emplace(p.id, p);
+
 	}
 
 	// Удаляет человека из коллекции с идентификатором, равным id
-	void RemovePerson(unsigned id)
+	void RemovePerson(PersonIdType id)
 	{
 		// Метод должен обеспечивать строгую гарантию безопасности исключений.
 		// При отсутствии человека с таким id не должно происходить ничего.
 		// Удаление должно выполняться на время, не хуже чем за O(log N)
+		m_repository.erase(id);
 	}
 
-	const Person* FindPersonById(unsigned int id) const
+	const Person* FindPersonById(PersonIdType id) const
 	{
 		// Возвращает человека с указанным id либо nullptr, если такого человека нет.
 		// Поиск должен выполняться за время, не хуже чем O(log N)
@@ -76,7 +107,41 @@ public:
 	}
 
 private:
-	std::map<unsigned int, Person> m_repository{};
+	using IndexType = std::multimap<std::string, PersonIdType>;
+
+	RepositoryType m_repository{};
+
+	IndexType m_nameIndex{};
+	IndexType m_surnameIndex{};
+
+	void FillIndices()
+	{
+		m_nameIndex.clear();
+		m_surnameIndex.clear();
+		for (const auto& [id, person] : m_repository)
+		{
+			m_nameIndex.emplace(person.name, id);
+			m_surnameIndex.emplace(person.surname, id);
+		}
+	}
+
+	void RemoveFromIndices(const Person& person)
+	{
+		EraseFromMultimap(m_nameIndex, person.name, person.id);
+		EraseFromMultimap(m_surnameIndex, person.surname, person.id);
+	}
+
+	static void EraseFromMultimap(IndexType& index, const std::string& key, PersonIdType id)
+	{
+		auto [rBegin, rEnd] = index.equal_range(key);
+		for (auto it = rBegin; it != rEnd;)
+		{
+			if (it->second == id)
+				it = index.erase(it);
+			else
+				++it;
+		}
+	}
 };
 
 int main()

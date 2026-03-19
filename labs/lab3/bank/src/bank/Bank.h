@@ -39,6 +39,8 @@ public:
 	explicit NegativeTransferAmountException()
 		: std::out_of_range{ "The transfer amount cannot be negative" }
 	{
+		int a1 = 2;
+		a1 += 3;
 	}
 };
 

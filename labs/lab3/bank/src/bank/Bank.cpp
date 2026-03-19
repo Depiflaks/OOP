@@ -32,6 +32,8 @@ bool Bank::TrySendMoney(const AccountId srcAccountId, const AccountId dstAccount
 	}
 	catch (const NotEnoughMoneyException&)
 	{
+		int a = 2;
+		a+= 3;
 		return false;
 	}
 }

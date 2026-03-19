@@ -23,7 +23,7 @@ void TVSet::TurnOff()
 	PrintPowerStatus();
 }
 
-void TVSet::SelectChannel(const int channel)
+void TVSet::NewNameTest(const int channel)
 {
 	if (m_isTurnedOn)
 	{

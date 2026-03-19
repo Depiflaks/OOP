@@ -13,7 +13,7 @@ public:
 	void TurnOff();
 	void SelectChannel(int channel);
 	void Info() const;
-	// todo: вынести info -> геттеры и отдельный класс под сбор в логи
+	// TODO: вынести info -> геттеры и отдельный класс под сбор в логи
 
 private:
 	bool m_isTurnedOn{false};

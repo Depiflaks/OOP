@@ -4,6 +4,7 @@
 
 #ifndef URL_PARSING_ERROR_H
 #define URL_PARSING_ERROR_H
+
 #include <stdexcept>
 
 class UrlParsingError : public std::invalid_argument

@@ -33,24 +33,11 @@ class PersonRepository
 
 public:
 	explicit PersonRepository() = default;
-
-	PersonRepository(const PersonRepository& other) = default;
-
-	PersonRepository(PersonRepository&& other) noexcept
-		: m_repository(std::move(other.m_repository))
-		, m_nameIndex(std::move(other.m_nameIndex))
-		, m_surnameIndex(std::move(other.m_surnameIndex))
-	{
-		other.m_nameIndex.clear();
-		other.m_nameIndex.clear();
-		other.m_surnameIndex.clear();
-	}
-
 	PersonRepository& operator=(const PersonRepository& other)
 	{
 		if (this != &other)
 		{
-			PersonRepository tmp{other};
+			PersonRepository tmp{ other };
 			std::swap(*this, tmp);
 		}
 		return *this;
@@ -60,30 +47,33 @@ public:
 	{
 		if (this != &other)
 		{
-			PersonRepository tmp{std::move(other)};
-			std::swap(*this, tmp);
+			// TODO решить проблему рекурсии
+			std::swap(*this, other);
 		}
 		return *this;
 	}
 
 	// Добавляет человека в коллекцию
+	// Метод должен обеспечивать строгую гарантию безопасности исключений
+	// При попытке добавить человека с уже имеющимся id, должно выбрасываться исключение
+	// std::invalid_argument
 	void AddPerson(Person p)
 	{
-		// Метод должен обеспечивать строгую гарантию безопасности исключений
-		// При попытке добавить человека с уже имеющимся id, должно выбрасываться исключение
-		// std::invalid_argument
-		if (m_repository.contains(p.id))
-			throw std::invalid_argument("person with id: " + std::to_string(p.id) + " already exist!");
+		auto [it, isInserted] = m_repository.try_emplace(p.id, std::move(p));
 
-		m_repository.emplace(p.id, p);
+		if (!isInserted)
+			throw std::invalid_argument("person with id: " + std::to_string(p.id) + " already exists!");
+
+		const Person& insertedPerson = it->second;
+
 		try
 		{
-			m_nameIndex.emplace(p.name, p.id);
-			m_surnameIndex.emplace(p.surname, p.id);
+			m_nameIndex.emplace(insertedPerson.name, insertedPerson.id);
+			m_surnameIndex.emplace(insertedPerson.surname, insertedPerson.id);
 		}
 		catch (...)
 		{
-			RemovePerson(p.id);
+			RemovePerson(insertedPerson.id);
 			throw;
 		}
 	}
@@ -146,17 +136,6 @@ private:
 
 	IndexType m_nameIndex{};
 	IndexType m_surnameIndex{};
-
-	void FillIndices()
-	{
-		m_nameIndex.clear();
-		m_surnameIndex.clear();
-		for (const auto& [id, person] : m_repository)
-		{
-			m_nameIndex.emplace(person.name, id);
-			m_surnameIndex.emplace(person.surname, id);
-		}
-	}
 
 	static void EraseFromMultimap(IndexType& index, const std::string& key, PersonIdType id)
 	{
